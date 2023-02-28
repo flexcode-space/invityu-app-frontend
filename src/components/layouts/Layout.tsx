@@ -1,11 +1,11 @@
-import React, { ReactNode } from "react";
+import React, { FC, ReactNode } from "react";
 import styled from "@emotion/styled";
 
-interface layoutPropsType {
+interface LayoutPropsType {
 	children: ReactNode;
 }
 
-const Layout = (props: layoutPropsType) => {
+const Layout: FC<LayoutPropsType> = (props) => {
 	const { children } = props;
 
 	return <StyledLayout>{children}</StyledLayout>;
