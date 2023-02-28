@@ -1,9 +1,9 @@
 import React, { FC, ReactNode } from "react";
 import styled from "@emotion/styled";
 
-interface LayoutPropsType {
+type LayoutPropsType = {
 	children: ReactNode;
-}
+};
 
 const Layout: FC<LayoutPropsType> = (props) => {
 	const { children } = props;

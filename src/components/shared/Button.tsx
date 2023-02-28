@@ -32,6 +32,7 @@ const Button: FC<ButtonProps> = ({
 					isBlock={isBlock}
 					disabled={true}
 					color={color}
+					isLoading={isLoading}
 					{...other}
 				>
 					<InlineLoader />
@@ -58,6 +59,7 @@ type StyledButtonProps = {
 	isOutline?: boolean;
 	isBlock?: boolean;
 	disabled?: boolean;
+	isLoading?: boolean;
 	color?: string;
 };
 
@@ -66,9 +68,9 @@ const StyledButton = styled.button<StyledButtonProps>`
 	background-color: ${({ isOutline, color }) =>
 		!isOutline ? color || "#003A87" : "#fff"};
 	color: ${({ isOutline }) => (!isOutline ? "#fff" : "#003A87")};
-	padding: 0.7rem;
+	padding: 14px 10px;
 	border: 2px solid #003a87;
-	border-radius: 10px;
+	border-radius: 15px;
 	cursor: pointer;
 	font-weight: 500;
 
@@ -76,10 +78,14 @@ const StyledButton = styled.button<StyledButtonProps>`
 	will-change: transition;
 	transform: translateY(0px);
 
-	&:hover {
-		box-shadow: rgb(0 0 0 / 5%) 0px 1px 6px 0px;
-		transform: translateY(-1px);
-	}
+	${({ isLoading }) =>
+		!isLoading &&
+		css`
+			&:hover {
+				box-shadow: rgb(0 0 0 / 5%) 0px 1px 6px 0px;
+				transform: translateY(-1px);
+			}
+		`}
 
 	${({ disabled }) =>
 		disabled &&
