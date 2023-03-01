@@ -19,15 +19,16 @@ export default function Home() {
 			<Head>
 				<title>Selamat Datang - Invityu</title>
 			</Head>
-			<div className="h-screen overflow-hidden">
-				<div className="flex w-full justify-center items-center h-full bg-primary-600">
+			<div className="h-screen">
+				<div className="flex flex-col w-full justify-center items-center h-full bg-primary-600">
 					<Image
 						src="/images/illustrations/welcome.svg"
 						alt={"welcome"}
 						width={350}
 						height={300}
-						className="pb-[320px] p-3"
+						className="p-3"
 					/>
+					<div className="mb-28"></div>
 				</div>
 				<StyledFormContainer>
 					<div className="p-4 space-y-8 text-center">
