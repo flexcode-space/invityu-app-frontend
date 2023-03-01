@@ -19,8 +19,8 @@ export default function Home() {
 			<Head>
 				<title>Selamat Datang - Invityu</title>
 			</Head>
-			<div className="h-screen">
-				<div className="flex flex-col w-full justify-center items-center h-full bg-primary-600">
+			<div>
+				<div className="h-screen bg-primary-600">
 					<Image
 						src="/images/illustrations/welcome.svg"
 						alt={"welcome"}
@@ -28,7 +28,6 @@ export default function Home() {
 						height={300}
 						className="p-3"
 					/>
-					<div className="mb-28"></div>
 				</div>
 				<StyledFormContainer>
 					<div className="p-4 space-y-8 text-center">
