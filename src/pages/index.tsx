@@ -20,7 +20,7 @@ export default function Home() {
 				<title>Selamat Datang - Invityu</title>
 			</Head>
 			<div className="h-screen">
-				<div className="flex w-full justify-center items-center h-3/5 bg-primary-600">
+				<div className="flex w-full justify-center items-center h-1/2 bg-primary-600">
 					<Image
 						src="/images/illustrations/welcome.svg"
 						alt={"welcome"}
