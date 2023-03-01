@@ -24,13 +24,13 @@ export default function Home() {
 					<Image
 						src="/images/illustrations/welcome.svg"
 						alt={"welcome"}
-						width={400}
+						width={350}
 						height={300}
-						className="mt-[-40px] p-3"
+						className="mt-[-50px] p-3"
 					/>
 				</div>
 				<StyledFormContainer>
-					<div className="p-6 space-y-8 text-center">
+					<div className="p-4 space-y-8 text-center">
 						<div className="space-y-3">
 							<h1 className="text-2xl font-medium">
 								Selamat datang di Invityu!
@@ -39,7 +39,7 @@ export default function Home() {
 								Buat undangan digital untuk beragam kebutuhan acaramu
 							</p>
 						</div>
-						<div className="flex flex-col space-y-5">
+						<div className="flex flex-col space-y-4">
 							<Button isBlock onClick={() => handleRoute("/auth/register")}>
 								Belum punya akun ? Daftar yuk!
 							</Button>
@@ -63,7 +63,7 @@ const StyledFormContainer = styled.div`
 	position: relative;
 	background-color: #fff;
 	padding: 1rem 0.7rem 2rem;
-	margin-top: -40px;
+	margin-top: -50px;
 	box-shadow: rgb(108 114 124 / 10%) 0px -1px 4px 0px;
 	border-top-left-radius: 1.2rem;
 	border-top-right-radius: 1.2rem;
