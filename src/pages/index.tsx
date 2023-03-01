@@ -26,7 +26,7 @@ export default function Home() {
 						alt={"welcome"}
 						width={350}
 						height={300}
-						className="mt-[-300px] p-3"
+						className="pb-[320px] p-3"
 					/>
 				</div>
 				<StyledFormContainer>
