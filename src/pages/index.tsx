@@ -32,10 +32,10 @@ export default function Home() {
 				<StyledFormContainer>
 					<div className="p-4 space-y-8 text-center">
 						<div className="space-y-3">
-							<h1 className="text-2xl font-medium">
+							<h1 className="text-xl font-medium">
 								Selamat datang di Invityu!
 							</h1>
-							<p className="text-base font-normal mb-1 sm:mb-5 text-gray-900">
+							<p className="text-base font-normal mb-1 sm:mb-5 text-gray-700">
 								Buat undangan digital untuk beragam kebutuhan acaramu
 							</p>
 						</div>
