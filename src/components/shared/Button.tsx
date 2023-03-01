@@ -70,7 +70,7 @@ const StyledButton = styled.button<StyledButtonProps>`
 	color: ${({ isOutline }) => (!isOutline ? "#fff" : "#003A87")};
 	padding: 12px;
 	border: 2px solid #003a87;
-	border-radius: 10px;
+	border-radius: 15px;
 	cursor: pointer;
 	font-weight: 500;
 	font-size: 15px;
