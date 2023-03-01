@@ -20,13 +20,13 @@ export default function Home() {
 				<title>Selamat Datang - Invityu</title>
 			</Head>
 			<div className="h-screen">
-				<div className="flex w-full justify-center items-center h-3/5 bg-primary-600">
+				<div className="flex w-full justify-center items-center h-screen bg-primary-600">
 					<Image
 						src="/images/illustrations/welcome.svg"
 						alt={"welcome"}
 						width={350}
 						height={300}
-						className="mt-[-40px] p-3"
+						className="mt-[-300px] p-3"
 					/>
 				</div>
 				<StyledFormContainer>
