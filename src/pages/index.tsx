@@ -19,14 +19,14 @@ export default function Home() {
 			<Head>
 				<title>Selamat Datang - Invityu</title>
 			</Head>
-			<div className="h-screen pb-10">
+			<div className="h-[calc(100vh-100px)] pb-10">
 				<div className="flex justify-center items-center h-full bg-primary-600">
 					<Image
 						src="/images/illustrations/welcome.svg"
 						alt={"welcome"}
 						width={350}
 						height={300}
-						className="mb-[270px] p-3"
+						className="mt-[-150px] p-3"
 					/>
 				</div>
 				<StyledFormContainer>
