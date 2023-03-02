@@ -23,7 +23,7 @@ export default function Home() {
 				<div className="flex justify-center items-center h-full bg-primary-600">
 					<Image
 						src="/images/illustrations/welcome.svg"
-						className="mb-60 p-4"
+						className="mb-64 p-4"
 						width={350}
 						height={300}
 						alt="welcome"
