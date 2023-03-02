@@ -3,23 +3,20 @@ import Cookies from "js-cookie";
 import Head from "next/head";
 import Router from "next/router";
 import toast from "react-hot-toast";
-import styled from "@emotion/styled";
 
-import { Avatar } from "antd";
 import { BiKey } from "react-icons/bi";
 import { Formik, Field, Form, FormikValues } from "formik";
-import {
-	HiArrowSmLeft as BackIcon,
-	HiOutlineMail as EmailIcon,
-} from "react-icons/hi";
+import { HiOutlineMail as EmailIcon } from "react-icons/hi";
 
 import * as yup from "yup";
 
 import Button from "@/components/shared/Button";
+import BackButton from "@/components/shared/BackButton";
 import ButtonGoogle from "@/components/shared/ButtonGoogle";
 import Container from "@/components/shared/Container";
 import Input from "@/components/form/Input";
 import InputPassword from "@/components/form/InputPassword";
+import PageHeading from "@/components/layouts/partials/auth/PageHeading";
 import Topbar from "@/components/layouts/partials/Topbar";
 
 import { login } from "@/utils/auth";
@@ -34,8 +31,8 @@ interface InputFields {
 }
 
 const LoginPage: React.FC = () => {
-	const [isLoading, setLoading] = useState(false);
-	const [isGoogleLoading, setGoogleLoading] = useState(false);
+	const [isLoading, setLoading] = useState<boolean>(false);
+	const [isGoogleLoading, setGoogleLoading] = useState<boolean>(false);
 
 	const [usernameValue, setUsernameValue] = useState<any>(null);
 	const [usernameInputType, setUsernameInputType] = useState<string>("text");
@@ -144,20 +141,13 @@ const LoginPage: React.FC = () => {
 				<meta name="theme-color" content="#ffffff" />
 			</Head>
 			<Topbar>
-				<StyledBack
-					onClick={() => Router.push("/")}
-					className="mr-3 text-white bg-primary-600"
-				>
-					<BackIcon size="22" className="mt-1" style={{ marginRight: "1px" }} />
-				</StyledBack>
+				<BackButton route="/" />
 			</Topbar>
 			<Container>
-				<div className="flex flex-col items-center justify-center mt-5 mb-10 space-y-2">
-					<h1 className="text-2xl font-medium  mt-2">Masuk</h1>
-					<span className="text-gray-500">
-						Masuk ke akunmu untuk melanjutkan
-					</span>
-				</div>
+				<PageHeading
+					title="Masuk"
+					description="Masuk ke akunmu untuk melanjutkan"
+				/>
 				<Formik
 					initialValues={initialValues}
 					validationSchema={validationSchema}
@@ -248,8 +238,3 @@ const LoginPage: React.FC = () => {
 };
 
 export default LoginPage;
-
-const StyledBack = styled(Avatar)`
-	box-shadow: rgb(0 0 0 / 15%) 0px 2px 8px;
-	cursor: pointer;
-`;

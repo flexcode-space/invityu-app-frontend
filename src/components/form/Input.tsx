@@ -14,7 +14,7 @@ interface InputProps {
 	suffix?: React.ReactNode;
 	value?: string;
 	isReadOnly?: boolean;
-	[key: string]: any; // add index signature to allow other props
+	[key: string]: any;
 }
 
 const Input: React.FC<InputProps> = ({

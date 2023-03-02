@@ -7,17 +7,18 @@ import styled from "@emotion/styled";
 
 import { Avatar } from "antd";
 import { HiOutlineMail as EmailIcon } from "react-icons/hi";
-import { HiArrowSmLeft as BackIcon } from "react-icons/hi";
 import { Formik, Field, Form, FormikValues } from "formik";
 
 import * as yup from "yup";
 
 import Button from "@/components/shared/Button";
+import BackButton from "@/components/shared/BackButton";
 import ButtonGoogle from "@/components/shared/ButtonGoogle";
 import Container from "@/components/shared/Container";
 import Input from "@/components/form/Input";
-import Topbar from "@/components/layouts/partials/Topbar";
 import Image from "@/components/shared/Image";
+import PageHeading from "@/components/layouts/partials/auth/PageHeading";
+import Topbar from "@/components/layouts/partials/Topbar";
 
 interface InputFields {
 	label: string;
@@ -73,14 +74,31 @@ const RegisterPage: React.FC = () => {
 
 		setTimeout(() => {
 			if (values) {
-				toast.success("Pendaftaran berhasil");
-				console.log("success, redirect to OTP");
+				// toast.success("Kode verifikasi berhasil dikirim");
+				Router.push({
+					pathname: "/auth/verify",
+					query: {
+						token: randomString(64),
+						ref: btoa(values?.username),
+						type: usernameInputType,
+					},
+				});
+				setLoading(false);
 			} else {
 				console.log("register gagal");
 				toast.error("Pendaftaran Gagal");
 			}
 			setLoading(false);
 		}, 1000);
+	};
+
+	const randomString = (length: number) => {
+		const chars =
+			"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		let result = "";
+		for (let i = length; i > 0; --i)
+			result += chars[Math.round(Math.random() * (chars.length - 1))];
+		return result;
 	};
 
 	useEffect(() => {
@@ -123,20 +141,13 @@ const RegisterPage: React.FC = () => {
 				<meta name="theme-color" content="#ffffff" />
 			</Head>
 			<Topbar>
-				<StyledBack
-					onClick={() => Router.push("/")}
-					className="mr-3 text-white bg-primary-600"
-				>
-					<BackIcon size="22" className="mt-1" style={{ marginRight: "1px" }} />
-				</StyledBack>
+				<BackButton route="/" />
 			</Topbar>
 			<Container>
-				<div className="flex flex-col items-center justify-center mt-5 mb-10 space-y-2">
-					<h1 className="text-2xl font-medium  mt-2">Daftar</h1>
-					<span className="text-gray-500">
-						Daftarkan akunmu untuk melanjutkan
-					</span>
-				</div>
+				<PageHeading
+					title="Daftar"
+					description="Daftarkan akunmu untuk melanjutkan"
+				/>
 				<Formik
 					initialValues={initialValues}
 					validationSchema={validationSchema}
