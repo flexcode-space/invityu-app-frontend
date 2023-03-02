@@ -75,7 +75,7 @@ const VerifyPage = () => {
 			{username && source && (
 				<>
 					<NextSeo
-						title="Verifikasi"
+						title="Verifikasi - Invityu"
 						description="Selamat Datang di Invityu"
 						themeColor="#ffffff"
 					/>

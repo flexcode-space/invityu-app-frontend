@@ -17,7 +17,7 @@ export default function Home() {
 	return (
 		<>
 			<NextSeo
-				title="Selamat Datang"
+				title="Selamat Datang di Invityu - Invityu"
 				description="Selamat Datang di Invityu"
 				themeColor="#556dc2"
 			/>

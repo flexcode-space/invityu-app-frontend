@@ -137,7 +137,7 @@ const LoginPage: React.FC = () => {
 	return (
 		<>
 			<NextSeo
-				title="Masuk"
+				title="Masuk - Invityu"
 				description="Selamat Datang di Invityu"
 				themeColor="#ffffff"
 			/>

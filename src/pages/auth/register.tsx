@@ -138,7 +138,7 @@ const RegisterPage: React.FC = () => {
 	return (
 		<>
 			<NextSeo
-				title="Daftar"
+				title="Daftar - Invityu"
 				description="Selamat Datang di Invityu"
 				themeColor="#ffffff"
 			/>
