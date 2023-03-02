@@ -1,9 +1,10 @@
 import React, { FC, ReactNode } from "react";
-import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import InlineLoader from "./InlineLoader";
+import Image from "next/image";
+import styled from "@emotion/styled";
 
-type ButtonProps = {
+type ButtonGoogleProps = {
 	isLoading?: boolean;
 	isOutline?: boolean;
 	isBlock?: boolean;
@@ -15,7 +16,7 @@ type ButtonProps = {
 	type?: string;
 };
 
-const Button: FC<ButtonProps> = ({
+const ButtonGoogle: FC<ButtonGoogleProps> = ({
 	isLoading,
 	isOutline,
 	isBlock,
@@ -48,6 +49,12 @@ const Button: FC<ButtonProps> = ({
 					color={color}
 					{...other}
 				>
+					<Image
+						src="/images/icons/ic-google.svg"
+						width={20}
+						height={15}
+						alt="id"
+					/>{" "}
 					{children}
 				</StyledButton>
 			)}
@@ -55,7 +62,7 @@ const Button: FC<ButtonProps> = ({
 	);
 };
 
-export default Button;
+export default ButtonGoogle;
 
 type StyledButtonProps = {
 	isOutline?: boolean;
@@ -66,12 +73,14 @@ type StyledButtonProps = {
 };
 
 const StyledButton = styled.button<StyledButtonProps>`
+	display: inline-flex;
+	justify-content: center;
+	gap: 10px;
 	width: ${({ isBlock }) => (isBlock ? "100%" : "auto")};
-	background-color: ${({ isOutline, color }) =>
-		!isOutline ? color || "#003A87" : "#fff"};
-	color: ${({ isOutline }) => (!isOutline ? "#fff" : "#003A87")};
+	background-color: "#fff";
+	color: #252525;
 	padding: 12px;
-	border: 1px solid #003a87;
+	border: 1px solid #c7d7ff;
 	border-radius: 15px;
 	cursor: pointer;
 	font-weight: 500;

@@ -30,7 +30,7 @@ export default function Home() {
 					/>
 				</div>
 				<StyledFormContainer>
-					<div className="p-4 space-y-8 text-center">
+					<div className="mb-2 space-y-8 text-center">
 						<div className="space-y-3">
 							<h1 className="text-xl font-medium">
 								Selamat datang di Invityu!
@@ -39,7 +39,7 @@ export default function Home() {
 								Buat undangan digital untuk beragam kebutuhan acaramu
 							</p>
 						</div>
-						<div className="flex flex-col space-y-4">
+						<div className="flex flex-col space-y-5">
 							<Button isBlock onClick={() => handleRoute("/auth/register")}>
 								Belum punya akun ? Daftar yuk!
 							</Button>
@@ -62,7 +62,7 @@ const StyledFormContainer = styled.div`
 	z-index: 3;
 	position: relative;
 	background-color: #fff;
-	padding: 1rem 0.7rem 2rem;
+	padding: 2.5rem 1.5rem;
 	/* margin-top: -50px; */
 	box-shadow: rgb(108 114 124 / 10%) 0px -1px 4px 0px;
 	border-top-left-radius: 1.2rem;

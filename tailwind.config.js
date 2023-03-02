@@ -1,3 +1,5 @@
+const plugin = require("tailwindcss/plugin");
+
 const { fontFamily } = require("tailwindcss/defaultTheme");
 
 module.exports = {
@@ -24,5 +26,12 @@ module.exports = {
 			},
 		},
 	},
-	plugins: [],
+
+	plugins: [
+		plugin(function ({ addBase }) {
+			addBase({
+				html: { fontSize: "14px" },
+			});
+		}),
+	],
 };
