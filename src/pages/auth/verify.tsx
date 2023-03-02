@@ -99,7 +99,7 @@ const VerifyPage = () => {
 								numInputs={4}
 								separator={<span></span>}
 								isInputNum
-								shouldAutoFocus
+								shouldAutoFocus={true}
 							/>
 							<div className="my-8">
 								<Button
