@@ -16,19 +16,12 @@ import ButtonGoogle from "@/components/shared/ButtonGoogle";
 import Container from "@/components/shared/Container";
 import Input from "@/components/form/Input";
 import Image from "@/components/shared/Image";
-import InputPassword from "@/components/form/InputPassword";
 import PageHeading from "@/components/layouts/partials/auth/PageHeading";
 import Topbar from "@/components/layouts/partials/Topbar";
 
 import { login } from "@/utils/auth";
 
-interface InputFields {
-	label: string;
-	name: string;
-	type: string;
-	prefix?: JSX.Element;
-	suffix?: JSX.Element;
-}
+import { InputProps } from "@/components/form/type";
 
 const LoginPage: React.FC = () => {
 	const [isLoading, setLoading] = useState<boolean>(false);
@@ -50,6 +43,7 @@ const LoginPage: React.FC = () => {
 		setFieldValue: FormikValues["setFieldValue"],
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
+		console.log("masukkk");
 		let value = event.target.value;
 		value = event.target.value.replace(/^0+/, "").toLowerCase();
 		setFieldValue("username", value);
@@ -120,7 +114,7 @@ const LoginPage: React.FC = () => {
 		);
 	}, [usernameValue]);
 
-	const inputForm: InputFields[] = [
+	const inputForm: InputProps[] = [
 		{
 			label: "Nomor HP atau Email",
 			name: "username",
@@ -160,40 +154,32 @@ const LoginPage: React.FC = () => {
 							<Form className="mb-10">
 								{inputForm.map((item, key) => (
 									<div key={key}>
-										{item?.type !== "password" && (
-											<Field name={item?.name}>
-												{({ field, form }: { field: any; form: any }) => (
-													<Input
-														label={item?.label}
-														name={item?.name}
-														type={item?.type}
-														prefix={item?.prefix}
-														suffix={item?.suffix}
-														onChange={(
-															event: React.ChangeEvent<HTMLInputElement>
-														) =>
-															handleUsernameChange(form.setFieldValue, event)
-														}
-													/>
-												)}
-											</Field>
-										)}
-										{item?.type === "password" && (
-											<InputPassword
-												label={item?.label}
-												name={item?.name}
-												type={item?.type}
-												prefix={item?.prefix}
-												suffix={item?.suffix}
-											/>
-										)}
+										<Field name={item?.name}>
+											{({ field, form }: { field: any; form: any }) => (
+												<Input
+													label={item?.label}
+													name={item?.name}
+													type={item?.type}
+													prefix={item?.prefix}
+													suffix={item?.suffix}
+													onChange={(
+														event: React.ChangeEvent<HTMLInputElement>
+													) =>
+														item?.name === "username" &&
+														handleUsernameChange(form.setFieldValue, event)
+													}
+												/>
+											)}
+										</Field>
 									</div>
 								))}
-								<div
-									className="text-right text-primary cursor-pointer"
-									onClick={() => handleRoute("/auth/forgot-password")}
-								>
-									Lupa Password?
+								<div className="flex justify-end">
+									<div
+										className="text-right text-primary cursor-pointer"
+										onClick={() => handleRoute("/auth/forgot-password")}
+									>
+										Lupa Password?
+									</div>
 								</div>
 								{/* <pre>{JSON.stringify(formik, null, 4)}</pre> */}
 

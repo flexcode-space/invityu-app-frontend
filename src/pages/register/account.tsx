@@ -15,21 +15,10 @@ import BackButton from "@/components/shared/BackButton";
 import Container from "@/components/shared/Container";
 import Input from "@/components/form/Input";
 import Image from "@/components/shared/Image";
-import InputPassword from "@/components/form/InputPassword";
 import PageHeading from "@/components/layouts/partials/auth/PageHeading";
 import Topbar from "@/components/layouts/partials/Topbar";
 
-import { login } from "@/utils/auth";
-
-interface InputFields {
-	label: string;
-	name: string;
-	value?: string;
-	type: string;
-	prefix?: JSX.Element;
-	suffix?: JSX.Element;
-	isReadOnly?: true | false | undefined;
-}
+import { InputProps } from "@/components/form/type";
 
 const RegisterAccountPage: React.FC = () => {
 	const [isLoading, setLoading] = useState<boolean>(false);
@@ -99,7 +88,7 @@ const RegisterAccountPage: React.FC = () => {
 		);
 	}, [usernameValue]);
 
-	const inputForm: InputFields[] = [
+	const inputForm: InputProps[] = [
 		{
 			label: usernameInputType === "email" ? "Email" : "Nomor HP",
 			name: "username",
@@ -153,26 +142,15 @@ const RegisterAccountPage: React.FC = () => {
 							<Form className="mb-10">
 								{inputForm.map((item, key) => (
 									<div key={key}>
-										{item?.type !== "password" && (
-											<Input
-												label={item?.label}
-												name={item?.name}
-												type={item?.type}
-												prefix={item?.prefix}
-												suffix={item?.suffix}
-												isReadOnly={item?.isReadOnly}
-												value={item?.value}
-											/>
-										)}
-										{item?.type === "password" && (
-											<InputPassword
-												label={item?.label}
-												name={item?.name}
-												type={item?.type}
-												prefix={item?.prefix}
-												suffix={item?.suffix}
-											/>
-										)}
+										<Input
+											label={item?.label}
+											name={item?.name}
+											type={item?.type}
+											prefix={item?.prefix}
+											suffix={item?.suffix}
+											isReadOnly={item?.isReadOnly}
+											value={item?.value}
+										/>
 									</div>
 								))}
 

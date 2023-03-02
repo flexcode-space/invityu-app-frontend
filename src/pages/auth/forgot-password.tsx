@@ -17,13 +17,7 @@ import Image from "@/components/shared/Image";
 import PageHeading from "@/components/layouts/partials/auth/PageHeading";
 import Topbar from "@/components/layouts/partials/Topbar";
 
-interface InputFields {
-	label: string;
-	name: string;
-	type: string;
-	prefix?: JSX.Element;
-	suffix?: JSX.Element;
-}
+import { InputProps } from "@/components/form/type";
 
 const ForgotPasswordPage: React.FC = () => {
 	const [isLoading, setLoading] = useState<boolean>(false);
@@ -121,7 +115,7 @@ const ForgotPasswordPage: React.FC = () => {
 		);
 	}, [usernameValue]);
 
-	const inputForm: InputFields[] = [
+	const inputForm: InputProps[] = [
 		{
 			label: "Nomor HP atau Email",
 			name: "username",

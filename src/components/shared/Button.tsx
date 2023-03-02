@@ -69,10 +69,10 @@ type StyledButtonProps = {
 const StyledButton = styled.button<StyledButtonProps>`
 	width: ${({ isBlock }) => (isBlock ? "100%" : "auto")};
 	background-color: ${({ isOutline, color }) =>
-		!isOutline ? color || "#003A87" : "#fff"};
-	color: ${({ isOutline }) => (!isOutline ? "#fff" : "#003A87")};
+		!isOutline ? color || "var(--bg-primary)" : "#fff"};
+	color: ${({ isOutline }) => (!isOutline ? "#fff" : "var(--bg-primary)")};
 	padding: 12px;
-	border: 1px solid #003a87;
+	border: 1px solid var(--bg-primary);
 	border-radius: 15px;
 	cursor: pointer;
 	font-weight: 500;

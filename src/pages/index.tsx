@@ -19,7 +19,7 @@ export default function Home() {
 			<NextSeo
 				title="Selamat Datang di Invityu - Invityu"
 				description="Selamat Datang di Invityu"
-				themeColor="#556dc2"
+				themeColor="var(--bg-primary-600)"
 			/>
 			<div className="h-[calc(100vh-100px)] pb-10">
 				<div className="flex justify-center items-center h-full bg-primary-600">

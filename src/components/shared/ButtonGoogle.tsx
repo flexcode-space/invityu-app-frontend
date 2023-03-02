@@ -81,7 +81,7 @@ const StyledButton = styled.button<StyledButtonProps>`
 	background-color: "#fff";
 	color: #252525;
 	padding: 12px;
-	border: 1px solid #c7d7ff;
+	border: 1px solid var(--bg-primary-100);
 	border-radius: 15px;
 	cursor: pointer;
 	font-weight: 500;
