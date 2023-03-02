@@ -164,18 +164,18 @@ const VerificationCountDown: React.FC<VerificationCountDownProps> = ({
 	return isCountdown ? (
 		<>
 			<div className="text-center text-gray-500 px-0">
-				Kirim ulang kode verifikasi dalam{" "}
-				<b className="text-primary font-semibold">
+				Mohon tunggu{" "}
+				<b className="text-primary font-medium">
 					<span>
-						00:
-						{seconds < 10 ? `0${seconds.toString()}` : seconds.toString()}
+						{seconds < 10 ? `0${seconds.toString()}` : seconds.toString()} detik
 					</span>
-				</b>
+				</b>{" "}
+				untuk kirim ulang
 			</div>
 		</>
 	) : (
 		<div
-			className="w-full flex justify-center mx-0 md:mx-2 text-primary font-semibold cursor-pointer"
+			className="w-full flex justify-center mx-0 md:mx-2 text-primary font-medium cursor-pointer"
 			onClick={() => handleResendOtp()}
 		>
 			Kirim Ulang
