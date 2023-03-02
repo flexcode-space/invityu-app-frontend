@@ -3,9 +3,8 @@ import Cookies from "js-cookie";
 import Router from "next/router";
 import toast from "react-hot-toast";
 
-import { BiKey, BiUser } from "react-icons/bi";
+import { BiKey } from "react-icons/bi";
 import { Formik, Form, FormikValues } from "formik";
-import { HiOutlineMail as EmailIcon } from "react-icons/hi";
 import { NextSeo } from "next-seo";
 
 import * as yup from "yup";
@@ -14,12 +13,9 @@ import Button from "@/components/shared/Button";
 import BackButton from "@/components/shared/BackButton";
 import Container from "@/components/shared/Container";
 import Input from "@/components/form/Input";
-import Image from "@/components/shared/Image";
 import InputPassword from "@/components/form/InputPassword";
 import PageHeading from "@/components/layouts/partials/auth/PageHeading";
 import Topbar from "@/components/layouts/partials/Topbar";
-
-import { login } from "@/utils/auth";
 
 interface InputFields {
 	label: string;
@@ -31,31 +27,21 @@ interface InputFields {
 	isReadOnly?: true | false | undefined;
 }
 
-const RegisterAccountPage: React.FC = () => {
+const NewPasswordPage: React.FC = () => {
 	const [isLoading, setLoading] = useState<boolean>(false);
 
-	const [usernameValue, setUsernameValue] = useState<any>(
-		"aulianza@icloud.com"
-	);
-	const [usernameInputType, setUsernameInputType] = useState<string>("text");
-	const [usernameInputPrefix, setUsernameInputPrefix] =
-		useState<JSX.Element | null>(null);
-
 	const initialValues = {
-		username: usernameValue,
 		password: null,
-		name: null,
 	};
 
 	const validationSchema = yup.object().shape({
-		name: yup.string().required("Nama wajib diisi"),
-		password: yup
+		npassword: yup
 			.string()
 			.min(5, "Password minimal 5 karakter")
 			.required("Password wajib diisi"),
-		cpassword: yup
+		cnpassword: yup
 			.string()
-			.oneOf([yup.ref("password"), undefined], "Password tidak sama"),
+			.oneOf([yup.ref("npassword"), undefined], "Password tidak sama"),
 	});
 
 	const onSubmit = (values: FormikValues) => {
@@ -64,12 +50,12 @@ const RegisterAccountPage: React.FC = () => {
 
 		setTimeout(() => {
 			if (values) {
-				toast.success("Data berhasil disimpan");
+				toast.success("Kata Sandi baru berhasil disimpan");
 				Router.push("/dashboard");
 				setLoading(false);
 			} else {
-				console.log("register gagal");
-				toast.error("Pendaftaran Gagal");
+				console.log("reset password gagal");
+				toast.error("Reset Kata Sandi Gagal");
 			}
 			setLoading(false);
 		}, 1000);
@@ -79,50 +65,16 @@ const RegisterAccountPage: React.FC = () => {
 		Cookies.get("token") && Router.push("/dashboard");
 	}, []);
 
-	useEffect(() => {
-		if (!usernameValue) {
-			setUsernameInputType("text");
-			setUsernameInputPrefix(<></>);
-			return;
-		}
-
-		setUsernameInputType(isNaN(usernameValue) ? "email" : "phone");
-		setUsernameInputPrefix(
-			isNaN(usernameValue) ? (
-				<EmailIcon size="20" />
-			) : (
-				<>
-					<Image src="/images/id-flag.svg" width={20} height={15} alt="id" />
-					&nbsp; +62
-				</>
-			)
-		);
-	}, [usernameValue]);
-
 	const inputForm: InputFields[] = [
 		{
-			label: usernameInputType === "email" ? "Email" : "Nomor HP",
-			name: "username",
-			type: usernameInputType,
-			prefix: <>{usernameInputPrefix}</>,
-			isReadOnly: true,
-			value: usernameValue,
-		},
-		{
-			label: "Nama Kamu",
-			name: "name",
-			type: "text",
-			prefix: <BiUser size="20" />,
-		},
-		{
-			label: "Kata Sandi",
-			name: "password",
+			label: "Kata Sandi Baru",
+			name: "npassword",
 			type: "password",
 			prefix: <BiKey size="20" />,
 		},
 		{
-			label: "Konfirmasi Kata Sandi",
-			name: "cpassword",
+			label: "Konfirmasi Kata Sandi Baru",
+			name: "cnpassword",
 			type: "password",
 			prefix: <BiKey size="20" />,
 		},
@@ -140,8 +92,8 @@ const RegisterAccountPage: React.FC = () => {
 			</Topbar>
 			<Container>
 				<PageHeading
-					title="Buat Kata Sandi"
-					description="Kata sandi digunakan untuk meningkatkan keamanan transaksi"
+					title="Atur Kata Sandi Baru"
+					description="Atur ulang kata sandi baru kami disini"
 				/>
 				<Formik
 					initialValues={initialValues}
@@ -195,4 +147,4 @@ const RegisterAccountPage: React.FC = () => {
 	);
 };
 
-export default RegisterAccountPage;
+export default NewPasswordPage;

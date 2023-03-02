@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import Router from "next/router";
 import toast from "react-hot-toast";
-import styled from "@emotion/styled";
 
-import { Avatar } from "antd";
 import { HiOutlineMail as EmailIcon } from "react-icons/hi";
 import { Formik, Field, Form, FormikValues } from "formik";
 import { NextSeo } from "next-seo";
@@ -239,8 +237,3 @@ const RegisterPage: React.FC = () => {
 };
 
 export default RegisterPage;
-
-const StyledBack = styled(Avatar)`
-	box-shadow: rgb(0 0 0 / 15%) 0px 2px 8px;
-	cursor: pointer;
-`;

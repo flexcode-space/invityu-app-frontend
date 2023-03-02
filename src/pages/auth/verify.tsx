@@ -47,7 +47,13 @@ const VerifyPage = () => {
 				toast.success("Kode verifikasi benar");
 				// TODO: if forgot password, set new pass
 				// TODO: if register, show alert phone number verified and back to login
-				Router.push("/register/account");
+
+				if (source === "register") {
+					Router.push("/register/account");
+				} else if (source === "forgot-password") {
+					Router.push("/auth/new-password");
+				}
+
 				setLoading(false);
 			} else {
 				toast.error("Kode verifikasi salah");
