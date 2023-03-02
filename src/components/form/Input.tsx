@@ -41,8 +41,13 @@ const Input: React.FC<InputProps> = ({
 							)}
 						</label>
 						<StyledInput
+							title={name}
 							type={type}
-							pattern={name === "phone" ? "[0-9]*" : ""}
+							// pattern={
+							// 	name === "phone"
+							// 		? "[0-9]*"
+							// 		: "[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$"
+							// }
 							placeholder={placeholder}
 							defaultChecked={field.value}
 							prefix={prefix}

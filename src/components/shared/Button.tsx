@@ -94,7 +94,7 @@ const StyledButton = styled.button<StyledButtonProps>`
 		css`
 			cursor: no-drop !important;
 			background: #eee !important;
-			border: 2px solid #eee !important;
+			border: 1px solid #eee !important;
 			color: #a9a7a7 !important;
 		`}
 `;

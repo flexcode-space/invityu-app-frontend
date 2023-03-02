@@ -11,12 +11,10 @@ import { HiArrowSmLeft as BackIcon } from "react-icons/hi";
 import { Formik, Form, FormikValues } from "formik";
 
 import * as yup from "yup";
-import "yup-phone";
 
 import Button from "@/components/shared/Button";
 import ButtonGoogle from "@/components/shared/ButtonGoogle";
 import Container from "@/components/shared/Container";
-import Image from "@/components/shared/Image";
 import Input from "@/components/form/Input";
 import InputPassword from "@/components/form/InputPassword";
 import Topbar from "@/components/layouts/partials/Topbar";
@@ -32,20 +30,18 @@ interface InputFields {
 }
 
 const LoginPage: React.FC = () => {
-	const [isLoading, setLoading] = useState<boolean>(false);
+	const [isLoading, setLoading] = useState(false);
+	const [isGoogleLoading, setGoogleLoading] = useState(false);
 
 	const handleRoute = (url: string) => Router.push(url);
 
 	const initialValues = {
-		phone: "",
+		username: "",
 		password: "",
 	};
 
 	const validationSchema = yup.object({
-		// phone: yup
-		//   .string()
-		//   .phone("ID", true, "Nomor HP tidak valid")
-		//   .required("Nomor HP wajib diisi"),
+		username: yup.string().required("Nomor HP atau Email wajib diisi"),
 		password: yup
 			.string()
 			.min(5, "Password minimal 5 karakter")
@@ -57,7 +53,7 @@ const LoginPage: React.FC = () => {
 		console.log("onSubmit => ", values);
 
 		setTimeout(() => {
-			if (values.phone == "8122244054" && values.password === "aulianza") {
+			if (values?.username == "8122244054" && values?.password === "aulianza") {
 				const token = "YXVsaWFuemE=";
 				login({ token });
 			} else {
@@ -75,7 +71,7 @@ const LoginPage: React.FC = () => {
 	const inputForm: InputFields[] = [
 		{
 			label: "Nomor HP atau Email",
-			name: "text",
+			name: "username",
 			type: "text",
 			// prefix: (
 			// 	<>
@@ -108,15 +104,6 @@ const LoginPage: React.FC = () => {
 			</Topbar>
 			<Container>
 				<div className="flex flex-col items-center justify-center mt-5 mb-10 space-y-2">
-					<Image
-						src="/images/illustrations/login.svg"
-						className="mb-3"
-						width={100}
-						height={100}
-						alt="login-icon"
-						loading="eager"
-						priority
-					/>
 					<h1 className="text-2xl font-medium  mt-2">Masuk</h1>
 					<span className="text-gray-500">
 						Masuk ke akunmu untuk melanjutkan
@@ -132,22 +119,22 @@ const LoginPage: React.FC = () => {
 							<Form className="mb-10">
 								{inputForm.map((field, key) => (
 									<div key={key}>
-										{field.type !== "password" && (
+										{field?.type !== "password" && (
 											<Input
-												label={field.label}
-												name={field.name}
-												type={field.type}
-												prefix={field.prefix}
-												suffix={field.suffix}
+												label={field?.label}
+												name={field?.name}
+												type={field?.type}
+												prefix={field?.prefix}
+												suffix={field?.suffix}
 											/>
 										)}
-										{field.type === "password" && (
+										{field?.type === "password" && (
 											<InputPassword
-												label={field.label}
-												name={field.name}
-												type={field.type}
-												prefix={field.prefix}
-												suffix={field.suffix}
+												label={field?.label}
+												name={field?.name}
+												type={field?.type}
+												prefix={field?.prefix}
+												suffix={field?.suffix}
 											/>
 										)}
 									</div>
@@ -174,7 +161,11 @@ const LoginPage: React.FC = () => {
 										<div className="text-gray-500">atau</div>
 										<div className="border-t border-primary-100 w-full"></div>
 									</div>
-									<ButtonGoogle type="button" isBlock isLoading={isLoading}>
+									<ButtonGoogle
+										type="button"
+										isBlock
+										isLoading={isGoogleLoading}
+									>
 										Lanjutkan dengan Google
 									</ButtonGoogle>
 								</div>

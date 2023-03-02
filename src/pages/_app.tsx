@@ -1,6 +1,8 @@
 import type { AppProps } from "next/app";
 
 import Head from "next/head";
+import { Toaster } from "react-hot-toast";
+
 import Layout from "@/components/layouts/Layout";
 
 import { jakartaSans, poppins } from "@/styles/fonts";
@@ -28,6 +30,39 @@ export default function App({ Component, pageProps }: AppProps) {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Layout>
+				<Toaster
+					position="top-center"
+					toastOptions={{
+						duration: 3000,
+						style: {
+							marginBottom: " 3px",
+							width: "100%",
+							height: "50px",
+							maxWidth: "450px",
+							borderRadius: "10px",
+						},
+						success: {
+							style: {
+								background: "#63d246",
+								color: "#fff",
+							},
+							iconTheme: {
+								primary: "#fff",
+								secondary: "#63d246",
+							},
+						},
+						error: {
+							style: {
+								background: "#ff4c4d",
+								color: "#fff",
+							},
+							iconTheme: {
+								primary: "#fff",
+								secondary: "#ff4c4d",
+							},
+						},
+					}}
+				/>
 				<Component {...pageProps} />
 			</Layout>
 		</>
