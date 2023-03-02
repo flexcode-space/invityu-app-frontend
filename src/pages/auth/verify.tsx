@@ -23,6 +23,8 @@ const VerifyPage = () => {
 		? atob(router.query.ref as string)
 		: null;
 	const verificationType = router?.query?.type || null;
+	const source = router?.query?.source || "register";
+	const backUrl = source === "register" ? "/auth/register" : "/";
 
 	const handleChange = (otp: string) => {
 		setOtp(otp);
@@ -61,8 +63,8 @@ const VerifyPage = () => {
 	}, []);
 
 	useEffect(() => {
-		!username && Router.push("/");
-	}, [username]);
+		!username && Router.push(backUrl);
+	}, [username, backUrl]);
 
 	useEffect(() => {
 		Cookies.get("token") && Router.push("/dashboard");
@@ -70,14 +72,14 @@ const VerifyPage = () => {
 
 	return (
 		<>
-			{username && (
+			{username && source && (
 				<>
 					<Head>
 						<title>Verify - Invityu</title>
 						<meta name="theme-color" content="#ffffff" />
 					</Head>
 					<Topbar>
-						<BackButton route="/" />
+						<BackButton route={backUrl} />
 					</Topbar>
 					<Container>
 						<PageHeading

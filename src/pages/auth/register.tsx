@@ -81,6 +81,7 @@ const RegisterPage: React.FC = () => {
 						token: randomString(64),
 						ref: btoa(values?.username),
 						type: usernameInputType,
+						source: "register",
 					},
 				});
 				setLoading(false);
