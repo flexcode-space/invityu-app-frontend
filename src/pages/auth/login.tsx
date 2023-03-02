@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import Head from "next/head";
-import Image from "next/image";
 import Router from "next/router";
 import toast from "react-hot-toast";
 import styled from "@emotion/styled";
@@ -17,6 +16,7 @@ import "yup-phone";
 import Button from "@/components/shared/Button";
 import ButtonGoogle from "@/components/shared/ButtonGoogle";
 import Container from "@/components/shared/Container";
+import Image from "@/components/shared/Image";
 import Input from "@/components/form/Input";
 import InputPassword from "@/components/form/InputPassword";
 import Topbar from "@/components/layouts/partials/Topbar";
@@ -110,10 +110,12 @@ const LoginPage: React.FC = () => {
 				<div className="flex flex-col items-center justify-center mt-5 mb-10 space-y-2">
 					<Image
 						src="/images/illustrations/login.svg"
+						className="mb-3"
 						width={100}
 						height={100}
 						alt="login-icon"
-						className="mb-3"
+						loading="eager"
+						priority
 					/>
 					<h1 className="text-2xl font-medium  mt-2">Masuk</h1>
 					<span className="text-gray-500">

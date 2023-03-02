@@ -18,6 +18,7 @@ export default function Home() {
 		<>
 			<Head>
 				<title>Selamat Datang - Invityu</title>
+				<meta name="theme-color" content="#556dc2" />
 			</Head>
 			<div className="h-[calc(100vh-100px)] pb-10">
 				<div className="flex justify-center items-center h-full bg-primary-600">
