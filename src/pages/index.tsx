@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import Cookies from "js-cookie";
-import Image from "next/image";
 import Head from "next/head";
 import Router from "next/router";
 
 import styled from "@emotion/styled";
 import Button from "@/components/shared/Button";
+import Image from "@/components/shared/Image";
 
 export default function Home() {
 	const handleRoute = (url: string) => Router.push(url);
@@ -23,10 +23,12 @@ export default function Home() {
 				<div className="flex justify-center items-center h-full bg-primary-600">
 					<Image
 						src="/images/illustrations/welcome.svg"
-						alt={"welcome"}
+						className="mb-48 p-4"
 						width={350}
 						height={300}
-						className="mt-[-250px] p-3"
+						alt="welcome"
+						loading="eager"
+						priority
 					/>
 				</div>
 				<StyledFormContainer>
