@@ -12,7 +12,7 @@ type ButtonProps = {
 	color?: string;
 	children: ReactNode;
 	className?: string;
-	type?: string;
+	type?: "button" | "submit" | "reset" | undefined;
 };
 
 const Button: FC<ButtonProps> = ({
@@ -41,6 +41,7 @@ const Button: FC<ButtonProps> = ({
 				</StyledButton>
 			) : (
 				<StyledButton
+					type={type}
 					isOutline={isOutline}
 					isBlock={isBlock}
 					onClick={onClick}

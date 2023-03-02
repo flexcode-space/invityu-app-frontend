@@ -1,8 +1,8 @@
 import React, { FC, ReactNode } from "react";
-import { css } from "@emotion/react";
 import InlineLoader from "./InlineLoader";
 import Image from "next/image";
 import styled from "@emotion/styled";
+import { css } from "@emotion/react";
 
 type ButtonGoogleProps = {
 	isLoading?: boolean;
@@ -13,7 +13,7 @@ type ButtonGoogleProps = {
 	color?: string;
 	children: ReactNode;
 	className?: string;
-	type?: string;
+	type?: "button" | "submit" | "reset" | undefined;
 };
 
 const ButtonGoogle: FC<ButtonGoogleProps> = ({
@@ -42,6 +42,7 @@ const ButtonGoogle: FC<ButtonGoogleProps> = ({
 				</StyledButton>
 			) : (
 				<StyledButton
+					type={type}
 					isOutline={isOutline}
 					isBlock={isBlock}
 					onClick={onClick}
