@@ -96,6 +96,7 @@ const LoginPage: React.FC = () => {
 		<>
 			<Head>
 				<title>Login - Invityu</title>
+				<meta name="theme-color" content="#ffffff" />
 			</Head>
 			<Topbar>
 				<StyledBack
