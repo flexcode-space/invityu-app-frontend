@@ -88,7 +88,11 @@ const LoginPage: React.FC = () => {
 				login({ token });
 			} else {
 				console.log("password salah");
-				toast.error("Nomor HP atau Password salah");
+				toast.error(
+					`${
+						usernameInputType === "email" ? "Email" : "Nomor HP"
+					} atau Password salah`
+				);
 			}
 			setLoading(false);
 		}, 1000);
