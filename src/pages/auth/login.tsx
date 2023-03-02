@@ -50,7 +50,8 @@ const LoginPage: React.FC = () => {
 		setFieldValue: FormikValues["setFieldValue"],
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
-		const value = event.target.value;
+		let value = event.target.value;
+		value = event.target.value.replace(/^0+/, "").toLowerCase();
 		setFieldValue("username", value);
 		setUsernameValue(value);
 	};
