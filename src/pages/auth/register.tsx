@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import Head from "next/head";
 import Router from "next/router";
 import toast from "react-hot-toast";
 import styled from "@emotion/styled";
@@ -8,6 +7,7 @@ import styled from "@emotion/styled";
 import { Avatar } from "antd";
 import { HiOutlineMail as EmailIcon } from "react-icons/hi";
 import { Formik, Field, Form, FormikValues } from "formik";
+import { NextSeo } from "next-seo";
 
 import * as yup from "yup";
 
@@ -137,10 +137,11 @@ const RegisterPage: React.FC = () => {
 
 	return (
 		<>
-			<Head>
-				<title>Register - Invityu</title>
-				<meta name="theme-color" content="#ffffff" />
-			</Head>
+			<NextSeo
+				title="Daftar"
+				description="Selamat Datang di Invityu"
+				themeColor="#ffffff"
+			/>
 			<Topbar>
 				<BackButton route="/" />
 			</Topbar>

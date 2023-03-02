@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import Cookies from "js-cookie";
-import Head from "next/head";
 import Router from "next/router";
-
 import styled from "@emotion/styled";
+import { NextSeo } from "next-seo";
+
 import Button from "@/components/shared/Button";
 import Image from "@/components/shared/Image";
 
@@ -16,10 +16,11 @@ export default function Home() {
 
 	return (
 		<>
-			<Head>
-				<title>Selamat Datang - Invityu</title>
-				<meta name="theme-color" content="#556dc2" />
-			</Head>
+			<NextSeo
+				title="Selamat Datang"
+				description="Selamat Datang di Invityu"
+				themeColor="#556dc2"
+			/>
 			<div className="h-[calc(100vh-100px)] pb-10">
 				<div className="flex justify-center items-center h-full bg-primary-600">
 					<Image

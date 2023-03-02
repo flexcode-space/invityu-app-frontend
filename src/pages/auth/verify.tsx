@@ -4,11 +4,11 @@ import OtpInput from "react-otp-input";
 import Router, { NextRouter, useRouter } from "next/router";
 import toast from "react-hot-toast";
 import styled from "@emotion/styled";
+import { NextSeo } from "next-seo";
 
 import BackButton from "@/components/shared/BackButton";
 import Button from "@/components/shared/Button";
 import Container from "@/components/shared/Container";
-import Head from "next/head";
 import PageHeading from "@/components/layouts/partials/auth/PageHeading";
 import Topbar from "@/components/layouts/partials/Topbar";
 
@@ -62,9 +62,9 @@ const VerifyPage = () => {
 		setIsCountdown(true);
 	}, []);
 
-	useEffect(() => {
-		!username && Router.push(backUrl);
-	}, [username, backUrl]);
+	// useEffect(() => {
+	// 	!username && Router.push(backUrl);
+	// }, [username, backUrl]);
 
 	useEffect(() => {
 		Cookies.get("token") && Router.push("/dashboard");
@@ -74,10 +74,11 @@ const VerifyPage = () => {
 		<>
 			{username && source && (
 				<>
-					<Head>
-						<title>Verify - Invityu</title>
-						<meta name="theme-color" content="#ffffff" />
-					</Head>
+					<NextSeo
+						title="Verifikasi"
+						description="Selamat Datang di Invityu"
+						themeColor="#ffffff"
+					/>
 					<Topbar>
 						<BackButton route={backUrl} />
 					</Topbar>

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import Head from "next/head";
 import Router from "next/router";
 import toast from "react-hot-toast";
 
 import { BiKey } from "react-icons/bi";
 import { Formik, Field, Form, FormikValues } from "formik";
 import { HiOutlineMail as EmailIcon } from "react-icons/hi";
+import { NextSeo } from "next-seo";
 
 import * as yup from "yup";
 
@@ -15,12 +15,12 @@ import BackButton from "@/components/shared/BackButton";
 import ButtonGoogle from "@/components/shared/ButtonGoogle";
 import Container from "@/components/shared/Container";
 import Input from "@/components/form/Input";
+import Image from "@/components/shared/Image";
 import InputPassword from "@/components/form/InputPassword";
 import PageHeading from "@/components/layouts/partials/auth/PageHeading";
 import Topbar from "@/components/layouts/partials/Topbar";
 
 import { login } from "@/utils/auth";
-import Image from "@/components/shared/Image";
 
 interface InputFields {
 	label: string;
@@ -136,10 +136,11 @@ const LoginPage: React.FC = () => {
 
 	return (
 		<>
-			<Head>
-				<title>Login - Invityu</title>
-				<meta name="theme-color" content="#ffffff" />
-			</Head>
+			<NextSeo
+				title="Masuk"
+				description="Selamat Datang di Invityu"
+				themeColor="#ffffff"
+			/>
 			<Topbar>
 				<BackButton route="/" />
 			</Topbar>
