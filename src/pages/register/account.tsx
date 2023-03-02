@@ -3,8 +3,8 @@ import Cookies from "js-cookie";
 import Router from "next/router";
 import toast from "react-hot-toast";
 
-import { BiKey } from "react-icons/bi";
-import { Formik, Field, Form, FormikValues } from "formik";
+import { BiKey, BiUser } from "react-icons/bi";
+import { Formik, Form, FormikValues } from "formik";
 import { HiOutlineMail as EmailIcon } from "react-icons/hi";
 import { NextSeo } from "next-seo";
 
@@ -12,7 +12,6 @@ import * as yup from "yup";
 
 import Button from "@/components/shared/Button";
 import BackButton from "@/components/shared/BackButton";
-import ButtonGoogle from "@/components/shared/ButtonGoogle";
 import Container from "@/components/shared/Container";
 import Input from "@/components/form/Input";
 import Image from "@/components/shared/Image";
@@ -25,55 +24,38 @@ import { login } from "@/utils/auth";
 interface InputFields {
 	label: string;
 	name: string;
+	value?: string;
 	type: string;
 	prefix?: JSX.Element;
 	suffix?: JSX.Element;
+	isReadOnly?: true | false | undefined;
 }
 
-const LoginPage: React.FC = () => {
+const RegisterAccountPage: React.FC = () => {
 	const [isLoading, setLoading] = useState<boolean>(false);
-	const [isGoogleLoading, setGoogleLoading] = useState<boolean>(false);
 
-	const [usernameValue, setUsernameValue] = useState<any>(null);
+	const [usernameValue, setUsernameValue] = useState<any>(
+		"aulianza@icloud.com"
+	);
 	const [usernameInputType, setUsernameInputType] = useState<string>("text");
 	const [usernameInputPrefix, setUsernameInputPrefix] =
 		useState<JSX.Element | null>(null);
 
-	const handleRoute = (url: string) => Router.push(url);
-
 	const initialValues = {
-		username: null,
+		username: usernameValue,
 		password: null,
-	};
-
-	const handleUsernameChange = (
-		setFieldValue: FormikValues["setFieldValue"],
-		event: React.ChangeEvent<HTMLInputElement>
-	) => {
-		let value = event.target.value;
-		value = event.target.value.replace(/^0+/, "").toLowerCase();
-		setFieldValue("username", value);
-		setUsernameValue(value);
+		name: null,
 	};
 
 	const validationSchema = yup.object().shape({
-		username: yup
-			.string()
-			.required("Nomor HP atau Email wajib diisi")
-			.test(
-				"phone-or-email",
-				"Harap masukkan nomor HP atau email yang valid",
-				function (value) {
-					if (!value) return false;
-					const emailRegex = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i;
-					const phoneRegex = /^(^\+62\s?|^8)(\d{3,4}-?){2}\d{3,4}$/;
-					return emailRegex.test(value) || phoneRegex.test(value);
-				}
-			),
+		name: yup.string().required("Nama wajib diisi"),
 		password: yup
 			.string()
 			.min(5, "Password minimal 5 karakter")
 			.required("Password wajib diisi"),
+		cpassword: yup
+			.string()
+			.oneOf([yup.ref("password"), undefined], "Password tidak sama"),
 	});
 
 	const onSubmit = (values: FormikValues) => {
@@ -81,16 +63,13 @@ const LoginPage: React.FC = () => {
 		console.log("onSubmit => ", values);
 
 		setTimeout(() => {
-			if (values?.username == "8122244054" && values?.password === "aulianza") {
-				const token = "YXVsaWFuemE=";
-				login({ token });
+			if (values) {
+				toast.success("Data berhasil disimpan");
+				Router.push("/dashboard");
+				setLoading(false);
 			} else {
-				console.log("password salah");
-				toast.error(
-					`${
-						usernameInputType === "email" ? "Email" : "Nomor HP"
-					} atau Password salah`
-				);
+				console.log("register gagal");
+				toast.error("Pendaftaran Gagal");
 			}
 			setLoading(false);
 		}, 1000);
@@ -122,14 +101,28 @@ const LoginPage: React.FC = () => {
 
 	const inputForm: InputFields[] = [
 		{
-			label: "Nomor HP atau Email",
+			label: usernameInputType === "email" ? "Email" : "Nomor HP",
 			name: "username",
 			type: usernameInputType,
 			prefix: <>{usernameInputPrefix}</>,
+			isReadOnly: true,
+			value: usernameValue,
 		},
 		{
-			label: "Kata Sandi",
+			label: "Nama Kamu",
+			name: "name",
+			type: "text",
+			prefix: <BiUser size="20" />,
+		},
+		{
+			label: "Password",
 			name: "password",
+			type: "password",
+			prefix: <BiKey size="20" />,
+		},
+		{
+			label: "Konfirmasi Password",
+			name: "cpassword",
 			type: "password",
 			prefix: <BiKey size="20" />,
 		},
@@ -138,17 +131,17 @@ const LoginPage: React.FC = () => {
 	return (
 		<>
 			<NextSeo
-				title="Masuk - Invityu"
+				title="Buat Kata Sandi - Invityu"
 				description="Selamat Datang di Invityu"
 				themeColor="#ffffff"
 			/>
 			<Topbar>
-				<BackButton route="/" />
+				<BackButton route="/auth/register" />
 			</Topbar>
 			<Container>
 				<PageHeading
-					title="Masuk"
-					description="Masuk ke akunmu untuk melanjutkan"
+					title="Buat Kata Sandi"
+					description="Kata sandi digunakan untuk meningkatkan keamanan transaksi"
 				/>
 				<Formik
 					initialValues={initialValues}
@@ -161,22 +154,15 @@ const LoginPage: React.FC = () => {
 								{inputForm.map((item, key) => (
 									<div key={key}>
 										{item?.type !== "password" && (
-											<Field name={item?.name}>
-												{({ field, form }: { field: any; form: any }) => (
-													<Input
-														label={item?.label}
-														name={item?.name}
-														type={item?.type}
-														prefix={item?.prefix}
-														suffix={item?.suffix}
-														onChange={(
-															event: React.ChangeEvent<HTMLInputElement>
-														) =>
-															handleUsernameChange(form.setFieldValue, event)
-														}
-													/>
-												)}
-											</Field>
+											<Input
+												label={item?.label}
+												name={item?.name}
+												type={item?.type}
+												prefix={item?.prefix}
+												suffix={item?.suffix}
+												isReadOnly={item?.isReadOnly}
+												value={item?.value}
+											/>
 										)}
 										{item?.type === "password" && (
 											<InputPassword
@@ -189,13 +175,6 @@ const LoginPage: React.FC = () => {
 										)}
 									</div>
 								))}
-								<div
-									className="text-right text-primary cursor-pointer"
-									onClick={() => handleRoute("/auth/forgot-password")}
-								>
-									Lupa Password?
-								</div>
-								{/* <pre>{JSON.stringify(formik, null, 4)}</pre> */}
 
 								<div className="my-8 space-y-6">
 									<Button
@@ -204,31 +183,8 @@ const LoginPage: React.FC = () => {
 										isBlock
 										isLoading={isLoading}
 									>
-										Masuk
+										Simpan & Lanjutkan
 									</Button>
-									<div className="flex justify-center items-center gap-5 w-full">
-										<div className="border-t border-primary-100 w-full"></div>
-										<div className="text-gray-500">atau</div>
-										<div className="border-t border-primary-100 w-full"></div>
-									</div>
-									<ButtonGoogle
-										type="button"
-										isBlock
-										isLoading={isGoogleLoading}
-									>
-										Lanjutkan dengan Google
-									</ButtonGoogle>
-								</div>
-
-								<div className="flex justify-center gap-2 mt-10">
-									Belum punya akun?{" "}
-									<div
-										className="text-right text-primary font-medium cursor-pointer"
-										onClick={() => handleRoute("/auth/register")}
-									>
-										{" "}
-										Daftar yuk!
-									</div>
 								</div>
 							</Form>
 						);
@@ -239,4 +195,4 @@ const LoginPage: React.FC = () => {
 	);
 };
 
-export default LoginPage;
+export default RegisterAccountPage;

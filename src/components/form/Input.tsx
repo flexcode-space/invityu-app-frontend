@@ -1,8 +1,9 @@
 import React from "react";
-import { FieldProps, Field } from "formik";
 import FormikErrorMessage from "./FormikErrorMessage";
-import { Input as InputField } from "antd";
 import styled from "@emotion/styled";
+import { FieldProps, Field } from "formik";
+import { Input as InputField } from "antd";
+import { css } from "@emotion/react";
 
 interface InputProps {
 	name: string;
@@ -43,11 +44,6 @@ const Input: React.FC<InputProps> = ({
 						<StyledInput
 							title={name}
 							type={type}
-							// pattern={
-							// 	name === "phone"
-							// 		? "[0-9]*"
-							// 		: "[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$"
-							// }
 							placeholder={placeholder}
 							defaultChecked={field.value}
 							prefix={prefix}
@@ -57,7 +53,6 @@ const Input: React.FC<InputProps> = ({
 							{...field}
 						/>
 						<FormikErrorMessage name={name} />
-						{/* <pre>{JSON.stringify(formikField, null, 4)}</pre> */}
 					</div>
 				);
 			}}
@@ -75,9 +70,19 @@ const StyledInput = styled(InputField)`
 	border-radius: 15px;
 	box-shadow: none !important;
 
+	${({ readOnly }) =>
+		readOnly &&
+		css`
+			background-color: #ebf2fc !important;
+		`}
+
 	.ant-input-prefix {
 		margin-right: ${(props: InputProps) =>
 			props.name === "phone" ? "5px" : "10px"};
+	}
+
+	.ant-input[readonly] {
+		background-color: #ebf2fc !important;
 	}
 
 	&:hover {
