@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Cookies from "js-cookie";
 import Router from "next/router";
 import toast from "react-hot-toast";
@@ -22,6 +22,7 @@ import SSOLogin from "@/components/auth/SSOLogin";
 import { login } from "@/utils/auth";
 
 import { InputProps } from "@/components/form/type";
+import { SSOCallbackResponseProps } from "./type";
 
 const LoginPage: React.FC = () => {
 	const [isLoading, setLoading] = useState<boolean>(false);
@@ -39,16 +40,33 @@ const LoginPage: React.FC = () => {
 		password: null,
 	};
 
-	const handleUsernameChange = (
-		setFieldValue: FormikValues["setFieldValue"],
-		event: React.ChangeEvent<HTMLInputElement>
-	) => {
-		console.log("masukkk");
-		let value = event.target.value;
-		value = event.target.value.replace(/^0+/, "").toLowerCase();
-		setFieldValue("username", value);
-		setUsernameValue(value);
-	};
+	const inputForm: InputProps[] = [
+		{
+			label: "Nomor HP atau Email",
+			name: "username",
+			type: usernameInputType,
+			prefix: <>{usernameInputPrefix}</>,
+		},
+		{
+			label: "Kata Sandi",
+			name: "password",
+			type: "password",
+			prefix: <BiKey size="20" />,
+		},
+	];
+
+	const handleUsernameChange = useCallback(
+		(
+			setFieldValue: FormikValues["setFieldValue"],
+			event: React.ChangeEvent<HTMLInputElement>
+		) => {
+			let value = event.target.value;
+			value = event.target.value.replace(/^0+/, "").toLowerCase();
+			setFieldValue("username", value);
+			setUsernameValue(value);
+		},
+		[]
+	);
 
 	const validationSchema = yup.object().shape({
 		username: yup
@@ -90,13 +108,13 @@ const LoginPage: React.FC = () => {
 		}, 1000);
 	};
 
-	const handleSSOCallback = (response: Object) => {
-		console.log(
-			"🚀 ~ file: register.tsx:91 ~ handleSSOCallback ~ response:",
-			response
-		);
-		// TODO: validate data to backend, and if valid set token adn redirect to dashboard
-	};
+	const handleSSOCallback = useCallback(
+		async (response: SSOCallbackResponseProps): Promise<void> => {
+			console.log("🚀 ~ file: login.tsx:98 ~ response:", response);
+			// TODO: validate data to backend, and if valid set token and redirect to dashboard
+		},
+		[]
+	);
 
 	useEffect(() => {
 		if (!usernameValue) {
@@ -121,21 +139,6 @@ const LoginPage: React.FC = () => {
 	useEffect(() => {
 		Cookies.get("token") && Router.push("/dashboard");
 	}, []);
-
-	const inputForm: InputProps[] = [
-		{
-			label: "Nomor HP atau Email",
-			name: "username",
-			type: usernameInputType,
-			prefix: <>{usernameInputPrefix}</>,
-		},
-		{
-			label: "Kata Sandi",
-			name: "password",
-			type: "password",
-			prefix: <BiKey size="20" />,
-		},
-	];
 
 	return (
 		<>
@@ -207,7 +210,7 @@ const LoginPage: React.FC = () => {
 
 									<div className="flex flex-col space-y-4">
 										<SSOLogin
-											callback={(response: Object) =>
+											callback={(response: SSOCallbackResponseProps) =>
 												handleSSOCallback(response)
 											}
 											isLoading={isGoogleLoading}

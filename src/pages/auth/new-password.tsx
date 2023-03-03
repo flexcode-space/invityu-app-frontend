@@ -25,6 +25,21 @@ const NewPasswordPage: React.FC = () => {
 		password: null,
 	};
 
+	const inputForm: InputProps[] = [
+		{
+			label: "Kata Sandi Baru",
+			name: "npassword",
+			type: "password",
+			prefix: <BiKey size="20" />,
+		},
+		{
+			label: "Konfirmasi Kata Sandi Baru",
+			name: "cnpassword",
+			type: "password",
+			prefix: <BiKey size="20" />,
+		},
+	];
+
 	const validationSchema = yup.object().shape({
 		npassword: yup
 			.string()
@@ -55,21 +70,6 @@ const NewPasswordPage: React.FC = () => {
 	useEffect(() => {
 		Cookies.get("token") && Router.push("/dashboard");
 	}, []);
-
-	const inputForm: InputProps[] = [
-		{
-			label: "Kata Sandi Baru",
-			name: "npassword",
-			type: "password",
-			prefix: <BiKey size="20" />,
-		},
-		{
-			label: "Konfirmasi Kata Sandi Baru",
-			name: "cnpassword",
-			type: "password",
-			prefix: <BiKey size="20" />,
-		},
-	];
 
 	return (
 		<>

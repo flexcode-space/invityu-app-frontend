@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Cookies from "js-cookie";
 import Router from "next/router";
 import toast from "react-hot-toast";
@@ -31,15 +31,27 @@ const ForgotPasswordPage: React.FC = () => {
 		username: null,
 	};
 
-	const handleUsernameChange = (
-		setFieldValue: FormikValues["setFieldValue"],
-		event: React.ChangeEvent<HTMLInputElement>
-	) => {
-		let value = event.target.value;
-		value = event.target.value.replace(/^0+/, "").toLowerCase();
-		setFieldValue("username", value);
-		setUsernameValue(value);
-	};
+	const inputForm: InputProps[] = [
+		{
+			label: "Nomor HP atau Email",
+			name: "username",
+			type: usernameInputType,
+			prefix: <>{usernameInputPrefix}</>,
+		},
+	];
+
+	const handleUsernameChange = useCallback(
+		(
+			setFieldValue: FormikValues["setFieldValue"],
+			event: React.ChangeEvent<HTMLInputElement>
+		) => {
+			let value = event.target.value;
+			value = event.target.value.replace(/^0+/, "").toLowerCase();
+			setFieldValue("username", value);
+			setUsernameValue(value);
+		},
+		[]
+	);
 
 	const validationSchema = yup.object().shape({
 		username: yup
@@ -82,14 +94,14 @@ const ForgotPasswordPage: React.FC = () => {
 		}, 1000);
 	};
 
-	const randomString = (length: number) => {
+	const randomString = useCallback((length: number) => {
 		const chars =
 			"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		let result = "";
 		for (let i = length; i > 0; --i)
 			result += chars[Math.round(Math.random() * (chars.length - 1))];
 		return result;
-	};
+	}, []);
 
 	useEffect(() => {
 		Cookies.get("token") && Router.push("/dashboard");
@@ -114,15 +126,6 @@ const ForgotPasswordPage: React.FC = () => {
 			)
 		);
 	}, [usernameValue]);
-
-	const inputForm: InputProps[] = [
-		{
-			label: "Nomor HP atau Email",
-			name: "username",
-			type: usernameInputType,
-			prefix: <>{usernameInputPrefix}</>,
-		},
-	];
 
 	return (
 		<>

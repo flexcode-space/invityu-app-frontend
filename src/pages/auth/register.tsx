@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Cookies from "js-cookie";
 import Router from "next/router";
 import toast from "react-hot-toast";
@@ -19,6 +19,7 @@ import Topbar from "@/components/layouts/partials/Topbar";
 import SSOLogin from "@/components/auth/SSOLogin";
 
 import { InputProps } from "@/components/form/type";
+import { SSOCallbackResponseProps } from "./type";
 
 const RegisterPage: React.FC = () => {
 	const [isLoading, setLoading] = useState<boolean>(false);
@@ -35,15 +36,27 @@ const RegisterPage: React.FC = () => {
 		username: null,
 	};
 
-	const handleUsernameChange = (
-		setFieldValue: FormikValues["setFieldValue"],
-		event: React.ChangeEvent<HTMLInputElement>
-	) => {
-		let value = event.target.value;
-		value = event.target.value.replace(/^0+/, "").toLowerCase();
-		setFieldValue("username", value);
-		setUsernameValue(value);
-	};
+	const inputForm: InputProps[] = [
+		{
+			label: "Nomor HP atau Email",
+			name: "username",
+			type: usernameInputType,
+			prefix: <>{usernameInputPrefix}</>,
+		},
+	];
+
+	const handleUsernameChange = useCallback(
+		(
+			setFieldValue: FormikValues["setFieldValue"],
+			event: React.ChangeEvent<HTMLInputElement>
+		) => {
+			let value = event.target.value;
+			value = event.target.value.replace(/^0+/, "").toLowerCase();
+			setFieldValue("username", value);
+			setUsernameValue(value);
+		},
+		[]
+	);
 
 	const validationSchema = yup.object().shape({
 		username: yup
@@ -86,22 +99,22 @@ const RegisterPage: React.FC = () => {
 		}, 1000);
 	};
 
-	const handleSSOCallback = (response: Object) => {
-		console.log(
-			"🚀 ~ file: register.tsx:91 ~ handleSSOCallback ~ response:",
-			response
-		);
-		// TODO: validate data to backend, and if valid set token adn redirect to dashboard
-	};
+	const handleSSOCallback = useCallback(
+		async (response: SSOCallbackResponseProps): Promise<void> => {
+			console.log("🚀 ~ file: register.tsx:95 ~ response:", response);
+			// TODO: validate data to backend, and if valid set token and redirect to dashboard
+		},
+		[]
+	);
 
-	const randomString = (length: number) => {
+	const randomString = useCallback((length: number) => {
 		const chars =
 			"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		let result = "";
 		for (let i = length; i > 0; --i)
 			result += chars[Math.round(Math.random() * (chars.length - 1))];
 		return result;
-	};
+	}, []);
 
 	useEffect(() => {
 		if (!usernameValue) {
@@ -126,15 +139,6 @@ const RegisterPage: React.FC = () => {
 	useEffect(() => {
 		Cookies.get("token") && Router.push("/dashboard");
 	}, []);
-
-	const inputForm: InputProps[] = [
-		{
-			label: "Nomor HP atau Email",
-			name: "username",
-			type: usernameInputType,
-			prefix: <>{usernameInputPrefix}</>,
-		},
-	];
 
 	return (
 		<>
@@ -197,7 +201,9 @@ const RegisterPage: React.FC = () => {
 
 								<div className="flex flex-col space-y-4">
 									<SSOLogin
-										callback={(response: Object) => handleSSOCallback(response)}
+										callback={(response: SSOCallbackResponseProps) =>
+											handleSSOCallback(response)
+										}
 										isLoading={isGoogleLoading}
 									/>
 								</div>

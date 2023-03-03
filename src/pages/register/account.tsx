@@ -36,6 +36,35 @@ const RegisterAccountPage: React.FC = () => {
 		name: null,
 	};
 
+	const inputForm: InputProps[] = [
+		{
+			label: usernameInputType === "email" ? "Email" : "Nomor HP",
+			name: "username",
+			type: usernameInputType,
+			prefix: <>{usernameInputPrefix}</>,
+			isReadOnly: true,
+			value: usernameValue,
+		},
+		{
+			label: "Nama Kamu",
+			name: "name",
+			type: "text",
+			prefix: <BiUser size="20" />,
+		},
+		{
+			label: "Kata Sandi",
+			name: "password",
+			type: "password",
+			prefix: <BiKey size="20" />,
+		},
+		{
+			label: "Konfirmasi Kata Sandi",
+			name: "cpassword",
+			type: "password",
+			prefix: <BiKey size="20" />,
+		},
+	];
+
 	const validationSchema = yup.object().shape({
 		name: yup.string().required("Nama wajib diisi"),
 		password: yup
@@ -87,35 +116,6 @@ const RegisterAccountPage: React.FC = () => {
 			)
 		);
 	}, [usernameValue]);
-
-	const inputForm: InputProps[] = [
-		{
-			label: usernameInputType === "email" ? "Email" : "Nomor HP",
-			name: "username",
-			type: usernameInputType,
-			prefix: <>{usernameInputPrefix}</>,
-			isReadOnly: true,
-			value: usernameValue,
-		},
-		{
-			label: "Nama Kamu",
-			name: "name",
-			type: "text",
-			prefix: <BiUser size="20" />,
-		},
-		{
-			label: "Kata Sandi",
-			name: "password",
-			type: "password",
-			prefix: <BiKey size="20" />,
-		},
-		{
-			label: "Konfirmasi Kata Sandi",
-			name: "cpassword",
-			type: "password",
-			prefix: <BiKey size="20" />,
-		},
-	];
 
 	return (
 		<>

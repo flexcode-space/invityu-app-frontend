@@ -12,6 +12,10 @@ const baseInputStyles = css`
   border-radius: 15px;
   box-shadow: none !important;
 
+  .ant-input {
+    font-family: var(--poppins-font) !important;
+  }
+
   .ant-input[readonly] {
     background-color: #ebf2fc !important;
   }
