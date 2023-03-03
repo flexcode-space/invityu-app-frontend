@@ -214,7 +214,7 @@ const LoginPage: React.FC = () => {
 											<div className="border-t border-primary-100 w-full"></div>
 										</div>
 									)}
-									<div className="flex flex-col space-y-4" data-aos="flip-up">
+									<div className="flex flex-col space-y-4">
 										<SSOLogin
 											callback={(response: SSOCallbackResponseProps) =>
 												handleSSOCallback(response)

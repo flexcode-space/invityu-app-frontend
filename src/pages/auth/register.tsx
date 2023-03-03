@@ -205,7 +205,7 @@ const RegisterPage: React.FC = () => {
 										</div>
 									)}
 
-									<div className="flex flex-col space-y-4" data-aos="flip-up">
+									<div className="flex flex-col space-y-4">
 										<SSOLogin
 											callback={(response: SSOCallbackResponseProps) =>
 												handleSSOCallback(response)
