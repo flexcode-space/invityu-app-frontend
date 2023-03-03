@@ -13,6 +13,7 @@ type ButtonProps = {
 	children: ReactNode;
 	className?: string;
 	type?: "button" | "submit" | "reset" | undefined;
+	[key: string]: any;
 };
 
 const Button: FC<ButtonProps> = ({
@@ -58,15 +59,7 @@ const Button: FC<ButtonProps> = ({
 
 export default Button;
 
-type StyledButtonProps = {
-	isOutline?: boolean;
-	isBlock?: boolean;
-	disabled?: boolean;
-	isLoading?: boolean;
-	color?: string;
-};
-
-const StyledButton = styled.button<StyledButtonProps>`
+const StyledButton = styled.button<ButtonProps>`
 	width: ${({ isBlock }) => (isBlock ? "100%" : "auto")};
 	background-color: ${({ isOutline, color }) =>
 		!isOutline ? color || "var(--bg-primary)" : "#fff"};

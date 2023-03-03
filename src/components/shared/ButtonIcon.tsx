@@ -1,10 +1,10 @@
-import React, { FC, ReactNode } from "react";
+import React, { ReactNode } from "react";
 import InlineLoader from "./InlineLoader";
 import Image from "next/image";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 
-type ButtonIconProps = {
+interface ButtonIconProps {
 	isLoading?: boolean;
 	isOutline?: boolean;
 	isBlock?: boolean;
@@ -14,23 +14,23 @@ type ButtonIconProps = {
 	borderColor?: string;
 	backgroundColor?: string;
 	icon?: string;
-	children: ReactNode;
-	className?: string;
 	type?: "button" | "submit" | "reset" | undefined;
-};
+	children: ReactNode;
+	[key: string]: any;
+}
 
-const ButtonIcon: FC<ButtonIconProps> = ({
-	isLoading,
-	isOutline,
-	isBlock,
+const ButtonIcon: React.FC<ButtonIconProps> = ({
+	isLoading = false,
+	isOutline = false,
+	isBlock = false,
 	onClick,
-	isDisabled,
-	textColor,
-	borderColor,
-	backgroundColor,
+	isDisabled = false,
+	textColor = "#252525",
+	borderColor = "var(--bg-primary-100)",
+	backgroundColor = "#fff",
 	icon,
-	children,
 	type,
+	children,
 	...other
 }) => {
 	return (
@@ -40,7 +40,6 @@ const ButtonIcon: FC<ButtonIconProps> = ({
 					isOutline={isOutline}
 					isBlock={isBlock}
 					disabled={true}
-					isLoading={isLoading}
 					{...other}
 				>
 					<InlineLoader />
@@ -67,29 +66,15 @@ const ButtonIcon: FC<ButtonIconProps> = ({
 
 export default ButtonIcon;
 
-type StyledButtonProps = {
-	isOutline?: boolean;
-	isBlock?: boolean;
-	disabled?: boolean;
-	isLoading?: boolean;
-	textColor?: string;
-	borderColor?: string;
-	backgroundColor?: string;
-};
-
-const StyledButton = styled.button<StyledButtonProps>`
+const StyledButton = styled.button<ButtonIconProps>`
 	display: inline-flex;
 	justify-content: center;
 	gap: 10px;
 	width: ${({ isBlock }) => (isBlock ? "100%" : "auto")};
-	/* background-color: "#fff"; */
-	background-color: ${({ backgroundColor }) => backgroundColor ?? "#fff"};
-	/* color: #252525; */
-	color: ${({ textColor }) => textColor ?? "#252525"};
+	background-color: ${({ backgroundColor }) => backgroundColor};
+	color: ${({ textColor }) => textColor};
 	padding: 12px;
-	/* border: 1px solid var(--bg-primary-100); */
-	border: 1px solid
-		${({ borderColor }) => borderColor ?? "var(--bg-primary-100)"};
+	border: 1px solid ${({ borderColor }) => borderColor};
 	border-radius: 15px;
 	cursor: pointer;
 	font-weight: 500;
