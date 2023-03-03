@@ -1,15 +1,7 @@
-import { ssoProviders } from "@/constant/ssoProviders"
 import NextAuth from "next-auth"
+import { ssoProviders } from "@/constant/ssoProviders"
+import { SSOProviderProps } from "@/components/auth/type";
 
-type SSOProviderProps = {
-  id: string;
-  icon?: string;
-  textColor?: string;
-  borderColo?: string;
-  backgroundColor?: string;
-  is_active: boolean;
-  config: any[];
-};
 
 const getProviderConfigs = (providers: SSOProviderProps[]): any[] => {
   return providers.filter(provider => provider.is_active).flatMap(provider => provider.config);

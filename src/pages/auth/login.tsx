@@ -22,7 +22,7 @@ import SSOLogin from "@/components/auth/SSOLogin";
 import { login } from "@/utils/auth";
 
 import { InputProps } from "@/components/form/type";
-import { SSOCallbackResponseProps } from "./type";
+import { SSOCallbackResponseProps } from "@/components/auth/type";
 
 const LoginPage: React.FC = () => {
 	const [isLoading, setLoading] = useState<boolean>(false);

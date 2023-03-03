@@ -19,7 +19,7 @@ import Topbar from "@/components/layouts/partials/Topbar";
 import SSOLogin from "@/components/auth/SSOLogin";
 
 import { InputProps } from "@/components/form/type";
-import { SSOCallbackResponseProps } from "./type";
+import { SSOCallbackResponseProps } from "@/components/auth/type";
 
 const RegisterPage: React.FC = () => {
 	const [isLoading, setLoading] = useState<boolean>(false);

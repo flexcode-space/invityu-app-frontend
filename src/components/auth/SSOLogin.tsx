@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { signIn, getProviders, useSession } from "next-auth/react";
+
 import ButtonIcon from "../shared/ButtonIcon";
-
 import { ssoProviders } from "@/constant/ssoProviders";
-
-interface SSOLoginProps {
-	callback: (session: any) => void;
-	isLoading?: boolean;
-}
+import { SSOLoginProps } from "./type";
 
 const SSOLogin: React.FC<SSOLoginProps> = ({ callback, isLoading }) => {
 	const [providers, setProviders] = useState<any>();
