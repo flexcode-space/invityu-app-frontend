@@ -23,6 +23,7 @@ import { login } from "@/utils/auth";
 
 import { InputProps } from "@/components/form/type";
 import { SSOCallbackResponseProps } from "@/components/auth/type";
+import { ssoProviders } from "@/constant/ssoProviders";
 
 const LoginPage: React.FC = () => {
 	const [isLoading, setLoading] = useState<boolean>(false);
@@ -33,6 +34,7 @@ const LoginPage: React.FC = () => {
 	const [usernameInputPrefix, setUsernameInputPrefix] =
 		useState<JSX.Element | null>(null);
 
+	const activeSSOProvider = ssoProviders.find((provider) => provider.is_active);
 	const handleRoute = (url: string) => Router.push(url);
 
 	const initialValues = {
@@ -202,20 +204,22 @@ const LoginPage: React.FC = () => {
 									>
 										Masuk
 									</Button>
-									<div className="flex justify-center items-center gap-5 w-full">
-										<div className="border-t border-primary-100 w-full"></div>
-										<div className="text-gray-500">atau</div>
-										<div className="border-t border-primary-100 w-full"></div>
-									</div>
+									{activeSSOProvider && (
+										<div className="flex justify-center items-center gap-5 w-full">
+											<div className="border-t border-primary-100 w-full"></div>
+											<div className="text-gray-500">atau</div>
+											<div className="border-t border-primary-100 w-full"></div>
+										</div>
+									)}
+								</div>
 
-									<div className="flex flex-col space-y-4">
-										<SSOLogin
-											callback={(response: SSOCallbackResponseProps) =>
-												handleSSOCallback(response)
-											}
-											isLoading={isGoogleLoading}
-										/>
-									</div>
+								<div className="flex flex-col space-y-4">
+									<SSOLogin
+										callback={(response: SSOCallbackResponseProps) =>
+											handleSSOCallback(response)
+										}
+										isLoading={isGoogleLoading}
+									/>
 								</div>
 
 								<div className="flex justify-center gap-2 mt-10">

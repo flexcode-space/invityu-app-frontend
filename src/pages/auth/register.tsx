@@ -20,6 +20,7 @@ import SSOLogin from "@/components/auth/SSOLogin";
 
 import { InputProps } from "@/components/form/type";
 import { SSOCallbackResponseProps } from "@/components/auth/type";
+import { ssoProviders } from "@/constant/ssoProviders";
 
 const RegisterPage: React.FC = () => {
 	const [isLoading, setLoading] = useState<boolean>(false);
@@ -30,6 +31,7 @@ const RegisterPage: React.FC = () => {
 	const [usernameInputPrefix, setUsernameInputPrefix] =
 		useState<JSX.Element | null>(null);
 
+	const activeSSOProvider = ssoProviders.find((provider) => provider.is_active);
 	const handleRoute = (url: string) => Router.push(url);
 
 	const initialValues = {
@@ -192,11 +194,13 @@ const RegisterPage: React.FC = () => {
 									>
 										Daftar
 									</Button>
-									<div className="flex justify-center items-center gap-5 w-full">
-										<div className="border-t border-primary-100 w-full"></div>
-										<div className="text-gray-500">atau</div>
-										<div className="border-t border-primary-100 w-full"></div>
-									</div>
+									{activeSSOProvider && (
+										<div className="flex justify-center items-center gap-5 w-full">
+											<div className="border-t border-primary-100 w-full"></div>
+											<div className="text-gray-500">atau</div>
+											<div className="border-t border-primary-100 w-full"></div>
+										</div>
+									)}
 								</div>
 
 								<div className="flex flex-col space-y-4">
