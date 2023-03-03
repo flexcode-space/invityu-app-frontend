@@ -12,12 +12,12 @@ import * as yup from "yup";
 
 import Button from "@/components/shared/Button";
 import BackButton from "@/components/shared/BackButton";
-import ButtonGoogle from "@/components/shared/ButtonGoogle";
 import Container from "@/components/shared/Container";
 import Input from "@/components/form/Input";
 import Image from "@/components/shared/Image";
 import PageHeading from "@/components/layouts/partials/auth/PageHeading";
 import Topbar from "@/components/layouts/partials/Topbar";
+import SSOLogin from "@/components/auth/SSOLogin";
 
 import { login } from "@/utils/auth";
 
@@ -90,9 +90,13 @@ const LoginPage: React.FC = () => {
 		}, 1000);
 	};
 
-	useEffect(() => {
-		Cookies.get("token") && Router.push("/dashboard");
-	}, []);
+	const handleSSOCallback = (response: Object) => {
+		console.log(
+			"🚀 ~ file: register.tsx:91 ~ handleSSOCallback ~ response:",
+			response
+		);
+		// TODO: validate data to backend, and if valid set token adn redirect to dashboard
+	};
 
 	useEffect(() => {
 		if (!usernameValue) {
@@ -113,6 +117,10 @@ const LoginPage: React.FC = () => {
 			)
 		);
 	}, [usernameValue]);
+
+	useEffect(() => {
+		Cookies.get("token") && Router.push("/dashboard");
+	}, []);
 
 	const inputForm: InputProps[] = [
 		{
@@ -181,7 +189,6 @@ const LoginPage: React.FC = () => {
 										Lupa Password?
 									</div>
 								</div>
-								{/* <pre>{JSON.stringify(formik, null, 4)}</pre> */}
 
 								<div className="my-8 space-y-6">
 									<Button
@@ -197,13 +204,15 @@ const LoginPage: React.FC = () => {
 										<div className="text-gray-500">atau</div>
 										<div className="border-t border-primary-100 w-full"></div>
 									</div>
-									<ButtonGoogle
-										type="button"
-										isBlock
-										isLoading={isGoogleLoading}
-									>
-										Lanjutkan dengan Google
-									</ButtonGoogle>
+
+									<div className="flex flex-col space-y-4">
+										<SSOLogin
+											callback={(response: Object) =>
+												handleSSOCallback(response)
+											}
+											isLoading={isGoogleLoading}
+										/>
+									</div>
 								</div>
 
 								<div className="flex justify-center gap-2 mt-10">

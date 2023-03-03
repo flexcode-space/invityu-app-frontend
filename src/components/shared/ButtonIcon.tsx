@@ -4,25 +4,31 @@ import Image from "next/image";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 
-type ButtonGoogleProps = {
+type ButtonIconProps = {
 	isLoading?: boolean;
 	isOutline?: boolean;
 	isBlock?: boolean;
 	onClick?: () => void;
 	isDisabled?: boolean;
-	color?: string;
+	textColor?: string;
+	borderColor?: string;
+	backgroundColor?: string;
+	icon?: string;
 	children: ReactNode;
 	className?: string;
 	type?: "button" | "submit" | "reset" | undefined;
 };
 
-const ButtonGoogle: FC<ButtonGoogleProps> = ({
+const ButtonIcon: FC<ButtonIconProps> = ({
 	isLoading,
 	isOutline,
 	isBlock,
 	onClick,
 	isDisabled,
-	color,
+	textColor,
+	borderColor,
+	backgroundColor,
+	icon,
 	children,
 	type,
 	...other
@@ -34,7 +40,6 @@ const ButtonGoogle: FC<ButtonGoogleProps> = ({
 					isOutline={isOutline}
 					isBlock={isBlock}
 					disabled={true}
-					color={color}
 					isLoading={isLoading}
 					{...other}
 				>
@@ -47,15 +52,12 @@ const ButtonGoogle: FC<ButtonGoogleProps> = ({
 					isBlock={isBlock}
 					onClick={onClick}
 					disabled={isDisabled}
-					color={color}
+					textColor={textColor}
+					borderColor={borderColor}
+					backgroundColor={backgroundColor}
 					{...other}
 				>
-					<Image
-						src="/images/icons/ic-google.svg"
-						width={20}
-						height={15}
-						alt="id"
-					/>{" "}
+					{icon && <Image src={icon} width={20} height={15} alt="id" />}{" "}
 					{children}
 				</StyledButton>
 			)}
@@ -63,14 +65,16 @@ const ButtonGoogle: FC<ButtonGoogleProps> = ({
 	);
 };
 
-export default ButtonGoogle;
+export default ButtonIcon;
 
 type StyledButtonProps = {
 	isOutline?: boolean;
 	isBlock?: boolean;
 	disabled?: boolean;
 	isLoading?: boolean;
-	color?: string;
+	textColor?: string;
+	borderColor?: string;
+	backgroundColor?: string;
 };
 
 const StyledButton = styled.button<StyledButtonProps>`
@@ -78,10 +82,14 @@ const StyledButton = styled.button<StyledButtonProps>`
 	justify-content: center;
 	gap: 10px;
 	width: ${({ isBlock }) => (isBlock ? "100%" : "auto")};
-	background-color: "#fff";
-	color: #252525;
+	/* background-color: "#fff"; */
+	background-color: ${({ backgroundColor }) => backgroundColor ?? "#fff"};
+	/* color: #252525; */
+	color: ${({ textColor }) => textColor ?? "#252525"};
 	padding: 12px;
-	border: 1px solid var(--bg-primary-100);
+	/* border: 1px solid var(--bg-primary-100); */
+	border: 1px solid
+		${({ borderColor }) => borderColor ?? "var(--bg-primary-100)"};
 	border-radius: 15px;
 	cursor: pointer;
 	font-weight: 500;

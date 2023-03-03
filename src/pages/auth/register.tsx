@@ -11,12 +11,12 @@ import * as yup from "yup";
 
 import Button from "@/components/shared/Button";
 import BackButton from "@/components/shared/BackButton";
-import ButtonGoogle from "@/components/shared/ButtonGoogle";
 import Container from "@/components/shared/Container";
 import Input from "@/components/form/Input";
 import Image from "@/components/shared/Image";
 import PageHeading from "@/components/layouts/partials/auth/PageHeading";
 import Topbar from "@/components/layouts/partials/Topbar";
+import SSOLogin from "@/components/auth/SSOLogin";
 
 import { InputProps } from "@/components/form/type";
 
@@ -86,6 +86,14 @@ const RegisterPage: React.FC = () => {
 		}, 1000);
 	};
 
+	const handleSSOCallback = (response: Object) => {
+		console.log(
+			"🚀 ~ file: register.tsx:91 ~ handleSSOCallback ~ response:",
+			response
+		);
+		// TODO: validate data to backend, and if valid set token adn redirect to dashboard
+	};
+
 	const randomString = (length: number) => {
 		const chars =
 			"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -94,10 +102,6 @@ const RegisterPage: React.FC = () => {
 			result += chars[Math.round(Math.random() * (chars.length - 1))];
 		return result;
 	};
-
-	useEffect(() => {
-		Cookies.get("token") && Router.push("/dashboard");
-	}, []);
 
 	useEffect(() => {
 		if (!usernameValue) {
@@ -118,6 +122,10 @@ const RegisterPage: React.FC = () => {
 			)
 		);
 	}, [usernameValue]);
+
+	useEffect(() => {
+		Cookies.get("token") && Router.push("/dashboard");
+	}, []);
 
 	const inputForm: InputProps[] = [
 		{
@@ -185,13 +193,13 @@ const RegisterPage: React.FC = () => {
 										<div className="text-gray-500">atau</div>
 										<div className="border-t border-primary-100 w-full"></div>
 									</div>
-									<ButtonGoogle
-										type="button"
-										isBlock
+								</div>
+
+								<div className="flex flex-col space-y-4">
+									<SSOLogin
+										callback={(response: Object) => handleSSOCallback(response)}
 										isLoading={isGoogleLoading}
-									>
-										Lanjutkan dengan Google
-									</ButtonGoogle>
+									/>
 								</div>
 
 								<div className="flex justify-center gap-2 mt-10">

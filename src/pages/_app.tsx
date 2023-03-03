@@ -1,5 +1,6 @@
-import type { AppProps } from "next/app";
 import Head from "next/head";
+import type { AppProps } from "next/app";
+import { SessionProvider } from "next-auth/react";
 
 import Layout from "@/components/layouts/Layout";
 import ReactHotToast from "@/components/shared/ReactHotToast";
@@ -30,10 +31,12 @@ export default function App({ Component, pageProps }: AppProps) {
 				<meta name="theme-color" content="#ffffff" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<Layout>
-				<ReactHotToast />
-				<Component {...pageProps} />
-			</Layout>
+			<SessionProvider session={pageProps.session}>
+				<Layout>
+					<ReactHotToast />
+					<Component {...pageProps} />
+				</Layout>
+			</SessionProvider>
 		</>
 	);
 }
