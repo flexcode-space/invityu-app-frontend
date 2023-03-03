@@ -8,7 +8,11 @@ import { SSOLoginProps } from "./type";
 const SSOLogin: React.FC<SSOLoginProps> = ({ callback, isLoading }) => {
 	const [providers, setProviders] = useState<any>();
 
-	const { data: session } = useSession();
+	const { data: session, status } = useSession();
+
+	console.log("🚀 ~ file: SSOLogin.tsx:12 ~ session:", session);
+	console.log("🚀 ~ file: SSOLogin.tsx:12 ~ status:", status);
+
 	session && callback(session);
 
 	const handleLogin = (id: string) => {
