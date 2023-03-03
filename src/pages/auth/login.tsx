@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Cookies from "js-cookie";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
+import LoadingOverlay from "react-loading-overlay-ts";
 import toast from "react-hot-toast";
 
 import { BiKey } from "react-icons/bi";
@@ -33,6 +34,9 @@ const LoginPage: React.FC = () => {
 	const [usernameInputType, setUsernameInputType] = useState<string>("text");
 	const [usernameInputPrefix, setUsernameInputPrefix] =
 		useState<JSX.Element | null>(null);
+
+	const router = useRouter();
+	const { error } = router.query;
 
 	const activeSSOProvider = ssoProviders.find((provider) => provider.is_active);
 	const handleRoute = (url: string) => Router.push(url);
@@ -113,7 +117,16 @@ const LoginPage: React.FC = () => {
 	const handleSSOCallback = useCallback(
 		async (response: SSOCallbackResponseProps): Promise<void> => {
 			console.log("🚀 ~ file: login.tsx:98 ~ response:", response);
+
 			// TODO: validate data to backend, and if valid set token and redirect to dashboard
+			setTimeout(() => {
+				const token = "YXVsaWFuemE=";
+				console.log("🚀 ~ file: login.tsx:123 ~ setTimeout ~ token:", token);
+
+				if (token) {
+					login({ token });
+				}
+			}, 5000);
 		},
 		[]
 	);
@@ -139,107 +152,118 @@ const LoginPage: React.FC = () => {
 	}, [usernameValue]);
 
 	useEffect(() => {
+		if (error) toast.error("Terjadi kesalahan. Silahkan coba kembali");
+	}, [error]);
+
+	useEffect(() => {
 		Cookies.get("token") && Router.push("/dashboard");
 	}, []);
 
 	return (
-		<>
-			<NextSeo
-				title="Masuk - Invityu"
-				description="Selamat Datang di Invityu"
-				themeColor="#ffffff"
-			/>
-			<Topbar>
-				<BackButton route="/" />
-			</Topbar>
-			<Container>
-				<PageHeading
-					title="Masuk"
-					description="Masuk ke akunmu untuk melanjutkan"
+		<LoadingOverlay
+			active={isGoogleLoading}
+			spinner
+			text="Mohon tunggu..."
+			className="h-screen"
+		>
+			<>
+				<NextSeo
+					title="Masuk - Invityu"
+					description="Selamat Datang di Invityu"
+					themeColor="#ffffff"
 				/>
-				<Formik
-					initialValues={initialValues}
-					validationSchema={validationSchema}
-					onSubmit={onSubmit}
-				>
-					{(formik) => {
-						return (
-							<Form className="mb-10">
-								{inputForm.map((item, key) => (
-									<div key={key}>
-										<Field name={item?.name}>
-											{({ field, form }: { field: any; form: any }) => (
-												<Input
-													label={item?.label}
-													name={item?.name}
-													type={item?.type}
-													prefix={item?.prefix}
-													suffix={item?.suffix}
-													onChange={(
-														event: React.ChangeEvent<HTMLInputElement>
-													) =>
-														item?.name === "username" &&
-														handleUsernameChange(form.setFieldValue, event)
-													}
-												/>
-											)}
-										</Field>
-									</div>
-								))}
-								<div className="flex justify-end">
-									<div
-										className="text-right text-primary cursor-pointer"
-										onClick={() => handleRoute("/auth/forgot-password")}
-									>
-										Lupa Password?
-									</div>
-								</div>
-
-								<div className="my-8 space-y-6">
-									<Button
-										type="submit"
-										isDisabled={!(formik.isValid && formik.dirty)}
-										isBlock
-										isLoading={isLoading}
-									>
-										Masuk
-									</Button>
-									{activeSSOProvider && (
-										<div
-											className="flex justify-center items-center gap-5 w-full"
-											data-aos="flip-up"
-										>
-											<div className="border-t border-primary-100 w-full"></div>
-											<div className="text-gray-500">atau</div>
-											<div className="border-t border-primary-100 w-full"></div>
+				<Topbar>
+					<BackButton route="/" />
+				</Topbar>
+				<Container>
+					<PageHeading
+						title="Masuk"
+						description="Masuk ke akunmu untuk melanjutkan"
+					/>
+					<Formik
+						initialValues={initialValues}
+						validationSchema={validationSchema}
+						onSubmit={onSubmit}
+					>
+						{(formik) => {
+							return (
+								<Form className="mb-10">
+									{inputForm.map((item, key) => (
+										<div key={key}>
+											<Field name={item?.name}>
+												{({ field, form }: { field: any; form: any }) => (
+													<Input
+														label={item?.label}
+														name={item?.name}
+														type={item?.type}
+														prefix={item?.prefix}
+														suffix={item?.suffix}
+														onChange={(
+															event: React.ChangeEvent<HTMLInputElement>
+														) =>
+															item?.name === "username" &&
+															handleUsernameChange(form.setFieldValue, event)
+														}
+													/>
+												)}
+											</Field>
 										</div>
-									)}
-									<div className="flex flex-col space-y-4">
-										<SSOLogin
-											callback={(response: SSOCallbackResponseProps) =>
-												handleSSOCallback(response)
-											}
-											isLoading={isGoogleLoading}
-										/>
+									))}
+									<div className="flex justify-end">
+										<div
+											className="text-right text-primary cursor-pointer"
+											onClick={() => handleRoute("/auth/forgot-password")}
+										>
+											Lupa Password?
+										</div>
 									</div>
-								</div>
 
-								<div className="flex justify-center gap-2 mt-10">
-									Belum punya akun?{" "}
-									<div
-										className="text-right text-primary font-medium cursor-pointer"
-										onClick={() => handleRoute("/auth/register")}
-									>
-										{" "}
-										Daftar yuk!
+									<div className="my-8 space-y-6">
+										<Button
+											type="submit"
+											isDisabled={!(formik.isValid && formik.dirty)}
+											isBlock
+											isLoading={isLoading}
+										>
+											Masuk
+										</Button>
+										{activeSSOProvider && (
+											<div
+												className="flex justify-center items-center gap-5 w-full"
+												data-aos="flip-up"
+											>
+												<div className="border-t border-primary-100 w-full"></div>
+												<div className="text-gray-500">atau</div>
+												<div className="border-t border-primary-100 w-full"></div>
+											</div>
+										)}
+										<div className="flex flex-col space-y-4">
+											<SSOLogin
+												callback={(response: SSOCallbackResponseProps) =>
+													handleSSOCallback(response)
+												}
+												setIsLoading={setGoogleLoading}
+											/>
+										</div>
 									</div>
-								</div>
-							</Form>
-						);
-					}}
-				</Formik>
-			</Container>
-		</>
+
+									<div className="flex justify-center gap-2 mt-10">
+										Belum punya akun?{" "}
+										<div
+											className="text-right text-primary font-medium cursor-pointer"
+											onClick={() => handleRoute("/auth/register")}
+										>
+											{" "}
+											Daftar yuk!
+										</div>
+									</div>
+								</Form>
+							);
+						}}
+					</Formik>
+				</Container>
+			</>
+		</LoadingOverlay>
 	);
 };
 

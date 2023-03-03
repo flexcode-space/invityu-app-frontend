@@ -10,7 +10,7 @@ type ButtonProps = {
 	onClick?: () => void;
 	isDisabled?: boolean;
 	color?: string;
-	children: ReactNode;
+	children?: ReactNode;
 	className?: string;
 	type?: "button" | "submit" | "reset" | undefined;
 	[key: string]: any;

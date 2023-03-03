@@ -1,19 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { signIn, getProviders, useSession } from "next-auth/react";
+import {
+	signIn,
+	getProviders,
+	useSession,
+	LiteralUnion,
+	ClientSafeProvider,
+} from "next-auth/react";
+import { BuiltInProviderType } from "next-auth/providers";
 
 import ButtonIcon from "../shared/ButtonIcon";
 import { ssoProviders } from "@/constant/ssoProviders";
 import { SSOLoginProps } from "./type";
 
-const SSOLogin: React.FC<SSOLoginProps> = ({ callback, isLoading }) => {
-	const [providers, setProviders] = useState<any>();
+const SSOLogin: React.FC<SSOLoginProps> = ({ callback, setIsLoading }) => {
+	const [providers, setProviders] = useState<Record<
+		LiteralUnion<BuiltInProviderType, string>,
+		ClientSafeProvider
+	> | null>();
 
 	const { data: session, status } = useSession();
 
 	console.log("🚀 ~ file: SSOLogin.tsx:12 ~ session:", session);
 	console.log("🚀 ~ file: SSOLogin.tsx:12 ~ status:", status);
 
-	session && callback(session);
+	if (session) {
+		callback(session);
+		setIsLoading(true);
+	}
 
 	const handleLogin = (id: string) => {
 		signIn(id);
@@ -47,8 +60,9 @@ const SSOLogin: React.FC<SSOLoginProps> = ({ callback, isLoading }) => {
 								backgroundColor={ssoProvider?.backgroundColor}
 								type="button"
 								isBlock
-								isLoading={isLoading}
-								onClick={() => handleLogin(provider.id)}
+								onClick={() => {
+									handleLogin(provider.id);
+								}}
 							>
 								Lanjutkan dengan {provider.name}
 							</ButtonIcon>

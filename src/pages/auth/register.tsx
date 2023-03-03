@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Cookies from "js-cookie";
 import Router from "next/router";
+import LoadingOverlay from "react-loading-overlay-ts";
 import toast from "react-hot-toast";
 
 import { HiOutlineMail as EmailIcon } from "react-icons/hi";
@@ -21,6 +22,8 @@ import SSOLogin from "@/components/auth/SSOLogin";
 import { InputProps } from "@/components/form/type";
 import { SSOCallbackResponseProps } from "@/components/auth/type";
 import { ssoProviders } from "@/constant/ssoProviders";
+
+import { login } from "@/utils/auth";
 
 const RegisterPage: React.FC = () => {
 	const [isLoading, setLoading] = useState<boolean>(false);
@@ -103,8 +106,18 @@ const RegisterPage: React.FC = () => {
 
 	const handleSSOCallback = useCallback(
 		async (response: SSOCallbackResponseProps): Promise<void> => {
-			console.log("🚀 ~ file: register.tsx:95 ~ response:", response);
+			console.log("🚀 ~ file: register.tsx:108 ~ response:", response);
+			// setGoogleLoading(true);
+
 			// TODO: validate data to backend, and if valid set token and redirect to dashboard
+			setTimeout(() => {
+				const token = "YXVsaWFuemE=";
+				console.log("🚀 ~ file: register.tsx:113 ~ setTimeout ~ token:", token);
+
+				if (token) {
+					login({ token });
+				}
+			}, 5000);
 		},
 		[]
 	);
@@ -143,111 +156,120 @@ const RegisterPage: React.FC = () => {
 	}, []);
 
 	return (
-		<>
-			<NextSeo
-				title="Daftar - Invityu"
-				description="Selamat Datang di Invityu"
-				themeColor="#ffffff"
-			/>
-			<Topbar>
-				<BackButton route="/" />
-			</Topbar>
-			<Container>
-				<PageHeading
-					title="Daftar"
-					description="Daftarkan akunmu untuk melanjutkan"
+		<LoadingOverlay
+			active={isGoogleLoading}
+			spinner
+			text="Mohon tunggu..."
+			className="h-screen"
+		>
+			<>
+				<NextSeo
+					title="Daftar - Invityu"
+					description="Selamat Datang di Invityu"
+					themeColor="#ffffff"
 				/>
-				<Formik
-					initialValues={initialValues}
-					validationSchema={validationSchema}
-					onSubmit={onSubmit}
-				>
-					{(formik) => {
-						return (
-							<Form className="mb-10">
-								{inputForm.map((item, key) => (
-									<div key={key}>
-										<Field name={item?.name}>
-											{({ field, form }: { field: any; form: any }) => (
-												<Input
-													label={item?.label}
-													name={item?.name}
-													type={item?.type}
-													prefix={item?.prefix}
-													suffix={item?.suffix}
-													onChange={(
-														event: React.ChangeEvent<HTMLInputElement>
-													) => handleUsernameChange(form.setFieldValue, event)}
-												/>
-											)}
-										</Field>
-									</div>
-								))}
-								{/* <pre>{JSON.stringify(formik, null, 4)}</pre> */}
-
-								<div className="my-8 space-y-6">
-									<Button
-										type="submit"
-										isDisabled={!(formik.isValid && formik.dirty)}
-										isBlock
-										isLoading={isLoading}
-									>
-										Daftar
-									</Button>
-									{activeSSOProvider && (
-										<div
-											className="flex justify-center items-center gap-5 w-full"
-											data-aos="flip-up"
-										>
-											<div className="border-t border-primary-100 w-full"></div>
-											<div className="text-gray-500">atau</div>
-											<div className="border-t border-primary-100 w-full"></div>
+				<Topbar>
+					<BackButton route="/" />
+				</Topbar>
+				<Container>
+					<PageHeading
+						title="Daftar"
+						description="Daftarkan akunmu untuk melanjutkan"
+					/>
+					<Formik
+						initialValues={initialValues}
+						validationSchema={validationSchema}
+						onSubmit={onSubmit}
+					>
+						{(formik) => {
+							return (
+								<Form className="mb-10">
+									{inputForm.map((item, key) => (
+										<div key={key}>
+											<Field name={item?.name}>
+												{({ field, form }: { field: any; form: any }) => (
+													<Input
+														label={item?.label}
+														name={item?.name}
+														type={item?.type}
+														prefix={item?.prefix}
+														suffix={item?.suffix}
+														onChange={(
+															event: React.ChangeEvent<HTMLInputElement>
+														) =>
+															handleUsernameChange(form.setFieldValue, event)
+														}
+													/>
+												)}
+											</Field>
 										</div>
-									)}
+									))}
+									{/* <pre>{JSON.stringify(formik, null, 4)}</pre> */}
 
-									<div className="flex flex-col space-y-4">
-										<SSOLogin
-											callback={(response: SSOCallbackResponseProps) =>
-												handleSSOCallback(response)
-											}
-											isLoading={isGoogleLoading}
-										/>
+									<div className="my-8 space-y-6">
+										<Button
+											type="submit"
+											isDisabled={!(formik.isValid && formik.dirty)}
+											isBlock
+											isLoading={isLoading}
+										>
+											Daftar
+										</Button>
+										{activeSSOProvider && (
+											<div
+												className="flex justify-center items-center gap-5 w-full"
+												data-aos="flip-up"
+											>
+												<div className="border-t border-primary-100 w-full"></div>
+												<div className="text-gray-500">atau</div>
+												<div className="border-t border-primary-100 w-full"></div>
+											</div>
+										)}
+
+										<div className="flex flex-col space-y-4">
+											<SSOLogin
+												callback={(response: SSOCallbackResponseProps) =>
+													handleSSOCallback(response)
+												}
+												setIsLoading={setGoogleLoading}
+											/>
+										</div>
 									</div>
-								</div>
 
-								<div className="flex justify-center gap-2 mt-10">
-									Sudah punya akun?{" "}
-									<div
-										className=" text-primary font-medium cursor-pointer"
-										onClick={() => handleRoute("/auth/login")}
-									>
-										{" "}
-										Masuk
+									<div className="flex justify-center gap-2 mt-10">
+										Sudah punya akun?{" "}
+										<div
+											className=" text-primary font-medium cursor-pointer"
+											onClick={() => handleRoute("/auth/login")}
+										>
+											{" "}
+											Masuk
+										</div>
 									</div>
-								</div>
 
-								<div className="text-center text-sm text-gray-500 mt-12">
-									Dengan mendaftar, saya menyetujui{" "}
-									<span
-										className=" text-primary-600 font-medium cursor-pointer"
-										onClick={() => handleRoute("/terms")}
-									>
-										Syarat dan Ketentuan
-									</span>{" "}
-									serta{" "}
-									<span
-										className=" text-primary-600 font-medium cursor-pointer"
-										onClick={() => handleRoute("/privacy")}
-									>
-										Kebijakan Privasi
-									</span>
-								</div>
-							</Form>
-						);
-					}}
-				</Formik>
-			</Container>
-		</>
+									<div className="text-center text-sm text-gray-500 mt-12">
+										Dengan mendaftar, saya menyetujui{" "}
+										<span
+											className=" text-primary-600 font-medium cursor-pointer"
+											onClick={() => handleRoute("/terms")}
+										>
+											Syarat dan Ketentuan
+										</span>{" "}
+										serta{" "}
+										<span
+											className=" text-primary-600 font-medium cursor-pointer"
+											onClick={() => handleRoute("/privacy")}
+										>
+											Kebijakan Privasi
+										</span>
+									</div>
+								</Form>
+							);
+						}}
+					</Formik>
+				</Container>
+			</>
+		</LoadingOverlay>
 	);
 };
 

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Router from "next/router";
 import nextCookie from "next-cookies";
 import Cookie from "js-cookie";
+import { signOut } from "next-auth/react";
 
 export const login = ({ token }: { token: string }): void => {
 	Cookie.set("token", token, { expires: 30 });
@@ -24,12 +25,16 @@ export const auth = (ctx: any): string => {
 	return token as string;
 };
 
-export const logout = (): void => {
+export const logout = async () => {
 	Cookie.remove("token");
-	Cookie.remove("invitation_id");
+	// Cookie.remove("invitation_id");
+
 	// to support logging out from all windows
 	window.localStorage.setItem("logout", Date.now().toString());
-	Router.push("/auth/login");
+	// Router.push("/auth/login");
+
+	const status = await signOut();
+	status && Router.push("/auth/login");
 };
 
 export const protectedRoute = (WrappedComponent: any): any => {

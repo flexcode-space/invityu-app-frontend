@@ -1,6 +1,6 @@
 export interface SSOLoginProps {
   callback: (session: any) => void;
-  isLoading?: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export type SSOProviderProps = {
