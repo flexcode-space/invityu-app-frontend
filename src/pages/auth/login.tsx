@@ -205,21 +205,23 @@ const LoginPage: React.FC = () => {
 										Masuk
 									</Button>
 									{activeSSOProvider && (
-										<div className="flex justify-center items-center gap-5 w-full">
+										<div
+											className="flex justify-center items-center gap-5 w-full"
+											data-aos="flip-up"
+										>
 											<div className="border-t border-primary-100 w-full"></div>
 											<div className="text-gray-500">atau</div>
 											<div className="border-t border-primary-100 w-full"></div>
 										</div>
 									)}
-								</div>
-
-								<div className="flex flex-col space-y-4">
-									<SSOLogin
-										callback={(response: SSOCallbackResponseProps) =>
-											handleSSOCallback(response)
-										}
-										isLoading={isGoogleLoading}
-									/>
+									<div className="flex flex-col space-y-4" data-aos="flip-up">
+										<SSOLogin
+											callback={(response: SSOCallbackResponseProps) =>
+												handleSSOCallback(response)
+											}
+											isLoading={isGoogleLoading}
+										/>
+									</div>
 								</div>
 
 								<div className="flex justify-center gap-2 mt-10">

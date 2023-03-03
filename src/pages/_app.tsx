@@ -1,16 +1,26 @@
+import { useEffect } from "react";
 import Head from "next/head";
-import type { AppProps } from "next/app";
+import AOS from "aos";
 import { SessionProvider } from "next-auth/react";
+import "tailwindcss/tailwind.css";
 
 import Layout from "@/components/layouts/Layout";
 import ReactHotToast from "@/components/shared/ReactHotToast";
 
 import { jakartaSans, poppins } from "@/styles/fonts";
 
+import "aos/dist/aos.css";
 import "@/styles/globals.css";
-import "tailwindcss/tailwind.css";
+import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
+	useEffect(() => {
+		AOS.init({
+			duration: 1000,
+			delay: 100,
+		});
+	}, []);
+
 	return (
 		<>
 			<style jsx global>
