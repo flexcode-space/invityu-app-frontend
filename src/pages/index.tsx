@@ -19,7 +19,7 @@ export default function Home() {
 			<NextSeo
 				title="Selamat Datang di Invityu - Invityu"
 				description="Selamat Datang di Invityu"
-				themeColor="var(--bg-primary-600)"
+				themeColor="#ebf2fc"
 			/>
 			<StyledWalkthrough>
 				<StyledTopContainer>
@@ -37,9 +37,8 @@ export default function Home() {
 				<StyledMiddleContainer />
 				<StyledBottomContainer>
 					<StyledCentered className="px-8">
-						<div className="px-8 py-5 space-y-3">
-							<h1 className="text-2xl font-medium text-primary-600">Invityu</h1>
-							<p className="text-lg font-normal mb-1 sm:mb-5 text-gray-600">
+						<div className="px-8 my-10">
+							<p className="text-lg font-normal sm:mb-5 text-gray-600">
 								Buat undangan digital untuk beragam kebutuhan acaramu
 							</p>
 						</div>
@@ -62,16 +61,6 @@ export default function Home() {
 						</div>
 					</StyledCentered>
 				</StyledBottomContainer>
-				<StyledFooterContainer>
-					<StyledCentered>
-						<div className="text-center text-gray-400">
-							Powered by{" "}
-							<a href="https://flexcode.co.id" target={"new"}>
-								FlexCode
-							</a>
-						</div>
-					</StyledCentered>
-				</StyledFooterContainer>
 			</StyledWalkthrough>
 		</>
 	);
@@ -105,14 +94,9 @@ const StyledMiddleContainer = styled.div`
 
 const StyledBottomContainer = styled.div`
 	background-color: #fff;
+	margin-top: 1rem;
 	height: 35%;
 	top: 55%;
-`;
-
-const StyledFooterContainer = styled.div`
-	background-color: #fff;
-	height: 10%;
-	top: 90%;
 `;
 
 const StyledCentered = styled.div`
