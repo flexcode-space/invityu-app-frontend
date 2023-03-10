@@ -167,7 +167,7 @@ const RegisterPage: React.FC = () => {
 				<NextSeo
 					title="Daftar - Invityu"
 					description="Selamat Datang di Invityu"
-					themeColor="#ffffff"
+					themeColor="#fafafc"
 				/>
 				<StyledAuthPage>
 					<Container>

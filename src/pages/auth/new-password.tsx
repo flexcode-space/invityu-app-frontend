@@ -75,7 +75,7 @@ const NewPasswordPage: React.FC = () => {
 			<NextSeo
 				title="Buat Kata Sandi - Invityu"
 				description="Selamat Datang di Invityu"
-				themeColor="#ffffff"
+				themeColor="#fafafc"
 			/>
 			<StyledAuthPage>
 				<Container>

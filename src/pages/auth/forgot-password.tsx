@@ -132,7 +132,7 @@ const ForgotPasswordPage: React.FC = () => {
 			<NextSeo
 				title="Reset Password - Invityu"
 				description="Selamat Datang di Invityu"
-				themeColor="#ffffff"
+				themeColor="#fafafc"
 			/>
 			<StyledAuthPage>
 				<Container>

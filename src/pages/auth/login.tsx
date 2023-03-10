@@ -169,7 +169,7 @@ const LoginPage: React.FC = () => {
 				<NextSeo
 					title="Masuk - Invityu"
 					description="Selamat Datang di Invityu"
-					themeColor="#ffffff"
+					themeColor="#fafafc"
 				/>
 				<StyledAuthPage>
 					<Container>

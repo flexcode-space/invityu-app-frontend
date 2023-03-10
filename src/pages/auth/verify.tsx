@@ -83,7 +83,7 @@ const VerifyPage = () => {
 					<NextSeo
 						title="Verifikasi - Invityu"
 						description="Selamat Datang di Invityu"
-						themeColor="#ffffff"
+						themeColor="#fafafc"
 					/>
 					<StyledAuthPage>
 						<Container>
