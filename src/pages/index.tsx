@@ -21,64 +21,109 @@ export default function Home() {
 				description="Selamat Datang di Invityu"
 				themeColor="var(--bg-primary-600)"
 			/>
-			<div className="h-[calc(100vh-100px)] pb-10">
-				<div className="flex justify-center items-center h-full bg-primary-600">
-					<Image
-						src="/images/illustrations/welcome.svg"
-						className="mb-72 p-4"
-						width={350}
-						height={300}
-						alt="welcome"
-						loading="eager"
-						priority
-					/>
-				</div>
-				<StyledFormContainer>
-					<div className="mb-2 space-y-8 text-center">
-						<div className="space-y-3">
-							<h1 className="text-xl font-medium">
-								Selamat datang di Invityu!
-							</h1>
-							<p className="text-base font-normal mb-1 sm:mb-5 text-gray-700">
+			<StyledWalkthrough>
+				<StyledTopContainer>
+					<StyledCentered>
+						<Image
+							src="/images/illustrations/welcome-page.svg"
+							width={220}
+							height={220}
+							alt="welcome"
+							loading="eager"
+							priority
+						/>
+					</StyledCentered>
+				</StyledTopContainer>
+				<StyledMiddleContainer />
+				<StyledBottomContainer>
+					<StyledCentered className="px-8">
+						<div className="px-8 py-5 space-y-3">
+							<h1 className="text-2xl font-medium text-primary-600">Invityu</h1>
+							<p className="text-lg font-normal mb-1 sm:mb-5 text-gray-600">
 								Buat undangan digital untuk beragam kebutuhan acaramu
 							</p>
 						</div>
-						<div className="flex flex-col space-y-5">
-							<Button isBlock onClick={() => handleRoute("/auth/register")}>
-								Belum punya akun ? Daftar yuk!
+						<div className="my-3">
+							<Button
+								className="mb-4"
+								isBlock
+								onClick={() => handleRoute("/auth/register")}
+							>
+								Buat Akun
 							</Button>
 							<Button
 								isOutline
 								isBlock
+								color="#C7D7FF"
 								onClick={() => handleRoute("/auth/login")}
 							>
-								Masuk
+								Login
 							</Button>
 						</div>
-					</div>
-				</StyledFormContainer>
-			</div>
+					</StyledCentered>
+				</StyledBottomContainer>
+				<StyledFooterContainer>
+					<StyledCentered>
+						<div className="text-center text-gray-400">
+							Powered by{" "}
+							<a href="https://flexcode.co.id" target={"new"}>
+								FlexCode
+							</a>
+						</div>
+					</StyledCentered>
+				</StyledFooterContainer>
+			</StyledWalkthrough>
 		</>
 	);
 }
 
-const StyledFormContainer = styled.div`
-	z-index: 3;
-	position: relative;
+const StyledWalkthrough = styled.div`
 	background-color: #fff;
-	padding: 2.5rem 1.5rem;
-	/* margin-top: -50px; */
-	box-shadow: rgb(108 114 124 / 10%) 0px -1px 4px 0px;
-	border-top-left-radius: 1.2rem;
-	border-top-right-radius: 1.2rem;
 
-	position: fixed;
-	transition-duration: 500ms;
+	> div {
+		overflow: hidden;
+		width: 100%;
+		max-width: 480px;
+		position: fixed;
+		z-index: 1;
+	}
+`;
+
+const StyledTopContainer = styled.div`
+	background-color: #ebf2fc;
+	height: 50%;
+	top: 0;
+`;
+
+const StyledMiddleContainer = styled.div`
+	height: 5%;
+	top: 50%;
+	background-color: #ebf2fc;
+	border-bottom-right-radius: 50%;
+	border-bottom-left-radius: 50%;
+`;
+
+const StyledBottomContainer = styled.div`
+	background-color: #fff;
+	height: 35%;
+	top: 55%;
+`;
+
+const StyledFooterContainer = styled.div`
+	background-color: #fff;
+	height: 10%;
+	top: 90%;
+`;
+
+const StyledCentered = styled.div`
 	width: 100%;
-	height: auto;
-	bottom: 0px;
-	left: 0px;
-	right: 0px;
-	max-width: 480px;
-	margin: 0px auto;
+	text-align: center;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+	div {
+		text-align: -webkit-center;
+	}
 `;
