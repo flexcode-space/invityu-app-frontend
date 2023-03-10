@@ -6,7 +6,7 @@ export const ssoProviders = [
     id: "google",
     icon: "/images/icons/ic-google.svg",
     textColor: "#252525",
-    borderColor: "var(--bg-primary-100)",
+    borderColor: "#ff948b",
     backgroundColor: "#fff",
     is_active: true,
     config: [
