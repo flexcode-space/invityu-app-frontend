@@ -18,12 +18,8 @@ const PageHeading: React.FC<Props> = ({
 	...others
 }) => {
 	return (
-		<div
-			className="flex flex-col items-center justify-center text-center mt-5 mb-10 space-y-2"
-			style={style}
-			{...others}
-		>
-			<h1 className="text-2xl font-medium mt-2">{title}</h1>
+		<div className="flex flex-col my-10 space-y-2" style={style} {...others}>
+			<h1 className="text-2xl text-primary-600 font-medium mt-2">{title}</h1>
 			<div className="text-gray-500">
 				{description}
 				{username && (

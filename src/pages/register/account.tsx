@@ -11,14 +11,13 @@ import { NextSeo } from "next-seo";
 import * as yup from "yup";
 
 import Button from "@/components/shared/Button";
-import BackButton from "@/components/shared/BackButton";
 import Container from "@/components/shared/Container";
 import Input from "@/components/form/Input";
 import Image from "@/components/shared/Image";
 import PageHeading from "@/components/layouts/partials/auth/PageHeading";
-import Topbar from "@/components/layouts/partials/Topbar";
 
 import { InputProps } from "@/components/form/type";
+import { StyledAuthPage } from "@/styles/auth";
 
 const RegisterAccountPage: React.FC = () => {
 	const [isLoading, setLoading] = useState<boolean>(false);
@@ -124,51 +123,50 @@ const RegisterAccountPage: React.FC = () => {
 				description="Selamat Datang di Invityu"
 				themeColor="#ffffff"
 			/>
-			<Topbar>
-				<BackButton route="/auth/register" />
-			</Topbar>
-			<Container>
-				<PageHeading
-					title="Buat Kata Sandi"
-					description="Kata sandi digunakan untuk meningkatkan keamanan transaksi"
-				/>
-				<Formik
-					initialValues={initialValues}
-					validationSchema={validationSchema}
-					onSubmit={onSubmit}
-				>
-					{(formik) => {
-						return (
-							<Form className="mb-10">
-								{inputForm.map((item, key) => (
-									<div key={key}>
-										<Input
-											label={item?.label}
-											name={item?.name}
-											type={item?.type}
-											prefix={item?.prefix}
-											suffix={item?.suffix}
-											isReadOnly={item?.isReadOnly}
-											value={item?.value}
-										/>
-									</div>
-								))}
+			<StyledAuthPage>
+				<Container>
+					<PageHeading
+						title="Buat Kata Sandi"
+						description="Kata sandi digunakan untuk meningkatkan keamanan transaksi"
+					/>
+					<Formik
+						initialValues={initialValues}
+						validationSchema={validationSchema}
+						onSubmit={onSubmit}
+					>
+						{(formik) => {
+							return (
+								<Form className="mb-10">
+									{inputForm.map((item, key) => (
+										<div key={key}>
+											<Input
+												label={item?.label}
+												name={item?.name}
+												type={item?.type}
+												prefix={item?.prefix}
+												suffix={item?.suffix}
+												isReadOnly={item?.isReadOnly}
+												value={item?.value}
+											/>
+										</div>
+									))}
 
-								<div className="my-8 space-y-6">
-									<Button
-										type="submit"
-										isDisabled={!(formik.isValid && formik.dirty)}
-										isBlock
-										isLoading={isLoading}
-									>
-										Simpan & Lanjutkan
-									</Button>
-								</div>
-							</Form>
-						);
-					}}
-				</Formik>
-			</Container>
+									<div className="my-8 space-y-6">
+										<Button
+											type="submit"
+											isDisabled={!(formik.isValid && formik.dirty)}
+											isBlock
+											isLoading={isLoading}
+										>
+											Simpan & Lanjutkan
+										</Button>
+									</div>
+								</Form>
+							);
+						}}
+					</Formik>
+				</Container>
+			</StyledAuthPage>
 		</>
 	);
 };

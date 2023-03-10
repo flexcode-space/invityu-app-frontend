@@ -74,7 +74,7 @@ const StyledButton = styled.button<ButtonIconProps>`
 	background-color: ${({ backgroundColor }) => backgroundColor};
 	color: ${({ textColor }) => textColor};
 	padding: 12px;
-	border: 1px solid ${({ borderColor }) => borderColor};
+	border: 2px solid ${({ borderColor }) => borderColor};
 	border-radius: 15px;
 	cursor: pointer;
 	font-weight: 500;

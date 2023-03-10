@@ -15,9 +15,9 @@ import Container from "@/components/shared/Container";
 import Input from "@/components/form/Input";
 import Image from "@/components/shared/Image";
 import PageHeading from "@/components/layouts/partials/auth/PageHeading";
-import Topbar from "@/components/layouts/partials/Topbar";
 
 import { InputProps } from "@/components/form/type";
+import { StyledAuthPage } from "@/styles/auth";
 
 const ForgotPasswordPage: React.FC = () => {
 	const [isLoading, setLoading] = useState<boolean>(false);
@@ -134,55 +134,57 @@ const ForgotPasswordPage: React.FC = () => {
 				description="Selamat Datang di Invityu"
 				themeColor="#ffffff"
 			/>
-			<Topbar>
-				<BackButton route="/" />
-			</Topbar>
-			<Container>
-				<PageHeading
-					title="Lupa Kata Sandi?"
-					description="Masukkan nomor HP atau email yang terdaftar"
-				/>
-				<Formik
-					initialValues={initialValues}
-					validationSchema={validationSchema}
-					onSubmit={onSubmit}
-				>
-					{(formik) => {
-						return (
-							<Form className="mb-10">
-								{inputForm.map((item, key) => (
-									<div key={key}>
-										<Field name={item?.name}>
-											{({ field, form }: { field: any; form: any }) => (
-												<Input
-													label={item?.label}
-													name={item?.name}
-													type={item?.type}
-													prefix={item?.prefix}
-													suffix={item?.suffix}
-													onChange={(
-														event: React.ChangeEvent<HTMLInputElement>
-													) => handleUsernameChange(form.setFieldValue, event)}
-												/>
-											)}
-										</Field>
+			<StyledAuthPage>
+				<Container>
+					<BackButton route="/" />
+					<PageHeading
+						title="Lupa Kata Sandi?"
+						description="Masukkan nomor HP atau email yang terdaftar"
+					/>
+					<Formik
+						initialValues={initialValues}
+						validationSchema={validationSchema}
+						onSubmit={onSubmit}
+					>
+						{(formik) => {
+							return (
+								<Form className="mb-10">
+									{inputForm.map((item, key) => (
+										<div key={key}>
+											<Field name={item?.name}>
+												{({ field, form }: { field: any; form: any }) => (
+													<Input
+														label={item?.label}
+														name={item?.name}
+														type={item?.type}
+														prefix={item?.prefix}
+														suffix={item?.suffix}
+														onChange={(
+															event: React.ChangeEvent<HTMLInputElement>
+														) =>
+															handleUsernameChange(form.setFieldValue, event)
+														}
+													/>
+												)}
+											</Field>
+										</div>
+									))}
+									<div className="my-8 space-y-6">
+										<Button
+											type="submit"
+											isDisabled={!(formik.isValid && formik.dirty)}
+											isBlock
+											isLoading={isLoading}
+										>
+											Selanjutnya
+										</Button>
 									</div>
-								))}
-								<div className="my-8 space-y-6">
-									<Button
-										type="submit"
-										isDisabled={!(formik.isValid && formik.dirty)}
-										isBlock
-										isLoading={isLoading}
-									>
-										Selanjutnya
-									</Button>
-								</div>
-							</Form>
-						);
-					}}
-				</Formik>
-			</Container>
+								</Form>
+							);
+						}}
+					</Formik>
+				</Container>
+			</StyledAuthPage>
 		</>
 	);
 };

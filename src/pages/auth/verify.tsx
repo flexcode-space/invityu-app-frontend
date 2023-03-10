@@ -10,7 +10,7 @@ import BackButton from "@/components/shared/BackButton";
 import Button from "@/components/shared/Button";
 import Container from "@/components/shared/Container";
 import PageHeading from "@/components/layouts/partials/auth/PageHeading";
-import Topbar from "@/components/layouts/partials/Topbar";
+import { StyledAuthPage } from "@/styles/auth";
 
 const VerifyPage = () => {
 	const [otp, setOtp] = useState<string>("");
@@ -85,28 +85,28 @@ const VerifyPage = () => {
 						description="Selamat Datang di Invityu"
 						themeColor="#ffffff"
 					/>
-					<Topbar>
-						<BackButton route={backUrl} />
-					</Topbar>
-					<Container>
-						<PageHeading
-							title="Kode Verifikasi"
-							description={`Masukkan kode verifikasi yang telah dikirim melalui ${
-								verificationType === "email" ? "email" : "WhatsApp"
-							} :`}
-							verificationType={verificationType}
-							username={username}
-							style={{ marginBottom: "1.5rem" }}
-						/>
-						<StyledOtpField>
-							<StyledInput
-								value={otp}
-								onChange={handleChange}
-								numInputs={4}
-								separator={<span></span>}
-								isInputNum
-								shouldAutoFocus={true}
+					<StyledAuthPage>
+						<Container>
+							<BackButton route={backUrl} />
+							<PageHeading
+								title="Kode Verifikasi"
+								description={`Masukkan kode verifikasi yang telah dikirim melalui ${
+									verificationType === "email" ? "email" : "WhatsApp"
+								} :`}
+								verificationType={verificationType}
+								username={username}
+								style={{ marginBottom: "1.5rem" }}
 							/>
+							<StyledOtpField>
+								<StyledInput
+									value={otp}
+									onChange={handleChange}
+									numInputs={4}
+									separator={<span></span>}
+									isInputNum
+									shouldAutoFocus={true}
+								/>
+							</StyledOtpField>
 							<div className="my-8">
 								<Button
 									type="button"
@@ -118,16 +118,16 @@ const VerifyPage = () => {
 									Verifikasi
 								</Button>
 							</div>
-						</StyledOtpField>
-						<div className="text-center text-gray-500">
-							Tidak menerima kode verifikasi?{" "}
-							<MemoizedVerificationCountdown
-								isCountdown={isCountdown}
-								setIsCountdown={setIsCountdown}
-								handleResendOtp={handleResendOtp}
-							/>
-						</div>
-					</Container>
+							<div className="text-center text-gray-500">
+								Tidak menerima kode verifikasi?{" "}
+								<MemoizedVerificationCountdown
+									isCountdown={isCountdown}
+									setIsCountdown={setIsCountdown}
+									handleResendOtp={handleResendOtp}
+								/>
+							</div>
+						</Container>
+					</StyledAuthPage>
 				</>
 			)}
 		</>
@@ -196,6 +196,8 @@ const VerificationCountDown: React.FC<VerificationCountDownProps> = ({
 const MemoizedVerificationCountdown = React.memo(VerificationCountDown);
 
 const StyledOtpField = styled.div`
+	padding: 1rem 0;
+
 	div {
 		justify-content: center;
 		gap: 5px;
@@ -207,7 +209,7 @@ const StyledInput = styled(OtpInput)`
 		width: 3rem !important;
 		margin: 0.5rem 0;
 		padding: 0.7rem;
-		border: 2px solid #eee;
+		border: 2px solid #ebf2fc;
 		border-radius: 10px;
 		box-shadow: none !important;
 

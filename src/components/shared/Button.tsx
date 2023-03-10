@@ -62,10 +62,10 @@ export default Button;
 const StyledButton = styled.button<ButtonProps>`
 	width: ${({ isBlock }) => (isBlock ? "100%" : "auto")};
 	background-color: ${({ isOutline, color }) =>
-		!isOutline ? color || "var(--bg-primary)" : "#fff"};
-	color: ${({ isOutline }) => (!isOutline ? "#fff" : "var(--bg-primary)")};
+		!isOutline ? color || "var(--bg-primary-600)" : "#fff"};
+	color: ${({ isOutline }) => (!isOutline ? "#fff" : "var(--bg-primary-600)")};
 	padding: 12px;
-	border: 1px solid var(--bg-primary);
+	border: 2px solid var(--bg-primary-600);
 	border-radius: 15px;
 	cursor: pointer;
 	font-weight: 500;
@@ -88,7 +88,7 @@ const StyledButton = styled.button<ButtonProps>`
 		css`
 			cursor: no-drop !important;
 			background: #eee !important;
-			border: 1px solid #eee !important;
+			border: 2px solid #eee !important;
 			color: #a9a7a7 !important;
 		`}
 `;

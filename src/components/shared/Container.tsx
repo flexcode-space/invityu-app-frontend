@@ -7,7 +7,7 @@ type ContainerProps = {
 
 const Container = ({ children, ...others }: ContainerProps) => {
 	return (
-		<div className="p-6" {...others}>
+		<div className="p-8" {...others}>
 			{children}
 		</div>
 	);

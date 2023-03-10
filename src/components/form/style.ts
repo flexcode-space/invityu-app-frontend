@@ -8,7 +8,7 @@ const baseInputStyles = css`
   width: 100%;
   margin: 0.5rem 0;
   padding: 0.7rem;
-  border: 2px solid #eee;
+  border: 2px solid #EBF2FC;
   border-radius: 15px;
   box-shadow: none !important;
 

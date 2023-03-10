@@ -12,12 +12,10 @@ import { NextSeo } from "next-seo";
 import * as yup from "yup";
 
 import Button from "@/components/shared/Button";
-import BackButton from "@/components/shared/BackButton";
 import Container from "@/components/shared/Container";
 import Input from "@/components/form/Input";
 import Image from "@/components/shared/Image";
 import PageHeading from "@/components/layouts/partials/auth/PageHeading";
-import Topbar from "@/components/layouts/partials/Topbar";
 import SSOLogin from "@/components/auth/SSOLogin";
 
 import { login } from "@/utils/auth";
@@ -25,6 +23,7 @@ import { login } from "@/utils/auth";
 import { InputProps } from "@/components/form/type";
 import { SSOCallbackResponseProps } from "@/components/auth/type";
 import { ssoProviders } from "@/constant/ssoProviders";
+import { StyledAuthPage } from "@/styles/auth";
 
 const LoginPage: React.FC = () => {
 	const [isLoading, setLoading] = useState<boolean>(false);
@@ -172,96 +171,95 @@ const LoginPage: React.FC = () => {
 					description="Selamat Datang di Invityu"
 					themeColor="#ffffff"
 				/>
-				<Topbar>
-					<BackButton route="/" />
-				</Topbar>
-				<Container>
-					<PageHeading
-						title="Masuk"
-						description="Masuk ke akunmu untuk melanjutkan"
-					/>
-					<Formik
-						initialValues={initialValues}
-						validationSchema={validationSchema}
-						onSubmit={onSubmit}
-					>
-						{(formik) => {
-							return (
-								<Form className="mb-10">
-									{inputForm.map((item, key) => (
-										<div key={key}>
-											<Field name={item?.name}>
-												{({ field, form }: { field: any; form: any }) => (
-													<Input
-														label={item?.label}
-														name={item?.name}
-														type={item?.type}
-														prefix={item?.prefix}
-														suffix={item?.suffix}
-														onChange={(
-															event: React.ChangeEvent<HTMLInputElement>
-														) =>
-															item?.name === "username" &&
-															handleUsernameChange(form.setFieldValue, event)
-														}
-													/>
-												)}
-											</Field>
-										</div>
-									))}
-									<div className="flex justify-end">
-										<div
-											className="text-right text-primary cursor-pointer"
-											onClick={() => handleRoute("/auth/forgot-password")}
-										>
-											Lupa Password?
-										</div>
-									</div>
-
-									<div className="my-8 space-y-6">
-										<Button
-											type="submit"
-											isDisabled={!(formik.isValid && formik.dirty)}
-											isBlock
-											isLoading={isLoading}
-										>
-											Masuk
-										</Button>
-										{activeSSOProvider && (
-											<div
-												className="flex justify-center items-center gap-5 w-full"
-												data-aos="flip-up"
-											>
-												<div className="border-t border-primary-100 w-full"></div>
-												<div className="text-gray-500">atau</div>
-												<div className="border-t border-primary-100 w-full"></div>
+				<StyledAuthPage>
+					<Container>
+						<PageHeading
+							title="Welcome back 👋"
+							description="Masuk ke akunmu untuk melanjutkan"
+						/>
+						<Formik
+							initialValues={initialValues}
+							validationSchema={validationSchema}
+							onSubmit={onSubmit}
+						>
+							{(formik) => {
+								return (
+									<Form className="my-10">
+										{inputForm.map((item, key) => (
+											<div key={key}>
+												<Field name={item?.name}>
+													{({ field, form }: { field: any; form: any }) => (
+														<Input
+															label={item?.label}
+															name={item?.name}
+															type={item?.type}
+															prefix={item?.prefix}
+															suffix={item?.suffix}
+															onChange={(
+																event: React.ChangeEvent<HTMLInputElement>
+															) =>
+																item?.name === "username" &&
+																handleUsernameChange(form.setFieldValue, event)
+															}
+														/>
+													)}
+												</Field>
 											</div>
-										)}
-										<div className="flex flex-col space-y-4">
-											<SSOLogin
-												callback={(response: SSOCallbackResponseProps) =>
-													handleSSOCallback(response)
-												}
-												setIsLoading={setGoogleLoading}
-											/>
+										))}
+										<div className="flex justify-end">
+											<div
+												className="text-right text-primary cursor-pointer"
+												onClick={() => handleRoute("/auth/forgot-password")}
+											>
+												Lupa Password?
+											</div>
 										</div>
-									</div>
 
-									<div className="flex justify-center gap-2 mt-10">
-										Belum punya akun?{" "}
-										<div
-											className="text-right text-primary font-medium cursor-pointer"
-											onClick={() => handleRoute("/auth/register")}
-										>
-											{" "}
-											Daftar yuk!
+										<div className="my-8 space-y-6">
+											<Button
+												type="submit"
+												isDisabled={!(formik.isValid && formik.dirty)}
+												isBlock
+												isLoading={isLoading}
+											>
+												Masuk
+											</Button>
+											{activeSSOProvider && (
+												<div
+													className="flex justify-center items-center gap-5 w-full"
+													data-aos="flip-up"
+												>
+													<div className="border-t border-gray-200 w-full"></div>
+													<div className="text-gray-500">atau</div>
+													<div className="border-t border-gray-200 w-full"></div>
+												</div>
+											)}
+											<div className="flex flex-col space-y-4">
+												<SSOLogin
+													callback={(response: SSOCallbackResponseProps) =>
+														handleSSOCallback(response)
+													}
+													setIsLoading={setGoogleLoading}
+												/>
+											</div>
 										</div>
-									</div>
-								</Form>
-							);
-						}}
-					</Formik>
-				</Container>
+
+										<div className="flex justify-center gap-2 mt-10">
+											Belum punya akun?{" "}
+											<div
+												className="text-right text-primary font-medium cursor-pointer"
+												onClick={() => handleRoute("/auth/register")}
+											>
+												{" "}
+												Daftar yuk!
+											</div>
+										</div>
+									</Form>
+								);
+							}}
+						</Formik>
+					</Container>
+				</StyledAuthPage>
 			</>
 		</LoadingOverlay>
 	);
