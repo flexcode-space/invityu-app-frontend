@@ -37,12 +37,13 @@ export default function Home() {
 				<StyledMiddleContainer />
 				<StyledBottomContainer>
 					<StyledCentered className="px-8">
-						<div className="px-8 my-10">
-							<p className="text-lg font-normal sm:mb-5 text-gray-600">
+						<div className="px-8 my-5 space-y-3">
+							<h1 className="text-primary-600 font-medium text-2xl">Invityu</h1>
+							<p className="font-normal text-gray-500">
 								Buat undangan digital untuk beragam kebutuhan acaramu
 							</p>
 						</div>
-						<div className="my-3">
+						<div className="my-8">
 							<Button
 								className="mb-4"
 								isBlock
@@ -68,6 +69,7 @@ export default function Home() {
 
 const StyledWalkthrough = styled.div`
 	background-color: #fff;
+	height: 100vh;
 
 	> div {
 		overflow: hidden;
@@ -94,8 +96,7 @@ const StyledMiddleContainer = styled.div`
 
 const StyledBottomContainer = styled.div`
 	background-color: #fff;
-	margin-top: 1rem;
-	height: 35%;
+	height: 45%;
 	top: 55%;
 `;
 
