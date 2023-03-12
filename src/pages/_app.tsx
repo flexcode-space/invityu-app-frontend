@@ -2,18 +2,29 @@ import { useEffect } from "react";
 import Head from "next/head";
 import AOS from "aos";
 import { SessionProvider } from "next-auth/react";
+import { QueryClient, QueryClientProvider } from "react-query";
 import "tailwindcss/tailwind.css";
 
-import Layout from "@/components/layouts/Layout";
-import ReactHotToast from "@/components/shared/ReactHotToast";
-
-import { jakartaSans, poppins } from "@/styles/fonts";
-
-import "aos/dist/aos.css";
-import "@/styles/globals.css";
+import Layout from "@/common/components/layouts/Layout";
+import ReactHotToast from "@/common/components/elements/ReactHotToast";
 import type { AppProps } from "next/app";
 
+import { jakartaSans, poppins } from "@/common/styles/fonts";
+
+import "aos/dist/aos.css";
+import "@/common/styles/globals.css";
+
 export default function App({ Component, pageProps }: AppProps) {
+	const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: {
+				staleTime: 10 * 1000,
+				refetchOnWindowFocus: false,
+				retry: false,
+			},
+		},
+	});
+
 	useEffect(() => {
 		AOS.init({
 			duration: 1000,
@@ -41,12 +52,14 @@ export default function App({ Component, pageProps }: AppProps) {
 				<meta name="theme-color" content="#ffffff" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<SessionProvider session={pageProps.session}>
-				<Layout>
-					<ReactHotToast />
-					<Component {...pageProps} />
-				</Layout>
-			</SessionProvider>
+			<QueryClientProvider client={queryClient}>
+				<SessionProvider session={pageProps.session}>
+					<Layout>
+						<ReactHotToast />
+						<Component {...pageProps} />
+					</Layout>
+				</SessionProvider>
+			</QueryClientProvider>
 		</>
 	);
 }

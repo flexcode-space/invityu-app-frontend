@@ -1,8 +1,8 @@
 import React from "react";
-import { logout } from "@/utils/auth";
+import { logout } from "@/common/utils/auth";
 import { useSession } from "next-auth/react";
-import { protectedRoute } from "@/utils/auth";
-import Image from "@/components/shared/Image";
+import { protectedRoute } from "@/common/utils/auth";
+import Image from "@/common/components/elements/Image";
 
 const DashboardPage = () => {
 	const { data: session } = useSession();

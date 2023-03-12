@@ -8,8 +8,8 @@ import {
 } from "next-auth/react";
 import { BuiltInProviderType } from "next-auth/providers";
 
-import ButtonIcon from "../shared/ButtonIcon";
-import { ssoProviders } from "@/constant/ssoProviders";
+import ButtonIcon from "../elements/ButtonIcon";
+import { ssoProviders } from "@/common/constant/ssoProviders";
 import { SSOLoginProps } from "./type";
 
 const SSOLogin: React.FC<SSOLoginProps> = ({ callback, setIsLoading }) => {
@@ -20,8 +20,8 @@ const SSOLogin: React.FC<SSOLoginProps> = ({ callback, setIsLoading }) => {
 
 	const { data: session, status } = useSession();
 
-	console.log("🚀 ~ file: SSOLogin.tsx:12 ~ session:", session);
-	console.log("🚀 ~ file: SSOLogin.tsx:12 ~ status:", status);
+	// console.log("🚀 ~ file: SSOLogin.tsx:12 ~ session:", session);
+	// console.log("🚀 ~ file: SSOLogin.tsx:12 ~ status:", status);
 
 	if (session) {
 		callback(session);

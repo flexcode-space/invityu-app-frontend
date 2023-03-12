@@ -1,7 +1,7 @@
 import React from "react";
-import Button from "@/components/shared/Button";
-import Container from "@/components/shared/Container";
-import Image from "@/components/shared/Image";
+import Button from "@/common/components/elements/Button";
+import Container from "@/common/components/elements/Container";
+import Image from "@/common/components/elements/Image";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 

@@ -14,7 +14,7 @@ const loadingCircle = {
 	display: "block",
 	width: "8px",
 	height: "8px",
-	backgroundColor: "var(--bg-primary)",
+	backgroundColor: "var(--bg-primary-600)",
 	borderRadius: "0.5rem",
 };
 
