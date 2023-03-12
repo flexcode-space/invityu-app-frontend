@@ -1,8 +1,8 @@
 import { useMutation } from 'react-query';
 import { postRegisterComplete } from '@/services/user';
-import { AuthRegisterCompleteType } from '@/common/types/auth';
+import { AuthRegisterCompleteProps } from '@/common/types/auth';
 
 export const usePostRegisterComplete = () => {
-  return useMutation((payload: AuthRegisterCompleteType) => postRegisterComplete(payload));
+  return useMutation((payload: AuthRegisterCompleteProps) => postRegisterComplete(payload));
 };
 

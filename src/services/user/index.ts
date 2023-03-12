@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { axiosOptions } from '../config';
 import { endpoint } from '../endpoint';
-import { AuthRegisterCompleteType } from '@/common/types/auth';
+import { AuthRegisterCompleteProps } from '@/common/types/auth';
 
-export const postRegisterComplete = (payload: AuthRegisterCompleteType) =>
+export const postRegisterComplete = (payload: AuthRegisterCompleteProps) =>
   axios.post(endpoint.registerComplete, payload, axiosOptions);

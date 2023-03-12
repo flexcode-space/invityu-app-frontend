@@ -14,15 +14,15 @@ import Container from "@/common/components/elements/Container";
 import Input from "@/common/components/form/Input";
 import Image from "@/common/components/elements/Image";
 import PageHeading from "@/common/components/layouts/partials/auth/PageHeading";
-import SSOLogin from "@/common/components/auth/SSOLogin";
+import SSOLogin from "@/modules/auth/components/SSOLogin";
 
 import { InputProps } from "@/common/components/form/type";
-import { SSOCallbackResponseProps } from "@/common/components/auth/type";
 import { ssoProviders } from "@/common/constant/ssoProviders";
 
 import { login } from "@/common/utils/auth";
 import { StyledAuthPage } from "@/common/styles/auth";
 import { usePostRegister } from "../hooks";
+import { SSOCallbackResponseProps } from "@/common/types/auth";
 
 const Register: React.FC = () => {
 	const [isGoogleLoading, setGoogleLoading] = useState<boolean>(false);

@@ -8,9 +8,9 @@ import {
 } from "next-auth/react";
 import { BuiltInProviderType } from "next-auth/providers";
 
-import ButtonIcon from "../elements/ButtonIcon";
+import ButtonIcon from "../../../common/components/elements/ButtonIcon";
 import { ssoProviders } from "@/common/constant/ssoProviders";
-import { SSOLoginProps } from "./type";
+import { SSOLoginProps } from "@/common/types/auth";
 
 const SSOLogin: React.FC<SSOLoginProps> = ({ callback, setIsLoading }) => {
 	const [providers, setProviders] = useState<Record<
