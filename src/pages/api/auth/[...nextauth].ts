@@ -1,6 +1,6 @@
 import NextAuth from "next-auth"
 import { ssoProviders } from "@/common/constant/ssoProviders"
-import { SSOProviderProps } from "@/common/components/auth/type";
+import { SSOProviderProps } from "@/common/types/auth";
 
 const getProviderConfigs = (providers: SSOProviderProps[]): any[] => {
   return providers.filter(provider => provider?.is_active).flatMap(provider => provider?.config);
