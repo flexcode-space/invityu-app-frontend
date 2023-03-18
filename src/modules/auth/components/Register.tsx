@@ -85,6 +85,7 @@ const Register: React.FC = () => {
 		const payload = {
 			username: values?.username,
 			type: usernameInputType,
+			source: "register",
 		};
 
 		try {
