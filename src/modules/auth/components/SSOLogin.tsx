@@ -41,8 +41,11 @@ const SSOLogin: React.FC<SSOLoginProps> = ({ callback, setIsLoading }) => {
 				console.error("Error fetching providers:", error);
 			}
 		}
-		fetchProviders();
-	}, []);
+
+		if (!providers) {
+			fetchProviders();
+		}
+	}, [providers]);
 
 	return (
 		<>
