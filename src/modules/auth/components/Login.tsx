@@ -122,7 +122,10 @@ const Login: React.FC = () => {
 	const handleSSOCallback = useCallback(
 		async (response: SSOCallbackResponseProps): Promise<void> => {
 			console.log("🚀 ~ file: login.tsx:98 ~ response:", response);
-			// handleAccountValidate(response?.user?.email);
+
+			if (response && response?.user?.email) {
+				handleAccountValidate(response?.user?.email);
+			}
 		},
 		[]
 	);
