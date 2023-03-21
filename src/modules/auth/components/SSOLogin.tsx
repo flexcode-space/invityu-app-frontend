@@ -5,9 +5,9 @@ import {
 	useSession,
 	LiteralUnion,
 	ClientSafeProvider,
+	signOut,
 } from "next-auth/react";
 import { BuiltInProviderType } from "next-auth/providers";
-import { toast } from "react-hot-toast";
 
 import ButtonIcon from "../../../common/components/elements/ButtonIcon";
 
@@ -53,6 +53,7 @@ const SSOLogin: React.FC<SSOLoginProps> = ({ setIsLoading }) => {
 			onError: (error) => {
 				onErrorHandling(error);
 				setIsLoading(false);
+				signOut();
 			},
 		});
 	}, [sessionEmail, mutate, setIsLoading]);
