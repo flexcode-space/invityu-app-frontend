@@ -44,7 +44,7 @@ const SSOLogin: React.FC<SSOLoginProps> = ({ setIsLoading }) => {
 
 		mutate(payload, {
 			onSuccess: ({ data }) => {
-				const token = data?.data || {};
+				const token = data?.data?.token || {};
 				if (data?.status) {
 					login({ token });
 					setIsLoading(false);
@@ -56,7 +56,7 @@ const SSOLogin: React.FC<SSOLoginProps> = ({ setIsLoading }) => {
 
 				setTimeout(() => {
 					signOut();
-				}, 2000);
+				}, 3000);
 			},
 		});
 	}, [sessionEmail, mutate, setIsLoading]);
