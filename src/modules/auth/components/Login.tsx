@@ -123,23 +123,26 @@ const Login: React.FC = () => {
 		async (response: SSOCallbackResponseProps): Promise<void> => {
 			console.log("🚀 ~ file: login.tsx:98 ~ response:", response);
 
-			const payload = {
-				email: response?.user?.email,
-			};
+			const email = response?.user?.email;
 
-			try {
-				mutateLoginSSO(payload, {
-					onSuccess: (res) => {
-						console.log("res:", res);
-						if (res?.data?.status) {
-							const token = res?.data?.data || {};
-							login({ token });
+			if (email) {
+				try {
+					mutateLoginSSO(
+						{ email },
+						{
+							onSuccess: (res) => {
+								console.log("res:", res);
+								if (res?.data?.status) {
+									const token = res?.data?.data || {};
+									login({ token });
+								}
+							},
+							onError: (error) => onErrorHandling(error),
 						}
-					},
-					onError: (error) => onErrorHandling(error),
-				});
-			} catch (error) {
-				toast.error("Unexpected error occurred!");
+					);
+				} catch (error) {
+					toast.error("Unexpected error occurred!");
+				}
 			}
 		},
 		[]
