@@ -27,6 +27,8 @@ const SSOLogin: React.FC<SSOLoginProps> = ({ setIsLoading }) => {
 	const { data: session, status } = useSession();
 	const { mutate } = usePostLoginSSO();
 
+	const sessionEmail = session?.user?.email;
+
 	console.log("🚀 ~ file: SSOLogin.tsx:12 ~ session:", session);
 	console.log("🚀 ~ file: SSOLogin.tsx:12 ~ status:", status);
 
@@ -35,30 +37,20 @@ const SSOLogin: React.FC<SSOLoginProps> = ({ setIsLoading }) => {
 	};
 
 	useEffect(() => {
-		if (session) {
-			console.log("is session");
-			setIsLoading(true);
+		if (!sessionEmail) return;
 
-			const payload = {
-				email: session?.user?.email || "",
-			};
+		setIsLoading(true);
+		const payload = { email: sessionEmail };
 
-			mutate(payload, {
-				onSuccess: (res) => {
-					console.log("res:", res);
-					if (res?.data?.status) {
-						const token = res?.data?.data || {};
-						login({ token });
-						setIsLoading(false);
-					}
-				},
-				onError: (error) => {
-					onErrorHandling(error);
-					setIsLoading(false);
-				},
-			});
-		}
-	}, [session, mutate, setIsLoading]);
+		mutate(payload, {
+			onSuccess: ({ data }) => {
+				const token = data?.data || {};
+				if (data?.status) login({ token });
+				setIsLoading(false);
+			},
+			onError: onErrorHandling,
+		});
+	}, [sessionEmail, mutate, setIsLoading]);
 
 	useEffect(() => {
 		async function fetchProviders() {
