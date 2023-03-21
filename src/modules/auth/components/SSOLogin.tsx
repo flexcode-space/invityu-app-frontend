@@ -45,10 +45,15 @@ const SSOLogin: React.FC<SSOLoginProps> = ({ setIsLoading }) => {
 		mutate(payload, {
 			onSuccess: ({ data }) => {
 				const token = data?.data || {};
-				if (data?.status) login({ token });
+				if (data?.status) {
+					login({ token });
+					setIsLoading(false);
+				}
+			},
+			onError: (error) => {
+				onErrorHandling(error);
 				setIsLoading(false);
 			},
-			onError: onErrorHandling,
 		});
 	}, [sessionEmail, mutate, setIsLoading]);
 
