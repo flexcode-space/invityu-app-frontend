@@ -19,10 +19,8 @@ import SSOLogin from "@/modules/auth/components/SSOLogin";
 import { InputProps } from "@/common/components/form/type";
 import { ssoProviders } from "@/common/constant/ssoProviders";
 
-import { login } from "@/common/utils/auth";
 import { onErrorHandling } from "@/common/helpers/error";
 import { StyledAuthPage } from "@/common/styles/auth";
-import { SSOCallbackResponseProps } from "@/common/types/auth";
 
 import { usePostRegister } from "../hooks";
 
@@ -107,24 +105,6 @@ const Register: React.FC = () => {
 			toast.error("Unexpected error occurred!");
 		}
 	};
-
-	// const handleSSOCallback = useCallback(
-	// 	async (response: SSOCallbackResponseProps): Promise<void> => {
-	// 		console.log("🚀 ~ file: register.tsx:108 ~ response:", response);
-	// 		// setGoogleLoading(true);
-
-	// 		// TODO: validate data to backend, and if valid set token and redirect to dashboard
-	// 		setTimeout(() => {
-	// 			const token = "YXVsaWFuemE=";
-	// 			console.log("🚀 ~ file: register.tsx:113 ~ setTimeout ~ token:", token);
-
-	// 			if (token) {
-	// 				login({ token });
-	// 			}
-	// 		}, 5000);
-	// 	},
-	// 	[]
-	// );
 
 	useEffect(() => {
 		if (!usernameValue) {
@@ -218,12 +198,7 @@ const Register: React.FC = () => {
 										)}
 
 										<div className="flex flex-col space-y-4">
-											<SSOLogin
-												// callback={(response: SSOCallbackResponseProps) =>
-												// 	handleSSOCallback(response)
-												// }
-												setIsLoading={setGoogleLoading}
-											/>
+											<SSOLogin setIsLoading={setGoogleLoading} />
 										</div>
 									</div>
 

@@ -52,7 +52,10 @@ const SSOLogin: React.FC<SSOLoginProps> = ({ setIsLoading }) => {
 						setIsLoading(false);
 					}
 				},
-				onError: (error) => onErrorHandling(error),
+				onError: (error) => {
+					onErrorHandling(error);
+					setIsLoading(false);
+				},
 			});
 		}
 	}, [session, mutate, setIsLoading]);
