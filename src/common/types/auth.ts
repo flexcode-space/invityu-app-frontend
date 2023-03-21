@@ -11,7 +11,7 @@ export interface AuthLoginProps extends AuthRegisterProps {
 }
 
 export interface AuthLoginSSOProps {
-  email: string;
+  email: string | null | undefined;
 }
 
 export interface AuthVerifyProps extends AuthRegisterProps {

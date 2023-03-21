@@ -24,7 +24,7 @@ import { StyledAuthPage } from "@/common/styles/auth";
 import { InputProps } from "@/common/components/form/type";
 import { SSOCallbackResponseProps } from "@/common/types/auth";
 
-import { usePostLogin, usePostLoginSSO } from "../hooks";
+import { usePostLogin } from "../hooks";
 
 const Login: React.FC = () => {
 	const [isGoogleLoading, setGoogleLoading] = useState<boolean>(false);
@@ -40,8 +40,7 @@ const Login: React.FC = () => {
 	const activeSSOProvider = ssoProviders.find((provider) => provider.is_active);
 	const handleRoute = (url: string) => Router.push(url);
 
-	const { mutate: mutateLogin, isLoading } = usePostLogin();
-	const { mutate: mutateLoginSSO, isLoading: isLoadingSSO } = usePostLoginSSO();
+	const { mutate, isLoading } = usePostLogin();
 
 	const initialValues = {
 		username: null,
@@ -104,7 +103,7 @@ const Login: React.FC = () => {
 		};
 
 		try {
-			mutateLogin(payload, {
+			mutate(payload, {
 				onSuccess: (res) => {
 					console.log("res:", res);
 					if (res?.data?.status) {
