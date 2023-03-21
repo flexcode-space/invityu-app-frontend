@@ -122,31 +122,31 @@ const Login: React.FC = () => {
 	const handleSSOCallback = useCallback(
 		async (response: SSOCallbackResponseProps): Promise<void> => {
 			console.log("🚀 ~ file: login.tsx:98 ~ response:", response);
-
-			const email = response?.user?.email;
-
-			if (email) {
-				try {
-					mutateLoginSSO(
-						{ email },
-						{
-							onSuccess: (res) => {
-								console.log("res:", res);
-								if (res?.data?.status) {
-									const token = res?.data?.data || {};
-									login({ token });
-								}
-							},
-							onError: (error) => onErrorHandling(error),
-						}
-					);
-				} catch (error) {
-					toast.error("Unexpected error occurred!");
-				}
-			}
+			// handleAccountValidate(response?.user?.email);
 		},
 		[]
 	);
+
+	const handleAccountValidate = (email: string) => {
+		console.log("handleAccountValidate ", email);
+
+		const payload = { email };
+
+		try {
+			mutateLoginSSO(payload, {
+				onSuccess: (res) => {
+					console.log("res:", res);
+					if (res?.data?.status) {
+						const token = res?.data?.data || {};
+						login({ token });
+					}
+				},
+				onError: (error) => onErrorHandling(error),
+			});
+		} catch (error) {
+			toast.error("Unexpected error occurred!");
+		}
+	};
 
 	useEffect(() => {
 		if (!usernameValue) {

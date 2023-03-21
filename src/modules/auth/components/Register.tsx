@@ -24,7 +24,7 @@ import { onErrorHandling } from "@/common/helpers/error";
 import { StyledAuthPage } from "@/common/styles/auth";
 import { SSOCallbackResponseProps } from "@/common/types/auth";
 
-import { usePostLoginSSO, usePostRegister } from "../hooks";
+import { usePostRegister } from "../hooks";
 
 const Register: React.FC = () => {
 	const [isGoogleLoading, setGoogleLoading] = useState<boolean>(false);
@@ -38,7 +38,6 @@ const Register: React.FC = () => {
 	const handleRoute = (url: string) => Router.push(url);
 
 	const { mutate, isLoading } = usePostRegister();
-	const { mutate: mutateLoginSSO, isLoading: isLoadingSSO } = usePostLoginSSO();
 
 	const initialValues = {
 		username: null,
@@ -111,28 +110,20 @@ const Register: React.FC = () => {
 
 	const handleSSOCallback = useCallback(
 		async (response: SSOCallbackResponseProps): Promise<void> => {
-			console.log("🚀 ~ file: login.tsx:98 ~ response:", response);
+			console.log("🚀 ~ file: register.tsx:108 ~ response:", response);
+			// setGoogleLoading(true);
 
-			const payload = {
-				email: response?.user?.email,
-			};
+			// TODO: validate data to backend, and if valid set token and redirect to dashboard
+			setTimeout(() => {
+				const token = "YXVsaWFuemE=";
+				console.log("🚀 ~ file: register.tsx:113 ~ setTimeout ~ token:", token);
 
-			try {
-				mutateLoginSSO(payload, {
-					onSuccess: (res) => {
-						console.log("res:", res);
-						if (res?.data?.status) {
-							const token = res?.data?.data || {};
-							login({ token });
-						}
-					},
-					onError: (error) => onErrorHandling(error),
-				});
-			} catch (error) {
-				toast.error("Unexpected error occurred!");
-			}
+				if (token) {
+					login({ token });
+				}
+			}, 5000);
 		},
-		[mutateLoginSSO]
+		[]
 	);
 
 	useEffect(() => {
