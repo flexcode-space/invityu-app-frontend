@@ -108,23 +108,23 @@ const Register: React.FC = () => {
 		}
 	};
 
-	const handleSSOCallback = useCallback(
-		async (response: SSOCallbackResponseProps): Promise<void> => {
-			console.log("🚀 ~ file: register.tsx:108 ~ response:", response);
-			// setGoogleLoading(true);
+	// const handleSSOCallback = useCallback(
+	// 	async (response: SSOCallbackResponseProps): Promise<void> => {
+	// 		console.log("🚀 ~ file: register.tsx:108 ~ response:", response);
+	// 		// setGoogleLoading(true);
 
-			// TODO: validate data to backend, and if valid set token and redirect to dashboard
-			setTimeout(() => {
-				const token = "YXVsaWFuemE=";
-				console.log("🚀 ~ file: register.tsx:113 ~ setTimeout ~ token:", token);
+	// 		// TODO: validate data to backend, and if valid set token and redirect to dashboard
+	// 		setTimeout(() => {
+	// 			const token = "YXVsaWFuemE=";
+	// 			console.log("🚀 ~ file: register.tsx:113 ~ setTimeout ~ token:", token);
 
-				if (token) {
-					login({ token });
-				}
-			}, 5000);
-		},
-		[]
-	);
+	// 			if (token) {
+	// 				login({ token });
+	// 			}
+	// 		}, 5000);
+	// 	},
+	// 	[]
+	// );
 
 	useEffect(() => {
 		if (!usernameValue) {
@@ -219,9 +219,9 @@ const Register: React.FC = () => {
 
 										<div className="flex flex-col space-y-4">
 											<SSOLogin
-												callback={(response: SSOCallbackResponseProps) =>
-													handleSSOCallback(response)
-												}
+												// callback={(response: SSOCallbackResponseProps) =>
+												// 	handleSSOCallback(response)
+												// }
 												setIsLoading={setGoogleLoading}
 											/>
 										</div>
