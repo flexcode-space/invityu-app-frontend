@@ -1,22 +1,32 @@
 import React from "react";
 
-export type AuthRegisterProps = {
+export interface AuthRegisterProps {
   username: string;
   type: string;
+  source?: string;
 }
 
-export type AuthLoginProps = AuthRegisterProps & {
+export interface AuthLoginProps extends AuthRegisterProps {
   password: string;
-};
+}
 
-export type AuthVerifyProps = AuthRegisterProps & {
+export interface AuthLoginSSOProps {
+  email: string;
+}
+
+export interface AuthVerifyProps extends AuthRegisterProps {
   otp: string;
-  source: string;
-};
+}
 
-export type AuthRegisterCompleteProps = AuthLoginProps & {
-  name: string;
-};
+export interface AuthNewPasswordProps {
+  password: string;
+}
+
+export interface AuthRegisterCompleteProps {
+  password: string;
+  type: string;
+  source?: string;
+}
 
 export interface SSOLoginProps {
   callback: (session: any) => void;

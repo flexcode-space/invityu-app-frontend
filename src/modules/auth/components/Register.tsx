@@ -20,9 +20,11 @@ import { InputProps } from "@/common/components/form/type";
 import { ssoProviders } from "@/common/constant/ssoProviders";
 
 import { login } from "@/common/utils/auth";
+import { onErrorHandling } from "@/common/helpers/error";
 import { StyledAuthPage } from "@/common/styles/auth";
-import { usePostRegister } from "../hooks";
 import { SSOCallbackResponseProps } from "@/common/types/auth";
+
+import { usePostLoginSSO, usePostRegister } from "../hooks";
 
 const Register: React.FC = () => {
 	const [isGoogleLoading, setGoogleLoading] = useState<boolean>(false);
@@ -35,7 +37,8 @@ const Register: React.FC = () => {
 	const activeSSOProvider = ssoProviders.find((provider) => provider.is_active);
 	const handleRoute = (url: string) => Router.push(url);
 
-	const { mutate, isLoading, data } = usePostRegister();
+	const { mutate, isLoading } = usePostRegister();
+	const { mutate: mutateLoginSSO, isLoading: isLoadingSSO } = usePostLoginSSO();
 
 	const initialValues = {
 		username: null,
@@ -92,66 +95,45 @@ const Register: React.FC = () => {
 			mutate(payload, {
 				onSuccess: (res) => {
 					console.log("res:", res);
-				},
-				onError: (error) => {
-					if (error instanceof Error) {
-						console.log("error: ", error);
-						toast.error(error?.message);
+					if (res?.data?.status) {
+						const storeTempAuth = res?.data?.data || {};
+						Cookies.set("authTemp", JSON.stringify(storeTempAuth));
+
+						Router.push("/auth/verify");
 					}
 				},
+				onError: (error) => onErrorHandling(error),
 			});
 		} catch (error) {
-			console.log("unexpected error: ", error);
 			toast.error("Unexpected error occurred!");
 		}
-
-		// setTimeout(() => {
-		// 	if (values) {
-		// 		// toast.success("Kode verifikasi berhasil dikirim");
-		// 		Router.push({
-		// 			pathname: "/auth/verify",
-		// 			query: {
-		// 				token: randomString(64),
-		// 				ref: btoa(values?.username),
-		// 				type: usernameInputType,
-		// 				source: "register",
-		// 			},
-		// 		});
-		// 		setLoading(false);
-		// 	} else {
-		// 		console.log("register gagal");
-		// 		toast.error("Pendaftaran Gagal");
-		// 	}
-		// 	setLoading(false);
-		// }, 1000);
 	};
 
 	const handleSSOCallback = useCallback(
 		async (response: SSOCallbackResponseProps): Promise<void> => {
-			console.log("🚀 ~ file: register.tsx:108 ~ response:", response);
-			// setGoogleLoading(true);
+			console.log("🚀 ~ file: login.tsx:98 ~ response:", response);
 
-			// TODO: validate data to backend, and if valid set token and redirect to dashboard
-			setTimeout(() => {
-				const token = "YXVsaWFuemE=";
-				console.log("🚀 ~ file: register.tsx:113 ~ setTimeout ~ token:", token);
+			const payload = {
+				email: response?.user?.email,
+			};
 
-				if (token) {
-					login({ token });
-				}
-			}, 5000);
+			try {
+				mutateLoginSSO(payload, {
+					onSuccess: (res) => {
+						console.log("res:", res);
+						if (res?.data?.status) {
+							const token = res?.data?.data || {};
+							login({ token });
+						}
+					},
+					onError: (error) => onErrorHandling(error),
+				});
+			} catch (error) {
+				toast.error("Unexpected error occurred!");
+			}
 		},
-		[]
+		[mutateLoginSSO]
 	);
-
-	// const randomString = useCallback((length: number) => {
-	// 	const chars =
-	// 		"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	// 	let result = "";
-	// 	for (let i = length; i > 0; --i)
-	// 		result += chars[Math.round(Math.random() * (chars.length - 1))];
-	// 	return result;
-	// }, []);
 
 	useEffect(() => {
 		if (!usernameValue) {
@@ -175,6 +157,10 @@ const Register: React.FC = () => {
 
 	useEffect(() => {
 		Cookies.get("token") && Router.push("/dashboard");
+	}, []);
+
+	useEffect(() => {
+		Cookies.remove("authTemp");
 	}, []);
 
 	return (

@@ -8,9 +8,11 @@ export const endpoint = {
 
   // AUTHENTICATION
   login: apiUrl + 'auth/login',
+  loginSSO: apiUrl + 'auth/sso',
   register: apiUrl + 'auth/register',
   accountCheck: apiUrl + 'auth/check',
   otpVerify: apiUrl + 'auth/verify',
+  otpResend: apiUrl + 'auth/otp/resend',
   newPassword: apiUrl + 'auth/new-password',
 
   // USER

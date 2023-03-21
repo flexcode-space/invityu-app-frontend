@@ -17,12 +17,14 @@ import PageHeading from "@/common/components/layouts/partials/auth/PageHeading";
 import SSOLogin from "@/modules/auth/components/SSOLogin";
 
 import { login } from "@/common/utils/auth";
-import { InputProps } from "@/common/components/form/type";
+import { onErrorHandling } from "@/common/helpers/error";
 import { ssoProviders } from "@/common/constant/ssoProviders";
 import { StyledAuthPage } from "@/common/styles/auth";
+
+import { InputProps } from "@/common/components/form/type";
 import { SSOCallbackResponseProps } from "@/common/types/auth";
 
-import { usePostLogin } from "../hooks";
+import { usePostLogin, usePostLoginSSO } from "../hooks";
 
 const Login: React.FC = () => {
 	const [isGoogleLoading, setGoogleLoading] = useState<boolean>(false);
@@ -38,7 +40,8 @@ const Login: React.FC = () => {
 	const activeSSOProvider = ssoProviders.find((provider) => provider.is_active);
 	const handleRoute = (url: string) => Router.push(url);
 
-	const { mutate, isLoading, data } = usePostLogin();
+	const { mutate: mutateLogin, isLoading } = usePostLogin();
+	const { mutate: mutateLoginSSO, isLoading: isLoadingSSO } = usePostLoginSSO();
 
 	const initialValues = {
 		username: null,
@@ -101,53 +104,45 @@ const Login: React.FC = () => {
 		};
 
 		try {
-			mutate(payload, {
+			mutateLogin(payload, {
 				onSuccess: (res) => {
 					console.log("res:", res);
-				},
-				onError: (error) => {
-					if (error instanceof Error) {
-						console.log("error: ", error);
-						toast.error(error?.message);
+					if (res?.data?.status) {
+						const token = res?.data?.data || {};
+						login({ token });
 					}
 				},
+				onError: (error) => onErrorHandling(error),
 			});
 		} catch (error) {
-			console.log("unexpected error: ", error);
 			toast.error("Unexpected error occurred!");
 		}
-
-		// setTimeout(() => {
-		// 	if (values?.username == "8122244054" && values?.password === "aulianza") {
-		// 		const token = "YXVsaWFuemE=";
-		// 		login({ token });
-		// 	} else {
-		// 		console.log("password salah");
-		// 		toast.error(
-		// 			`${
-		// 				usernameInputType === "email" ? "Email" : "Nomor HP"
-		// 			} atau Password salah`
-		// 		);
-		// 	}
-		// 	setLoading(false);
-		// }, 1000);
 	};
 
 	const handleSSOCallback = useCallback(
 		async (response: SSOCallbackResponseProps): Promise<void> => {
 			console.log("🚀 ~ file: login.tsx:98 ~ response:", response);
 
-			// TODO: validate data to backend, and if valid set token and redirect to dashboard
-			setTimeout(() => {
-				const token = "YXVsaWFuemE=";
-				console.log("🚀 ~ file: login.tsx:123 ~ setTimeout ~ token:", token);
+			const payload = {
+				email: response?.user?.email,
+			};
 
-				if (token) {
-					login({ token });
-				}
-			}, 5000);
+			try {
+				mutateLoginSSO(payload, {
+					onSuccess: (res) => {
+						console.log("res:", res);
+						if (res?.data?.status) {
+							const token = res?.data?.data || {};
+							login({ token });
+						}
+					},
+					onError: (error) => onErrorHandling(error),
+				});
+			} catch (error) {
+				toast.error("Unexpected error occurred!");
+			}
 		},
-		[]
+		[mutateLoginSSO]
 	);
 
 	useEffect(() => {

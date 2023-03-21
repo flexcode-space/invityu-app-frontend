@@ -3,7 +3,7 @@ import { NextSeo } from "next-seo";
 
 import RegisterComplete from "@/modules/user/components/RegisterComplete";
 
-const RegisterAccountPage: NextPage = () => {
+const RegisterCompletePage: NextPage = () => {
 	return (
 		<>
 			<NextSeo
@@ -16,4 +16,4 @@ const RegisterAccountPage: NextPage = () => {
 	);
 };
 
-export default RegisterAccountPage;
+export default RegisterCompletePage;

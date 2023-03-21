@@ -13,23 +13,26 @@ import Button from "@/common/components/elements/Button";
 import Container from "@/common/components/elements/Container";
 import Input from "@/common/components/form/Input";
 import Image from "@/common/components/elements/Image";
+import Loading from "@/common/components/elements/Loading";
 import PageHeading from "@/common/components/layouts/partials/auth/PageHeading";
 
 import { InputProps } from "@/common/components/form/type";
 import { StyledAuthPage } from "@/common/styles/auth";
+import { onErrorHandling } from "@/common/helpers/error";
+
+import useAuthTempData from "@/common/hooks/useAuthTempData";
+import { usePostRegisterComplete } from "../hooks";
 
 const RegisterComplete: React.FC = () => {
-	const [isLoading, setLoading] = useState<boolean>(false);
-
-	const [usernameValue, setUsernameValue] = useState<any>(
-		"aulianza@icloud.com"
-	);
 	const [usernameInputType, setUsernameInputType] = useState<string>("text");
 	const [usernameInputPrefix, setUsernameInputPrefix] =
 		useState<JSX.Element | null>(null);
 
+	const { authTempData, loading } = useAuthTempData();
+	const { mutate, isLoading } = usePostRegisterComplete();
+
 	const initialValues = {
-		username: usernameValue,
+		username: authTempData?.username,
 		password: null,
 		name: null,
 	};
@@ -41,13 +44,7 @@ const RegisterComplete: React.FC = () => {
 			type: usernameInputType,
 			prefix: <>{usernameInputPrefix}</>,
 			isReadOnly: true,
-			value: usernameValue,
-		},
-		{
-			label: "Nama Kamu",
-			name: "name",
-			type: "text",
-			prefix: <BiUser size="20" />,
+			value: authTempData?.username,
 		},
 		{
 			label: "Kata Sandi",
@@ -64,7 +61,6 @@ const RegisterComplete: React.FC = () => {
 	];
 
 	const validationSchema = yup.object().shape({
-		name: yup.string().required("Nama wajib diisi"),
 		password: yup
 			.string()
 			.min(5, "Password minimal 5 karakter")
@@ -75,36 +71,41 @@ const RegisterComplete: React.FC = () => {
 	});
 
 	const onSubmit = (values: FormikValues) => {
-		setLoading(true);
-		console.log("onSubmit => ", values);
+		const payload = {
+			password: values?.password,
+			type: usernameInputType,
+			source: "register",
+		};
 
-		setTimeout(() => {
-			if (values) {
-				toast.success("Data berhasil disimpan");
-				Router.push("/dashboard");
-				setLoading(false);
-			} else {
-				console.log("register gagal");
-				toast.error("Pendaftaran Gagal");
-			}
-			setLoading(false);
-		}, 1000);
+		try {
+			mutate(payload, {
+				onSuccess: (res) => {
+					console.log("res:", res);
+					if (res?.data?.status) {
+						toast.success("Data berhasil disimpan");
+
+						// TODO: remove tokenTemp cookies and set token cookies, then redirect to dashboard
+
+						// Router.push("/dashboard");
+					}
+				},
+				onError: (error) => onErrorHandling(error),
+			});
+		} catch (error) {
+			toast.error("Unexpected error occurred!");
+		}
 	};
 
 	useEffect(() => {
-		Cookies.get("token") && Router.push("/dashboard");
-	}, []);
-
-	useEffect(() => {
-		if (!usernameValue) {
+		if (!authTempData?.username) {
 			setUsernameInputType("text");
 			setUsernameInputPrefix(<></>);
 			return;
 		}
 
-		setUsernameInputType(isNaN(usernameValue) ? "email" : "phone");
+		setUsernameInputType(isNaN(authTempData?.username) ? "email" : "phone");
 		setUsernameInputPrefix(
-			isNaN(usernameValue) ? (
+			isNaN(authTempData?.username) ? (
 				<EmailIcon size="20" />
 			) : (
 				<>
@@ -113,7 +114,23 @@ const RegisterComplete: React.FC = () => {
 				</>
 			)
 		);
-	}, [usernameValue]);
+	}, [authTempData?.username]);
+
+	// useEffect(() => {
+	// 	if (Cookies.get("token")) {
+	// 		Router.push("/dashboard");
+	// 	} else if (Cookies.get("tokenTemp")) {
+	// 		Router.push("/");
+	// 	}
+	// }, []);
+
+	// useEffect(() => {
+	// 	Cookies.get("tokenTemp") === undefined && Router.push("/");
+	// }, []);
+
+	if (loading) {
+		return <Loading />;
+	}
 
 	return (
 		<StyledAuthPage>

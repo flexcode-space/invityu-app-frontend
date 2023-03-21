@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Cookies from "js-cookie";
 import Router from "next/router";
 import toast from "react-hot-toast";
@@ -17,8 +17,11 @@ import { InputProps } from "@/common/components/form/type";
 
 import { StyledAuthPage } from "@/common/styles/auth";
 
+import { usePostNewPassword } from "../hooks";
+import { onErrorHandling } from "@/common/helpers/error";
+
 const NewPassword: React.FC = () => {
-	const [isLoading, setLoading] = useState<boolean>(false);
+	const { mutate, isLoading } = usePostNewPassword();
 
 	const initialValues = {
 		password: null,
@@ -50,24 +53,36 @@ const NewPassword: React.FC = () => {
 	});
 
 	const onSubmit = (values: FormikValues) => {
-		setLoading(true);
-		console.log("onSubmit => ", values);
+		const payload = {
+			password: values?.npassword,
+		};
 
-		setTimeout(() => {
-			if (values) {
-				toast.success("Kata Sandi baru berhasil disimpan");
-				Router.push("/dashboard");
-				setLoading(false);
-			} else {
-				console.log("reset password gagal");
-				toast.error("Reset Kata Sandi Gagal");
-			}
-			setLoading(false);
-		}, 1000);
+		try {
+			mutate(payload, {
+				onSuccess: (res) => {
+					console.log("res:", res);
+					if (res?.data?.status) {
+						toast.success("Kata Sandi baru berhasil disimpan");
+						Cookies.remove("tokenTemp");
+						Router.push("/auth/login");
+					}
+				},
+				onError: (error) => onErrorHandling(error),
+			});
+		} catch (error) {
+			toast.error("Unexpected error occurred!");
+		}
 	};
 
 	useEffect(() => {
-		Cookies.get("token") && Router.push("/dashboard");
+		const hasToken = Cookies.get("token");
+		const hasTempToken = Cookies.get("tokenTemp");
+
+		if (hasToken) {
+			Router.push("/dashboard");
+		} else if (!hasTempToken) {
+			Router.push("/");
+		}
 	}, []);
 
 	return (

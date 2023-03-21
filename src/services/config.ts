@@ -10,7 +10,14 @@ interface AxiosOptions extends AxiosRequestConfig {
 
 export const axiosOptions: AxiosOptions = {
   headers: {
-    Authorization: Cookies.get('Authorization'),
+    Authorization: Cookies.get('token'),
+    'Content-Type': 'application/json',
+  },
+};
+
+export const axiosOptionsTempToken: AxiosOptions = {
+  headers: {
+    Authorization: Cookies.get('tokenTemp'),
     'Content-Type': 'application/json',
   },
 };

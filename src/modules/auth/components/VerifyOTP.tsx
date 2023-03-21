@@ -1,37 +1,48 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Cookies from "js-cookie";
 import OtpInput from "react-otp-input";
-import Router, { NextRouter, useRouter } from "next/router";
+import Router from "next/router";
 import toast from "react-hot-toast";
 import styled from "@emotion/styled";
 
 import BackButton from "@/common/components/elements/BackButton";
 import Button from "@/common/components/elements/Button";
 import Container from "@/common/components/elements/Container";
+import Loading from "@/common/components/elements/Loading";
 import PageHeading from "@/common/components/layouts/partials/auth/PageHeading";
+
 import { StyledAuthPage } from "@/common/styles/auth";
+import { onErrorHandling } from "@/common/helpers/error";
+
+import useAuthTempData from "@/common/hooks/useAuthTempData";
+import { usePostOtpResend, usePostOtpVerify } from "../hooks";
 
 const VerifyOTP: React.FC = () => {
 	const [otp, setOtp] = useState<string>("");
 	const [isCountdown, setIsCountdown] = useState<boolean>(true);
 	const [isFilled, setFilled] = useState<boolean>(false);
-	const [isLoading, setLoading] = useState<boolean>(false);
 
-	const router: NextRouter = useRouter();
-	const username: string | null = router?.query?.ref
-		? atob(router.query.ref as string)
-		: null;
-	const verificationType = router?.query?.type || null;
-	const source = router?.query?.source || "register";
+	const { authTempData, loading } = useAuthTempData();
+
+	const source = authTempData?.source;
 	const backUrl = source === "register" ? "/auth/register" : "/";
+
+	const { mutate: mutateOtpVerify, isLoading } = usePostOtpVerify();
+	const { mutate: mutateOtpResend } = usePostOtpResend();
+
+	const initialPayload = useMemo(
+		() => ({
+			username: authTempData?.username,
+			type: authTempData?.type,
+			source: authTempData?.source,
+		}),
+		[authTempData]
+	);
 
 	const handleChange = (otp: string) => {
 		setOtp(otp);
-		console.log(otp);
 		if (otp.length === 4) {
 			setFilled(true);
-
-			//TODO: do verify otp
 			console.log("otp => ", otp);
 		} else {
 			setFilled(false);
@@ -39,55 +50,87 @@ const VerifyOTP: React.FC = () => {
 	};
 
 	const handleSubmit = () => {
-		setLoading(true);
+		handleVerifyOtp();
+	};
 
-		setTimeout(() => {
-			if (otp === "1234") {
-				toast.success("Kode verifikasi benar");
-				// TODO: if forgot password, set new pass
-				// TODO: if register, show alert phone number verified and back to login
+	const handleVerifyOtp = () => {
+		const payload = {
+			...initialPayload,
+			otp,
+		};
 
-				if (source === "register") {
-					Router.push("/register/account");
-				} else if (source === "forgot-password") {
-					Router.push("/auth/new-password");
-				}
+		try {
+			mutateOtpVerify(payload, {
+				onSuccess: (res) => {
+					console.log("res:", res);
+					if (res?.data?.status) {
+						toast.success("Kode verifikasi valid");
 
-				setLoading(false);
-			} else {
-				toast.error("Kode verifikasi salah");
-				setLoading(false);
-			}
-		}, 1000);
+						const token = res?.data?.data?.token;
+						Cookies.set("tokenTemp", token, { expires: 30 });
+
+						if (source === "register") {
+							Router.push("/register/complete");
+						} else if (source === "forgot-password") {
+							Router.push("/auth/new-password");
+						}
+					}
+				},
+				onError: (error) => onErrorHandling(error),
+			});
+		} catch (error) {
+			toast.error("Unexpected error occurred!");
+		}
 	};
 
 	const handleResendOtp = useCallback(async () => {
-		console.log("resend otp");
-		toast.success("Kode verifikasi telah dikirim");
-		setIsCountdown(true);
-	}, []);
+		setOtp("");
 
-	// useEffect(() => {
-	// 	!username && Router.push(backUrl);
-	// }, [username, backUrl]);
+		try {
+			mutateOtpResend(initialPayload, {
+				onSuccess: (res) => {
+					console.log("res:", res);
+					if (res?.data?.Status) {
+						toast.success("Kode verifikasi telah dikirim");
+						setIsCountdown(true);
+					}
+				},
+				onError: (error) => onErrorHandling(error),
+			});
+		} catch (error) {
+			toast.error("Unexpected error occurred!");
+		}
+	}, [initialPayload, mutateOtpResend]);
 
 	useEffect(() => {
 		Cookies.get("token") && Router.push("/dashboard");
 	}, []);
 
+	// useEffect(() => {
+	// 	if (Cookies.get("token")) {
+	// 		Router.push("/dashboard");
+	// 	} else if (Cookies.get("tokenTemp")) {
+	// 		Router.push("/");
+	// 	}
+	// }, []);
+
+	if (loading) {
+		return <Loading />;
+	}
+
 	return (
 		<>
-			{username && source && (
+			{authTempData && (
 				<StyledAuthPage>
 					<Container>
 						<BackButton route={backUrl} />
 						<PageHeading
 							title="Kode Verifikasi"
 							description={`Masukkan kode verifikasi yang telah dikirim melalui ${
-								verificationType === "email" ? "email" : "WhatsApp"
+								authTempData?.type === "email" ? "email" : "WhatsApp"
 							} :`}
-							verificationType={verificationType}
-							username={username}
+							verificationType={authTempData?.type}
+							username={authTempData?.username}
 							style={{ marginBottom: "1.5rem" }}
 						/>
 						<StyledOtpField>

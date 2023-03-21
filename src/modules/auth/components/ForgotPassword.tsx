@@ -17,14 +17,17 @@ import PageHeading from "@/common/components/layouts/partials/auth/PageHeading";
 
 import { InputProps } from "@/common/components/form/type";
 import { StyledAuthPage } from "@/common/styles/auth";
+import { onErrorHandling } from "@/common/helpers/error";
+
+import { usePostAccountCheck } from "../hooks";
 
 const ForgotPassword: React.FC = () => {
-	const [isLoading, setLoading] = useState<boolean>(false);
-
 	const [usernameValue, setUsernameValue] = useState<any>(null);
 	const [usernameInputType, setUsernameInputType] = useState<string>("text");
 	const [usernameInputPrefix, setUsernameInputPrefix] =
 		useState<JSX.Element | null>(null);
+
+	const { mutate, isLoading } = usePostAccountCheck();
 
 	const initialValues = {
 		username: null,
@@ -69,38 +72,32 @@ const ForgotPassword: React.FC = () => {
 	});
 
 	const onSubmit = (values: FormikValues) => {
-		setLoading(true);
 		console.log("onSubmit => ", values);
 
-		setTimeout(() => {
-			if (values) {
-				// toast.success("Kode verifikasi berhasil dikirim");
-				Router.push({
-					pathname: "/auth/verify",
-					query: {
-						token: randomString(64),
-						ref: btoa(values?.username),
-						type: usernameInputType,
-						source: "forgot-password",
-					},
-				});
-				setLoading(false);
-			} else {
-				console.log("reset password gagal");
-				toast.error("Reset Password Gagal");
-			}
-			setLoading(false);
-		}, 1000);
-	};
+		const payload = {
+			username: values?.username,
+			type: usernameInputType,
+		};
 
-	const randomString = useCallback((length: number) => {
-		const chars =
-			"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		let result = "";
-		for (let i = length; i > 0; --i)
-			result += chars[Math.round(Math.random() * (chars.length - 1))];
-		return result;
-	}, []);
+		try {
+			mutate(payload, {
+				onSuccess: (res) => {
+					console.log("res:", res);
+					if (res?.data?.status) {
+						toast.success("Kode verifikasi berhasil dikirim");
+
+						const storeTempAuth = res?.data?.data || {};
+						Cookies.set("authTemp", JSON.stringify(storeTempAuth));
+
+						Router.push("/auth/verify");
+					}
+				},
+				onError: (error) => onErrorHandling(error),
+			});
+		} catch (error) {
+			toast.error("Unexpected error occurred!");
+		}
+	};
 
 	useEffect(() => {
 		Cookies.get("token") && Router.push("/dashboard");
