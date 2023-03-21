@@ -58,7 +58,7 @@ const SSOLogin: React.FC<SSOLoginProps> = ({ setIsLoading }) => {
 				},
 			});
 		}
-	}, []);
+	}, [session, mutate, setIsLoading]);
 
 	useEffect(() => {
 		async function fetchProviders() {
