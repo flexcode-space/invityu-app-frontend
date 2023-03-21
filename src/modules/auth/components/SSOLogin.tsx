@@ -7,20 +7,22 @@ import {
 	ClientSafeProvider,
 } from "next-auth/react";
 import { BuiltInProviderType } from "next-auth/providers";
+import { toast } from "react-hot-toast";
 
 import ButtonIcon from "../../../common/components/elements/ButtonIcon";
+
 import { ssoProviders } from "@/common/constant/ssoProviders";
 import { SSOLoginProps } from "@/common/types/auth";
-import { usePostLoginSSO } from "../hooks";
 import { login } from "@/common/utils/auth";
 import { onErrorHandling } from "@/common/helpers/error";
-import { toast } from "react-hot-toast";
+
+import { usePostLoginSSO } from "../hooks";
 
 const SSOLogin: React.FC<SSOLoginProps> = ({ setIsLoading }) => {
 	const [providers, setProviders] = useState<Record<
 		LiteralUnion<BuiltInProviderType, string>,
 		ClientSafeProvider
-	> | null>();
+	> | null>(null);
 
 	const { data: session, status } = useSession();
 	const { mutate } = usePostLoginSSO();
@@ -28,15 +30,19 @@ const SSOLogin: React.FC<SSOLoginProps> = ({ setIsLoading }) => {
 	console.log("🚀 ~ file: SSOLogin.tsx:12 ~ session:", session);
 	console.log("🚀 ~ file: SSOLogin.tsx:12 ~ status:", status);
 
-	if (session) {
-		// callback(session);
-		setIsLoading(true);
+	const handleLogin = (id: string) => {
+		signIn(id);
+	};
 
-		const payload = {
-			email: session?.user?.email,
-		};
+	useEffect(() => {
+		console.log("validate sso email");
+		if (session) {
+			setIsLoading(true);
 
-		try {
+			const payload = {
+				email: session?.user?.email || "",
+			};
+
 			mutate(payload, {
 				onSuccess: (res) => {
 					console.log("res:", res);
@@ -48,27 +54,21 @@ const SSOLogin: React.FC<SSOLoginProps> = ({ setIsLoading }) => {
 				},
 				onError: (error) => onErrorHandling(error),
 			});
-		} catch (error) {
-			toast.error("Unexpected error occurred!");
 		}
-		console.log("aulianza here gann SSOLogin");
+	}, [session, mutate, setIsLoading]);
+
+	async function fetchProviders() {
+		try {
+			const providers = await getProviders();
+			setProviders(providers);
+		} catch (error) {
+			console.error("Error fetching providers:", error);
+			toast.error("Unexpected error occurred while fetching providers.");
+		}
 	}
 
-	const handleLogin = (id: string) => {
-		signIn(id);
-	};
-
 	useEffect(() => {
-		async function fetchProviders() {
-			try {
-				const providers = await getProviders();
-				setProviders(providers);
-			} catch (error) {
-				console.error("Error fetching providers:", error);
-			}
-		}
-
-		if (!providers) {
+		if (providers && Object.keys(providers).length === 0) {
 			fetchProviders();
 		}
 	}, [providers]);

@@ -22,7 +22,6 @@ import { ssoProviders } from "@/common/constant/ssoProviders";
 import { StyledAuthPage } from "@/common/styles/auth";
 
 import { InputProps } from "@/common/components/form/type";
-import { SSOCallbackResponseProps } from "@/common/types/auth";
 
 import { usePostLogin } from "../hooks";
 
@@ -117,33 +116,6 @@ const Login: React.FC = () => {
 			toast.error("Unexpected error occurred!");
 		}
 	};
-
-	// const handleSSOCallback = useCallback(
-	// 	async (response: SSOCallbackResponseProps): Promise<void> => {
-	// 		console.log("🚀 ~ file: login.tsx:98 ~ response:", response);
-
-	// 		if (response && response?.user?.email) {
-	//       const payload = { email: response?.user?.email };
-
-	//       try {
-	//         mutateLoginSSO(payload, {
-	//           onSuccess: (res) => {
-	//             console.log("res:", res);
-	//             if (res?.data?.status) {
-	//               const token = res?.data?.data || {};
-	//               login({ token });
-	//             }
-	//           },
-	//           onError: (error) => onErrorHandling(error),
-	//         });
-	//       } catch (error) {
-	//         toast.error("Unexpected error occurred!");
-	//       }
-
-	// 		}
-	// 	},
-	// 	[mutateLoginSSO]
-	// );
 
 	useEffect(() => {
 		if (!usernameValue) {
@@ -244,12 +216,7 @@ const Login: React.FC = () => {
 											</div>
 										)}
 										<div className="flex flex-col space-y-4">
-											<SSOLogin
-												// callback={(response: SSOCallbackResponseProps) =>
-												// 	handleSSOCallback(response)
-												// }
-												setIsLoading={setGoogleLoading}
-											/>
+											<SSOLogin setIsLoading={setGoogleLoading} />
 										</div>
 									</div>
 
