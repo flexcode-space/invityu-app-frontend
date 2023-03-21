@@ -11,7 +11,7 @@ export const postLogin = (payload: AuthLoginProps) =>
   axios.post(endpoint.login, payload, axiosOptions);
 
 export const postLoginSSO = (payload: AuthLoginSSOProps) =>
-  axios.post(endpoint.login, payload, axiosOptions);
+  axios.post(endpoint.loginSSO, payload, axiosOptions);
 
 export const postAccountCheck = (payload: AuthRegisterProps) =>
   axios.post(endpoint.accountCheck, payload, axiosOptions);

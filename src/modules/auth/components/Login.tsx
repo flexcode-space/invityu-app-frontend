@@ -142,7 +142,7 @@ const Login: React.FC = () => {
 				toast.error("Unexpected error occurred!");
 			}
 		},
-		[mutateLoginSSO]
+		[]
 	);
 
 	useEffect(() => {
