@@ -53,7 +53,10 @@ const SSOLogin: React.FC<SSOLoginProps> = ({ setIsLoading }) => {
 			onError: (error) => {
 				onErrorHandling(error);
 				setIsLoading(false);
-				signOut();
+
+				setTimeout(() => {
+					signOut();
+				}, 1000);
 			},
 		});
 	}, [sessionEmail, mutate, setIsLoading]);
