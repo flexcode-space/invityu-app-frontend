@@ -22,7 +22,7 @@ const SSOLogin: React.FC<SSOLoginProps> = ({ setIsLoading }) => {
 	const [providers, setProviders] = useState<Record<
 		LiteralUnion<BuiltInProviderType, string>,
 		ClientSafeProvider
-	> | null>(null);
+	> | null>();
 
 	const { data: session, status } = useSession();
 	const { mutate } = usePostLoginSSO();
@@ -35,8 +35,8 @@ const SSOLogin: React.FC<SSOLoginProps> = ({ setIsLoading }) => {
 	};
 
 	useEffect(() => {
-		console.log("validate sso email");
 		if (session) {
+			console.log("is session");
 			setIsLoading(true);
 
 			const payload = {
@@ -57,18 +57,17 @@ const SSOLogin: React.FC<SSOLoginProps> = ({ setIsLoading }) => {
 		}
 	}, [session, mutate, setIsLoading]);
 
-	async function fetchProviders() {
-		try {
-			const providers = await getProviders();
-			setProviders(providers);
-		} catch (error) {
-			console.error("Error fetching providers:", error);
-			toast.error("Unexpected error occurred while fetching providers.");
-		}
-	}
-
 	useEffect(() => {
-		if (providers && Object.keys(providers).length === 0) {
+		async function fetchProviders() {
+			try {
+				const providers = await getProviders();
+				setProviders(providers);
+			} catch (error) {
+				console.error("Error fetching providers:", error);
+			}
+		}
+
+		if (!providers) {
 			fetchProviders();
 		}
 	}, [providers]);
