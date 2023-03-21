@@ -119,34 +119,32 @@ const Login: React.FC = () => {
 		}
 	};
 
-	const handleSSOCallback = useCallback(
-		async (response: SSOCallbackResponseProps): Promise<void> => {
-			console.log("🚀 ~ file: login.tsx:98 ~ response:", response);
+	// const handleSSOCallback = useCallback(
+	// 	async (response: SSOCallbackResponseProps): Promise<void> => {
+	// 		console.log("🚀 ~ file: login.tsx:98 ~ response:", response);
 
-			if (response && response?.user?.email) {
-        const payload = { email: response?.user?.email };
+	// 		if (response && response?.user?.email) {
+	//       const payload = { email: response?.user?.email };
 
-        try {
-          mutateLoginSSO(payload, {
-            onSuccess: (res) => {
-              console.log("res:", res);
-              if (res?.data?.status) {
-                const token = res?.data?.data || {};
-                login({ token });
-              }
-            },
-            onError: (error) => onErrorHandling(error),
-          });
-        } catch (error) {
-          toast.error("Unexpected error occurred!");
-        }
+	//       try {
+	//         mutateLoginSSO(payload, {
+	//           onSuccess: (res) => {
+	//             console.log("res:", res);
+	//             if (res?.data?.status) {
+	//               const token = res?.data?.data || {};
+	//               login({ token });
+	//             }
+	//           },
+	//           onError: (error) => onErrorHandling(error),
+	//         });
+	//       } catch (error) {
+	//         toast.error("Unexpected error occurred!");
+	//       }
 
-			}
-		},
-		[mutateLoginSSO]
-	);
-
-
+	// 		}
+	// 	},
+	// 	[mutateLoginSSO]
+	// );
 
 	useEffect(() => {
 		if (!usernameValue) {
@@ -248,9 +246,9 @@ const Login: React.FC = () => {
 										)}
 										<div className="flex flex-col space-y-4">
 											<SSOLogin
-												callback={(response: SSOCallbackResponseProps) =>
-													handleSSOCallback(response)
-												}
+												// callback={(response: SSOCallbackResponseProps) =>
+												// 	handleSSOCallback(response)
+												// }
 												setIsLoading={setGoogleLoading}
 											/>
 										</div>

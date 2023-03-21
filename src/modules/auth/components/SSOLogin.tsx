@@ -12,7 +12,7 @@ import ButtonIcon from "../../../common/components/elements/ButtonIcon";
 import { ssoProviders } from "@/common/constant/ssoProviders";
 import { SSOLoginProps } from "@/common/types/auth";
 
-const SSOLogin: React.FC<SSOLoginProps> = ({ callback, setIsLoading }) => {
+const SSOLogin: React.FC<SSOLoginProps> = ({ setIsLoading }) => {
 	const [providers, setProviders] = useState<Record<
 		LiteralUnion<BuiltInProviderType, string>,
 		ClientSafeProvider
@@ -20,12 +20,14 @@ const SSOLogin: React.FC<SSOLoginProps> = ({ callback, setIsLoading }) => {
 
 	const { data: session, status } = useSession();
 
-	// console.log("🚀 ~ file: SSOLogin.tsx:12 ~ session:", session);
-	// console.log("🚀 ~ file: SSOLogin.tsx:12 ~ status:", status);
+	console.log("🚀 ~ file: SSOLogin.tsx:12 ~ session:", session);
+	console.log("🚀 ~ file: SSOLogin.tsx:12 ~ status:", status);
 
 	if (session) {
-		callback(session);
+		// callback(session);
 		setIsLoading(true);
+
+		console.log("aulianza here gann SSOLogin");
 	}
 
 	const handleLogin = (id: string) => {

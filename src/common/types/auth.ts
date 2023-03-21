@@ -29,7 +29,7 @@ export interface AuthRegisterCompleteProps {
 }
 
 export interface SSOLoginProps {
-  callback: (session: any) => void;
+  // callback: (session: any) => void;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
