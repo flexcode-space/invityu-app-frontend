@@ -45,9 +45,10 @@ const Welcome: React.FC = () => {
 							Buat Akun
 						</Button>
 						<Button
-							isOutline
 							isBlock
-							color="#C7D7FF"
+							bgColor="#EBF2FC"
+							textColor="#556DC2"
+							borderColor="#C7D7FF"
 							onClick={() => handleRoute("/auth/login")}
 						>
 							Login
