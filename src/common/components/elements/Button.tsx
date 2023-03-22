@@ -5,13 +5,13 @@ import InlineLoader from "./InlineLoader";
 
 type ButtonProps = {
 	isLoading?: boolean;
-	isOutline?: boolean;
 	isBlock?: boolean;
 	onClick?: () => void;
 	isDisabled?: boolean;
-	color?: string;
+	bgColor?: string;
+	textColor?: string;
+	borderColor?: string;
 	children?: ReactNode;
-	className?: string;
 	type?: "button" | "submit" | "reset" | undefined;
 	[key: string]: any;
 };
@@ -22,7 +22,9 @@ const Button: FC<ButtonProps> = ({
 	isBlock,
 	onClick,
 	isDisabled,
-	color,
+	bgColor,
+	textColor,
+	borderColor,
 	children,
 	type,
 	...other
@@ -31,10 +33,8 @@ const Button: FC<ButtonProps> = ({
 		<>
 			{isLoading ? (
 				<StyledButton
-					isOutline={isOutline}
 					isBlock={isBlock}
 					disabled={true}
-					color={color}
 					isLoading={isLoading}
 					{...other}
 				>
@@ -43,11 +43,12 @@ const Button: FC<ButtonProps> = ({
 			) : (
 				<StyledButton
 					type={type}
-					isOutline={isOutline}
 					isBlock={isBlock}
 					onClick={onClick}
 					disabled={isDisabled}
-					color={color}
+					bgColor={bgColor}
+					textColor={textColor}
+					borderColor={borderColor}
 					{...other}
 				>
 					{children}
@@ -61,11 +62,13 @@ export default Button;
 
 const StyledButton = styled.button<ButtonProps>`
 	width: ${({ isBlock }) => (isBlock ? "100%" : "auto")};
-	background-color: ${({ isOutline, color }) =>
-		!isOutline ? color || "var(--bg-primary-600)" : "#fff"};
-	color: ${({ isOutline }) => (!isOutline ? "#fff" : "var(--bg-primary-600)")};
-	padding: 12px;
-	border: 2px solid var(--bg-primary-600);
+
+	background-color: ${({ bgColor }) => bgColor || "var(--bg-primary-600)"};
+	color: ${({ textColor }) => textColor || "#fff"};
+	border: 2px solid
+		${({ borderColor }) => borderColor || "var(--bg-primary-600)"};
+
+	padding: 11px;
 	border-radius: 15px;
 	cursor: pointer;
 	font-weight: 500;

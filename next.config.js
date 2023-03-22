@@ -11,7 +11,11 @@ const nextConfig = {
 		NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
 	},
 	images: {
-		domains: ["lh3.googleusercontent.com"],
+		domains: [
+			"lh3.googleusercontent.com",
+			"via.placeholder.com",
+			"api-dev.invityu.com",
+		],
 	},
 };
 

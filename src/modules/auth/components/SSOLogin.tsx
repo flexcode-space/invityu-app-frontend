@@ -24,13 +24,10 @@ const SSOLogin: React.FC<SSOLoginProps> = ({ setIsLoading }) => {
 		ClientSafeProvider
 	> | null>();
 
-	const { data: session, status } = useSession();
+	const { data: session } = useSession();
 	const { mutate } = usePostLoginSSO();
 
 	const sessionEmail = session?.user?.email;
-
-	console.log("🚀 ~ file: SSOLogin.tsx:12 ~ session:", session);
-	console.log("🚀 ~ file: SSOLogin.tsx:12 ~ status:", status);
 
 	const handleLogin = (id: string) => {
 		signIn(id);
@@ -54,9 +51,9 @@ const SSOLogin: React.FC<SSOLoginProps> = ({ setIsLoading }) => {
 				onErrorHandling(error);
 				setIsLoading(false);
 
-				setTimeout(() => {
-					signOut();
-				}, 3000);
+				// setTimeout(() => {
+				// 	signOut();
+				// }, 2000);
 			},
 		});
 	}, [sessionEmail, mutate, setIsLoading]);

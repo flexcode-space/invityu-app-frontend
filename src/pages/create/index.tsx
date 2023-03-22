@@ -3,14 +3,14 @@ import { useRouter } from "next/router";
 
 import { protectedRoute } from "@/common/utils/auth";
 
-const DashboardPage = () => {
+const CreatePage = () => {
 	const router = useRouter();
 
 	useEffect(() => {
-		router.push("/create");
+		router.push("/create/themes");
 	}, []);
 
 	return;
 };
 
-export default protectedRoute(DashboardPage);
+export default protectedRoute(CreatePage);

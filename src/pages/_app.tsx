@@ -13,6 +13,7 @@ import { jakartaSans, poppins } from "@/common/styles/fonts";
 
 import "aos/dist/aos.css";
 import "@/common/styles/globals.css";
+import { ConfigProvider } from "antd";
 
 export default function App({ Component, pageProps }: AppProps) {
 	const queryClient = new QueryClient({
@@ -54,10 +55,18 @@ export default function App({ Component, pageProps }: AppProps) {
 			</Head>
 			<QueryClientProvider client={queryClient}>
 				<SessionProvider session={pageProps.session}>
-					<Layout>
-						<ReactHotToast />
-						<Component {...pageProps} />
-					</Layout>
+					<ConfigProvider
+						theme={{
+							token: {
+								fontFamily: poppins.style.fontFamily,
+							},
+						}}
+					>
+						<Layout>
+							<ReactHotToast />
+							<Component {...pageProps} />
+						</Layout>
+					</ConfigProvider>
 				</SessionProvider>
 			</QueryClientProvider>
 		</>
