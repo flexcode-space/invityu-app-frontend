@@ -28,7 +28,7 @@ const StepWizard: React.FC<Props> = ({
 					onMouseEnter={() => setHoveredStep(step?.id)}
 					onMouseLeave={() => setHoveredStep(null)}
 				>
-					{step?.id !== 1 && (
+					{step?.id !== 0 && (
 						<div className="h-full absolute left-0 top-1/2 -ml-5 w-5">
 							<hr />
 						</div>
