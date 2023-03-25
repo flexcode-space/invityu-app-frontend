@@ -89,7 +89,7 @@ const packages: PackageProps[] = [
 const ChooseTheme: React.FC = () => {
 	return (
 		<>
-			<PageHeader title={"Pilih Tema"} isBackButton isFixedPosition />
+			<PageHeader title={"Pilih Tema"} isFixedPosition />
 			<Container className="pt-24 pb-6">
 				<h2 className="text-xl font-medium">
 					Tentukan tema design undangan favoritmu!

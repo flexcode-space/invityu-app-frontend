@@ -53,7 +53,7 @@ const StyledHeader = styled.div<{ isFixedPosition: boolean }>`
 	z-index: 9;
 	display: flex;
 	align-items: center;
-	padding: 0.5rem 1rem;
+	padding: 0.5rem 2rem;
 	box-shadow: rgb(0 0 0 / 15%) 0px 2px 8px;
 `;
 
