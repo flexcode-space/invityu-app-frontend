@@ -32,7 +32,7 @@ const PillsCarousel: React.FC<PillsProps> = ({
 
 	return (
 		<div
-			className="flex overflow-x-scroll scrollbar-hide"
+			className="px-8 flex overflow-x-scroll scrollbar-hide"
 			{...events}
 			ref={ref}
 		>

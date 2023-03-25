@@ -1,5 +1,5 @@
-import PillsCarousel from "@/common/components/elements/PillsCarousel";
 import React, { useState } from "react";
+import PillsCarousel from "@/common/components/elements/PillsCarousel";
 
 const ThemeCategory = () => {
 	const items = [

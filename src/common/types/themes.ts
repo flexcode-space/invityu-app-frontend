@@ -12,3 +12,8 @@ export interface PackageProps {
   name: string;
   themes: ThemeProps[];
 }
+
+export interface ThemeCarouselProps {
+  className?: string;
+  themes: ThemeProps[];
+}

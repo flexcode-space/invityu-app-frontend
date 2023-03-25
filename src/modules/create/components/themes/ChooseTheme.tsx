@@ -3,8 +3,8 @@ import Container from "@/common/components/elements/Container";
 import PageHeader from "@/common/components/layouts/partials/PageHeader";
 import Button from "@/common/components/elements/Button";
 
-import ThemeCard from "./ThemeCard";
 import ThemeCategory from "./ThemeCategory";
+import ThemeCarousel from "./ThemeCarousel";
 
 import { PackageProps } from "@/common/types/themes";
 
@@ -40,6 +40,15 @@ const packages: PackageProps[] = [
 				image:
 					"https://api-dev.invityu.com/assets/global/images/themes/flora-orchid.png",
 			},
+			{
+				id: 4,
+				title: "Closedaisy",
+				initial_price: 200000,
+				price: 99000,
+				tag: null,
+				image:
+					"https://api-dev.invityu.com/assets/global/images/themes/flora-blush.png",
+			},
 		],
 	},
 	{
@@ -64,6 +73,15 @@ const packages: PackageProps[] = [
 				image:
 					"https://api-dev.invityu.com/assets/global/images/themes/flora-jade.png",
 			},
+			{
+				id: 3,
+				title: "Breaisnole",
+				initial_price: null,
+				price: 99000,
+				tag: null,
+				image:
+					"https://api-dev.invityu.com/assets/global/images/themes/flora-orchid.png",
+			},
 		],
 	},
 ];
@@ -77,23 +95,16 @@ const ChooseTheme: React.FC = () => {
 					Tentukan tema design undangan favoritmu!
 				</h2>
 			</Container>
-			<div className="pl-8">
-				<ThemeCategory />
-			</div>
-			<Container className="pb-14">
+			<ThemeCategory />
+			<div className="pb-14">
 				<div className="space-y-3">
-					<h3 className="text-lg font-medium">Daftar Tema</h3>
-
+					<h3 className="px-8 pt-8 text-lg font-medium">Daftar Tema</h3>
 					<div className="space-y-8">
 						{packages.map((item) => (
 							<div className="space-y-4" key={item?.id}>
-								<h4 className="font-medium">{item?.name}</h4>
-								<div className="grid grid-cols-2 gap-4">
-									{item?.themes.map((theme, index) => (
-										<ThemeCard key={index} {...theme} />
-									))}
-								</div>
-								<div className="pt-3">
+								<h4 className="px-8 font-medium">{item?.name}</h4>
+								<ThemeCarousel className="px-8" themes={item?.themes} />
+								<div className="px-8 pt-3">
 									<Button
 										type="button"
 										bgColor="#EBF2FC"
@@ -108,7 +119,7 @@ const ChooseTheme: React.FC = () => {
 						))}
 					</div>
 				</div>
-			</Container>
+			</div>
 		</>
 	);
 };
