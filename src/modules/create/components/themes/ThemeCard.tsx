@@ -21,10 +21,12 @@ const ThemeCard: React.FC<ThemeProps> = ({
 				<Image src={image} width={300} height={300} alt={title} />
 				<div className="p-4 space-y-1">
 					<div className="font-medium">{title}</div>
-					<div className="flex gap-2">
-						<p className="text-gray-600 font-medium">{formatCurrency(price)}</p>
+					<div className="flex items-center gap-2">
+						<p className="text-gray-600 text-sm font-medium">
+							{formatCurrency(price)}
+						</p>
 						{initial_price && (
-							<p className="text-gray-400  line-through">
+							<p className="text-gray-400 text-sm line-through">
 								{formatCurrency(initial_price)}
 							</p>
 						)}

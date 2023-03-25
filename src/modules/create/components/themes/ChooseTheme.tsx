@@ -1,8 +1,10 @@
 import React from "react";
 import Container from "@/common/components/elements/Container";
 import PageHeader from "@/common/components/layouts/partials/PageHeader";
-import ThemeCard from "./ThemeCard";
 import Button from "@/common/components/elements/Button";
+
+import ThemeCard from "./ThemeCard";
+import ThemeCategory from "./ThemeCategory";
 
 import { PackageProps } from "@/common/types/themes";
 
@@ -70,11 +72,15 @@ const ChooseTheme: React.FC = () => {
 	return (
 		<>
 			<PageHeader title={"Pilih Tema"} isBackButton isFixedPosition />
-			<Container className="space-y-5 pt-24 pb-16">
+			<Container className="pt-24 pb-6">
 				<h2 className="text-xl font-medium">
 					Tentukan tema design undangan favoritmu!
 				</h2>
-				<div className="text-red-500">pills swipeable component here</div>
+			</Container>
+			<div className="pl-8">
+				<ThemeCategory />
+			</div>
+			<Container className="pb-14">
 				<div className="space-y-3">
 					<h3 className="text-lg font-medium">Daftar Tema</h3>
 

@@ -19,6 +19,18 @@
 	--bg-primary-200: #b0c1ff;
 	--bg-primary-100: #c7d7ff;
 	--bg-primary-50: #dfedff;
+
+	--bg-secondary: #701332;
+	--bg-secondary-900: #701332;
+	--bg-secondary-800: #862a43;
+	--bg-secondary-700: #9c3e56;
+	--bg-secondary-600: #b35369;
+	--bg-secondary-500: #ca687d;
+	--bg-secondary-400: #e27d92;
+	--bg-secondary-300: #fa92a7;
+	--bg-secondary-200: #ffa8bd;
+	--bg-secondary-100: #ffbed3;
+	--bg-secondary-50: #ffd5ea;
 }
 
 * {
