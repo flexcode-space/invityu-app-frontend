@@ -1,5 +1,4 @@
 import React from "react";
-import { BiRightArrowAlt as MoreIcon } from "react-icons/bi";
 import Container from "@/common/components/elements/Container";
 import PageHeader from "@/common/components/layouts/partials/PageHeader";
 
@@ -109,7 +108,6 @@ const ChooseTheme: React.FC = () => {
 										<h4>{item?.name}</h4>
 										<div className="flex items-center gap-1 text-sm text-primary-600 cursor-pointer">
 											Lihat Semua
-											<MoreIcon size={16} />
 										</div>
 									</div>
 									<ThemeCarousel className="px-8" themes={item?.themes} />
