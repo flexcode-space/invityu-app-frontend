@@ -19,7 +19,7 @@ const StepWizard: React.FC<Props> = ({
 	const [hoveredStep, setHoveredStep] = useState<number | null>(null);
 
 	return (
-		<div className="flex items-center gap-5 overflow-x-hidden scrollbar-hide">
+		<div className="flex items-center gap-5 overflow-hidden scrollbar-hide">
 			{steps.map((step, _) => (
 				<div
 					key={step?.id}
