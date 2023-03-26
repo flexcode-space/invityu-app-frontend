@@ -15,7 +15,7 @@ const packages: PackageProps[] = [
 		themes: [
 			{
 				id: 1,
-				title: "Glitterbloom",
+				name: "Glitterbloom",
 				initial_price: 200000,
 				price: 169000,
 				tag: "Baru",
@@ -24,7 +24,7 @@ const packages: PackageProps[] = [
 			},
 			{
 				id: 2,
-				title: "Chromapetal",
+				name: "Chromapetal",
 				initial_price: 200000,
 				price: 269000,
 				tag: "Populer",
@@ -33,7 +33,7 @@ const packages: PackageProps[] = [
 			},
 			{
 				id: 3,
-				title: "Stellarose",
+				name: "Stellarose",
 				initial_price: null,
 				price: 99000,
 				tag: null,
@@ -42,7 +42,7 @@ const packages: PackageProps[] = [
 			},
 			{
 				id: 4,
-				title: "Closedaisy",
+				name: "Closedaisy",
 				initial_price: 200000,
 				price: 99000,
 				tag: null,
@@ -57,7 +57,7 @@ const packages: PackageProps[] = [
 		themes: [
 			{
 				id: 1,
-				title: "Stardaisy",
+				name: "Stardaisy",
 				initial_price: 200000,
 				price: 99000,
 				tag: "Baru",
@@ -66,7 +66,7 @@ const packages: PackageProps[] = [
 			},
 			{
 				id: 2,
-				title: "Breezefall",
+				name: "Breezefall",
 				initial_price: 200000,
 				price: 10000,
 				tag: null,
@@ -75,7 +75,7 @@ const packages: PackageProps[] = [
 			},
 			{
 				id: 3,
-				title: "Breaisnole",
+				name: "Breaisnole",
 				initial_price: null,
 				price: 99000,
 				tag: null,
@@ -106,7 +106,7 @@ const ChooseTheme: React.FC = () => {
 								<div className="space-y-4" key={item?.id}>
 									<div className="px-8 flex justify-between font-medium">
 										<h4>{item?.name}</h4>
-										<div className="flex items-center gap-1 text-sm text-primary-600 cursor-pointer">
+										<div className="flex items-center gap-1 text-sm text-primary-600 cursor-pointer hover:underline">
 											Lihat Semua
 										</div>
 									</div>

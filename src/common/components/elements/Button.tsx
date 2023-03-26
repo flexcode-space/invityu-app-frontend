@@ -12,6 +12,7 @@ type ButtonProps = {
 	textColor?: string;
 	borderColor?: string;
 	children?: ReactNode;
+	className?: string;
 	type?: "button" | "submit" | "reset" | undefined;
 	[key: string]: any;
 };
@@ -26,6 +27,7 @@ const Button: FC<ButtonProps> = ({
 	textColor,
 	borderColor,
 	children,
+	className,
 	type,
 	...other
 }) => {
@@ -49,6 +51,7 @@ const Button: FC<ButtonProps> = ({
 					bgColor={bgColor}
 					textColor={textColor}
 					borderColor={borderColor}
+					className={className}
 					{...other}
 				>
 					{children}

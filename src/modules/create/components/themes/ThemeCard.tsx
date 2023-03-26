@@ -1,15 +1,19 @@
+import { ReactNode } from "react";
+import Router from "next/router";
 import { Badge } from "antd";
 import styled from "@emotion/styled";
-import Image from "@/common/components/elements/Image";
 
+import Image from "@/common/components/elements/Image";
 import { tagColor } from "@/common/constant/color";
 import { formatCurrency } from "@/common/helpers";
 import { ThemeProps } from "@/common/types/themes";
-import { ReactNode } from "react";
+
+import { url } from "@/common/constant/url";
 
 const ThemeCard: React.FC<ThemeProps> = ({
+	id,
 	image,
-	title,
+	name,
 	initial_price,
 	price,
 	tag,
@@ -17,11 +21,17 @@ const ThemeCard: React.FC<ThemeProps> = ({
 	const defaultTag = "Populer";
 
 	const CardComponent = () => {
+		const handleThemePreview = () =>
+			Router.push(`${url.INVITATION_PREVIEW}?id=${id}`);
+
 		return (
-			<div className="rounded-xl overflow-hidden shadow-sm border border-solid border-primary-50 cursor-pointer transition-all duration-300 hover:shadow-md">
-				<Image src={image} width={300} height={300} alt={title} />
+			<div
+				className="rounded-xl overflow-hidden shadow-sm border border-solid border-primary-50 cursor-pointer transition-all duration-300 hover:shadow-md"
+				onClick={handleThemePreview}
+			>
+				<Image src={image} width={300} height={300} alt={name} />
 				<div className="p-4 space-y-1">
-					<div className="font-medium">{title}</div>
+					<div className="font-medium">{name}</div>
 					<div className="flex items-center gap-2">
 						<p className="text-gray-600 font-medium">{formatCurrency(price)}</p>
 						{initial_price && (

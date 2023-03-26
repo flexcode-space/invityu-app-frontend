@@ -1,7 +1,7 @@
 export interface ThemeProps {
   id: number;
   image: string;
-  title: string;
+  name: string;
   initial_price: number | null;
   price: number;
   tag: string | null;

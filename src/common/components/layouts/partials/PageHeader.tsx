@@ -8,16 +8,22 @@ import { logout } from "@/common/utils/auth";
 
 interface Props {
 	title: string;
+	backUrl?: string;
 	isBackButton?: boolean;
 	isFixedPosition?: boolean;
 }
 
 const PageHeader: React.FC<Props> = ({
 	title,
+	backUrl,
 	isBackButton,
 	isFixedPosition = false,
 }) => {
 	const route = useRouter();
+
+	const handleBackUrl = () => {
+		backUrl ? route.push(backUrl) : route.back();
+	};
 
 	return (
 		<StyledHeader isFixedPosition={isFixedPosition}>
@@ -26,7 +32,7 @@ const PageHeader: React.FC<Props> = ({
 					{isBackButton && (
 						<StyledBack
 							size={26}
-							onClick={() => route.back()}
+							onClick={handleBackUrl}
 							className="mr-3 text-primary-600 bg-white"
 						>
 							<BackIcon size="24" />
