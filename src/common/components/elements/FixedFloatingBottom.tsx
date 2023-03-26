@@ -17,7 +17,7 @@ const FixedFloatingBottom: React.FC<FixedFloatingBottomProps> = ({
 	...others
 }) => {
 	return (
-		<div className="fixed bottom-0 left-0 w-full bg-transparent">
+		<div className="fixed bottom-0 left-0 w-full">
 			<StyledComponent
 				className={`mx-auto bg-white max-w-[480px] ${className}`}
 				{...others}
