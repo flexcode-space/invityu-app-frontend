@@ -23,7 +23,6 @@ const FixedFloatingBottom: React.FC<FixedFloatingBottomProps> = ({
 				{...others}
 				isShadow={isShadow}
 				isRounded={isRounded}
-				hasNegativeMargin={isRounded} // new prop added
 			>
 				{children}
 			</StyledComponent>
@@ -45,12 +44,5 @@ const StyledComponent = styled.div<FixedFloatingBottomProps>`
 		`
 			border-top-left-radius: 15px;
 			border-top-right-radius: 15px;
-	`}
-
-
-	${({ hasNegativeMargin }) =>
-		hasNegativeMargin &&
-		`
-      margin-top: -15px; /* add negative margin to account for the rounded corners */
-  `}
+		`}
 `;
