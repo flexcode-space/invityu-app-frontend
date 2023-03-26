@@ -37,7 +37,6 @@ const PreviewTheme: React.FC = () => {
 			</div>
 			<FixedFloatingBottom
 				isShadow
-				isRounded
 				className="flex p-5 w-full items-center justify-between gap-5"
 			>
 				<div className="w-3/5 flex flex-col gap-1">
