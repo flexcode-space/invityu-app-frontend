@@ -27,13 +27,13 @@ const PageHeader: React.FC<Props> = ({
 
 	return (
 		<StyledHeader isFixedPosition={isFixedPosition}>
-			<div className="flex items-center w-full justify-between ">
+			<div className="flex items-center w-full justify-between">
 				<div className="flex items-center">
 					{isBackButton && (
 						<StyledBack
 							size={26}
 							onClick={handleBackUrl}
-							className="mr-3 text-primary-600 bg-white"
+							className="mr-4 text-primary-600 bg-white"
 						>
 							<BackIcon size="24" />
 						</StyledBack>
