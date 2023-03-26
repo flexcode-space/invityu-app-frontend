@@ -22,7 +22,7 @@ const PreviewTheme: React.FC = () => {
 				isFixedPosition
 				isBackButton
 			/>
-			<div className="pt-[60px] pb-20 scrollbar-hide">
+			<div className="pt-[60px] scrollbar-hide">
 				<EmbeddedWebsite url={invitationPreviewUrl} />
 			</div>
 			<FixedFloatingBottom
