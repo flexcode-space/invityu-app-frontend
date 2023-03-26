@@ -26,10 +26,11 @@ const EmbeddedWebsite: React.FC<Props> = ({ url }) => {
 						className="z-10 animate-pulse "
 						fill="text-gray-800"
 					/>
-					<span className="text-lg text-gray-800">Loading Preview</span>
+					<span className="z-10 text-lg text-gray-800">Loading Preview</span>
 				</div>
 			)}
 			<iframe
+				data-aos="zoom-in"
 				className="inset-0 w-full h-screen"
 				src={url}
 				title="Embedded Website"

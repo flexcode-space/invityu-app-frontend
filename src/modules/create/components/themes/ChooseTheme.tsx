@@ -98,24 +98,22 @@ const ChooseTheme: React.FC = () => {
 					</h2>
 				</Container>
 				<ThemeCategory />
-				<>
-					<div className="space-y-3">
-						<h3 className="px-8 pt-8 text-lg font-medium">Daftar Tema</h3>
-						<div className="space-y-8">
-							{packages.map((item) => (
-								<div className="space-y-4" key={item?.id}>
-									<div className="px-8 flex justify-between font-medium">
-										<h4>{item?.name}</h4>
-										<div className="flex items-center gap-1 text-sm text-primary-600 cursor-pointer hover:underline">
-											Lihat Semua
-										</div>
+				<div className="space-y-3">
+					<h3 className="px-8 pt-8 text-lg font-medium">Daftar Tema</h3>
+					<div className="space-y-8">
+						{packages.map((item) => (
+							<div className="space-y-4" key={item?.id}>
+								<div className="px-8 flex justify-between font-medium">
+									<h4>{item?.name}</h4>
+									<div className="flex items-center gap-1 text-sm text-primary-600 cursor-pointer hover:underline">
+										Lihat Semua
 									</div>
-									<ThemeCarousel className="px-8" themes={item?.themes} />
 								</div>
-							))}
-						</div>
+								<ThemeCarousel className="px-8" themes={item?.themes} />
+							</div>
+						))}
 					</div>
-				</>
+				</div>
 			</div>
 		</>
 	);

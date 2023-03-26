@@ -16,6 +16,7 @@ const ThemeCarousel: React.FC<ThemeCarouselProps> = ({ themes, className }) => {
 			className={`flex gap-5 overflow-x-scroll scrollbar-hide ${className}`}
 			{...events}
 			ref={ref}
+			data-aos="fade-left"
 		>
 			{themes.map((theme, index) => (
 				<ThemeCard key={index} {...theme} />
