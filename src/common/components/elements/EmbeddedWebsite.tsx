@@ -30,7 +30,7 @@ const EmbeddedWebsite: React.FC<Props> = ({ url }) => {
 				</div>
 			)}
 			<iframe
-				// data-aos="zoom-in"
+				data-aos="zoom-in"
 				className="inset-0 w-full h-screen"
 				src={url}
 				title="Embedded Website"

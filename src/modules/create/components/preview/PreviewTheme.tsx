@@ -21,7 +21,7 @@ const PreviewTheme: React.FC = () => {
 		setLoading(true);
 		setTimeout(() => {
 			Router.push("/create/information");
-		}, 2000);
+		}, 1000);
 	};
 
 	return (
