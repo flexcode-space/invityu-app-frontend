@@ -57,14 +57,14 @@ const Menu = (props: MenuProps) => {
 									</div>
 								)}
 								<div className="w-full">
-									<div className="flex">
+									<div className="flex text-sm">
 										<span>{item?.title}</span>
 										{item?.isRequired && (
-											<span className="ml-1 text-red-500">*</span>
+											<span className="ml-1  text-red-500">*</span>
 										)}
 									</div>
 									{item?.description && (
-										<span className="text-gray-500 text-sm">
+										<span className="text-gray-500 text-xs">
 											{item?.description}
 										</span>
 									)}
