@@ -1,5 +1,5 @@
 import { Alert, Tooltip } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { FcInfo as InfoIcon } from "react-icons/fc";
 import { IoIosAddCircle as AddIcon } from "react-icons/io";
 
@@ -12,8 +12,11 @@ import PageHeader from "@/common/components/layouts/partials/PageHeader";
 import { createDataInformationMenu } from "@/common/constant/menu";
 
 import CreateStepWizard from "../CreateStepWizard";
+import ModalSheet from "@/common/components/elements/ModalSheet";
 
 const DataInformation: React.FC = () => {
+	const [isOpenAddDataModal, setOpenAddDataModal] = useState<boolean>(false);
+
 	const informationTooltipMessage =
 		"Kamu masih dapat merubah semua informasi data kapan saja, kecuali link undangan.";
 
@@ -44,12 +47,23 @@ const DataInformation: React.FC = () => {
 						</div>
 						<div>
 							<Menu menus={createDataInformationMenu} />
+
 							<Card
 								className="flex items-center gap-3 py-4 px-6 hover:bg-gray-50 cursor-pointer"
 								borderColor="#EBF2FC"
+								onClick={() => setOpenAddDataModal(true)}
 							>
 								<AddIcon size={20} className="text-primary-600" />
 								<div>Data Informasi</div>
+								<ModalSheet
+									title="Buat Undangan Baru"
+									isOpen={isOpenAddDataModal}
+									onClose={() => setOpenAddDataModal(false)}
+								>
+									<div className="px-6 pb-5 bg-white">
+										<Menu menus={createDataInformationMenu} />
+									</div>
+								</ModalSheet>
 							</Card>
 						</div>
 					</div>
