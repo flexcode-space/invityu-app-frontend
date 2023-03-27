@@ -90,9 +90,9 @@ const ChooseTheme: React.FC = () => {
 	return (
 		<>
 			<PageHeader title={"Pilih Tema"} isFixedPosition />
-			<div className="pt-24 pb-14">
+			<div className="pt-20 pb-14">
 				<CreateStepWizard activeStep={0} />
-				<Container className="pb-6">
+				<Container className="pt-5 pb-6">
 					<h2 className="text-xl font-medium">
 						Tentukan tema design undangan favoritmu!
 					</h2>

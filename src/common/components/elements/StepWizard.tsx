@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import { useDraggable } from "react-use-draggable-scroll";
 
 interface Step {
 	id: number;
@@ -18,8 +19,16 @@ const StepWizard: React.FC<Props> = ({
 }) => {
 	const [hoveredStep, setHoveredStep] = useState<number | null>(null);
 
+	const ref =
+		useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
+	const { events } = useDraggable(ref);
+
 	return (
-		<div className="flex items-center gap-5 overflow-hidden scrollbar-hide">
+		<div
+			className="flex items-center gap-5 px-5 overflow-y-hidden scrollbar-hide h-14"
+			{...events}
+			ref={ref}
+		>
 			{steps.map((step, _) => (
 				<div
 					key={step?.id}
@@ -33,8 +42,6 @@ const StepWizard: React.FC<Props> = ({
 							<hr />
 						</div>
 					)}
-
-					{step?.id === activeStep && <div className="ml-5"></div>}
 
 					<div
 						className={`w-6 h-6 text-xs flex items-center justify-center rounded-full border ${
