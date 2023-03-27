@@ -34,7 +34,7 @@ const DataInformation: React.FC = () => {
 						type="info"
 						className="text-primary-600 text-sm"
 					/>
-					<div className="pb-8">
+					<div>
 						<div className="flex items-center gap-2">
 							<h3 className="text-base font-semibold">Data Informasi</h3>
 							<Tooltip
@@ -67,13 +67,14 @@ const DataInformation: React.FC = () => {
 							</Card>
 						</div>
 					</div>
+					<Button isBlock>Lihat Preview Undangan</Button>
 				</Container>
-				<FixedFloatingBottom
+				{/* <FixedFloatingBottom
 					isShadow
 					className="flex p-5 w-full items-center justify-between gap-5"
 				>
 					<Button isBlock>Lihat Preview Undangan</Button>
-				</FixedFloatingBottom>
+				</FixedFloatingBottom> */}
 			</div>
 		</>
 	);
