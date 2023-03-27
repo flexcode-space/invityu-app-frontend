@@ -23,7 +23,7 @@ const DataInformation: React.FC = () => {
 	return (
 		<>
 			<PageHeader title={`Data Informasi`} isFixedPosition isBackButton />
-			<div className="py-20">
+			<div className="pt-20 pb-16">
 				<CreateStepWizard activeStep={1} />
 				<Container className="pt-5 pb-6 space-y-8">
 					<h2 className="text-xl font-medium">
