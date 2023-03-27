@@ -34,7 +34,11 @@ const DataInformation: React.FC = () => {
 					<div className="pb-8">
 						<div className="flex items-center gap-2">
 							<h3 className="text-base font-semibold">Data Informasi</h3>
-							<Tooltip placement="bottom" title={informationTooltipMessage}>
+							<Tooltip
+								placement="bottom"
+								title={informationTooltipMessage}
+								overlayStyle={{ fontSize: "12px" }}
+							>
 								<InfoIcon size={16} />
 							</Tooltip>
 						</div>
