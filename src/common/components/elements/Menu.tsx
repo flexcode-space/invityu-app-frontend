@@ -41,7 +41,7 @@ const Menu = (props: MenuProps) => {
 					{child.map((item, key) => (
 						<StyledMenuItem
 							key={key}
-							className="py-4 px-6 hover:bg-gray-50 cursor-pointer"
+							className="py-4 px-6 cursor-pointer hover:bg-gray-50 "
 							isLast={item?.id !== lastMenu[index].id}
 							onClick={() => handleClick(item?.target)}
 						>

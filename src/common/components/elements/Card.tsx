@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 
-interface Props {
+interface StyledCardProps {
 	children: React.ReactNode;
 	transition?: boolean;
 	clickable?: boolean;
@@ -11,10 +11,11 @@ interface Props {
 	bgColor?: string;
 	borderColor?: string;
 	textColor?: string;
+	isShadow?: boolean;
 	[key: string]: any;
 }
 
-const Card: FC<Props> = ({
+const Card: FC<StyledCardProps> = ({
 	children,
 	transition,
 	clickable,
@@ -43,36 +44,30 @@ const Card: FC<Props> = ({
 
 export default Card;
 
-interface StyledCardProps {
-	clickable?: boolean;
-	transition?: boolean;
-	minHeight?: string;
-	maxHeight?: string;
-	bgColor?: string;
-	borderColor?: string;
-	textColor?: string;
-}
-
 const StyledCard = styled.div<StyledCardProps>`
-	background-color: ${(props) => (props.bgColor ? props.bgColor : "#fff")};
+	background-color: ${({ bgColor = "#fff" }) => bgColor};
 	margin: 1rem 0;
-	box-shadow: rgb(0 0 0 / 5%) 0px 1px 6px 0px;
 	border-radius: 10px;
+	min-height: ${({ minHeight = "unset" }) => minHeight};
+	max-height: ${({ maxHeight = "unset" }) => maxHeight};
+	color: ${({ textColor = "unset" }) => textColor};
+	border: ${({ borderColor }) => borderColor && `1px solid ${borderColor}`};
+	box-shadow: 0px 4px 10px rgba(223, 237, 255, 0.1);
 
-	min-height: ${(props) => (props.minHeight ? props.minHeight : "unset")};
-	max-height: ${(props) => (props.maxHeight ? props.maxHeight : "unset")};
-	color: ${(props) => (props.textColor ? props.textColor : "unset")};
-	border: ${(props) =>
-		props.borderColor ? `1px solid ${props.borderColor}` : "unset"};
+	${({ isShadow }) =>
+		isShadow &&
+		css`
+			box-shadow: rgb(0 0 0 / 5%) 0px 1px 6px 0px !important;
+		`}
 
-	${(props) =>
-		props.clickable &&
+	${({ clickable }) =>
+		clickable &&
 		css`
 			cursor: pointer;
 		`}
 
-	${(props) =>
-		props.transition &&
+	${({ transition }) =>
+		transition &&
 		css`
 			transition: all 250ms ease;
 			will-change: transition;
