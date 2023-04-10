@@ -52,10 +52,9 @@ const DataInformation: React.FC = () => {
 
 	const handleRemoveMenu = (menu: MenuItem) => {
 		let updatedMenu = [...defaultMenu];
-		updatedMenu[0].splice(
-			updatedMenu.findIndex((m: any) => m.id === menu.id),
-			1
-		);
+
+		const findMenu = updatedMenu[0].findIndex((m: any) => m.id === menu.id);
+		if (findMenu !== -1) updatedMenu[0].splice(findMenu, 1);
 
 		const existingMenu = additionalMenu[0].find(
 			(item: any) => item.id === menu.id
