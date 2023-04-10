@@ -7,6 +7,8 @@ import PreviewTheme from "@/modules/create/components/preview/PreviewTheme";
 import { meta } from "@/common/constant/meta";
 import { themeColor } from "@/common/constant/color";
 
+import { protectedRoute } from "@/common/utils/auth";
+
 const ThemePreviewPage: NextPage = () => {
 	return (
 		<>
@@ -20,4 +22,4 @@ const ThemePreviewPage: NextPage = () => {
 	);
 };
 
-export default ThemePreviewPage;
+export default protectedRoute(ThemePreviewPage);

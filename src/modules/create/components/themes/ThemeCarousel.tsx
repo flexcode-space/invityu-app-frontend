@@ -6,7 +6,18 @@ import ViewMoreTheme from "./ViewMoreTheme";
 
 import { ThemeCarouselProps } from "@/common/types/themes";
 
-const ThemeCarousel: React.FC<ThemeCarouselProps> = ({ themes, className }) => {
+const ThemeCarousel: React.FC<ThemeCarouselProps> = ({
+	themes,
+	package_id,
+	className,
+}) => {
+	const themeList = themes.map((theme) => {
+		return {
+			...theme,
+			package_id,
+		};
+	});
+
 	const ref =
 		useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
 	const { events } = useDraggable(ref);
@@ -18,10 +29,10 @@ const ThemeCarousel: React.FC<ThemeCarouselProps> = ({ themes, className }) => {
 			ref={ref}
 			data-aos="fade-left"
 		>
-			{themes.map((theme, index) => (
+			{themeList.map((theme, index) => (
 				<ThemeCard key={index} {...theme} />
 			))}
-			<ViewMoreTheme />
+			{themes.length > 3 && <ViewMoreTheme />}
 		</div>
 	);
 };

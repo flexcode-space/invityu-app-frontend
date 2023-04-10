@@ -8,85 +8,12 @@ import ThemeCarousel from "./ThemeCarousel";
 import { PackageProps } from "@/common/types/themes";
 import CreateStepWizard from "../CreateStepWizard";
 
-const packages: PackageProps[] = [
-	{
-		id: 1,
-		name: "Ekslusif",
-		themes: [
-			{
-				id: 1,
-				name: "Glitterbloom",
-				initial_price: 200000,
-				price: 169000,
-				tag: "Baru",
-				image:
-					"https://api-dev.invityu.com/assets/global/images/themes/bamboo-olive.png",
-			},
-			{
-				id: 2,
-				name: "Chromapetal",
-				initial_price: 200000,
-				price: 269000,
-				tag: "Populer",
-				image:
-					"https://api-dev.invityu.com/assets/global/images/themes/bamboo-latte.png",
-			},
-			{
-				id: 3,
-				name: "Stellarose",
-				initial_price: null,
-				price: 99000,
-				tag: null,
-				image:
-					"https://api-dev.invityu.com/assets/global/images/themes/flora-orchid.png",
-			},
-			{
-				id: 4,
-				name: "Closedaisy",
-				initial_price: 200000,
-				price: 99000,
-				tag: null,
-				image:
-					"https://api-dev.invityu.com/assets/global/images/themes/flora-blush.png",
-			},
-		],
-	},
-	{
-		id: 2,
-		name: "Premium",
-		themes: [
-			{
-				id: 1,
-				name: "Stardaisy",
-				initial_price: 200000,
-				price: 99000,
-				tag: "Baru",
-				image:
-					"https://api-dev.invityu.com/assets/global/images/themes/flora-blush.png",
-			},
-			{
-				id: 2,
-				name: "Breezefall",
-				initial_price: 200000,
-				price: 10000,
-				tag: null,
-				image:
-					"https://api-dev.invityu.com/assets/global/images/themes/flora-jade.png",
-			},
-			{
-				id: 3,
-				name: "Breaisnole",
-				initial_price: null,
-				price: 99000,
-				tag: null,
-				image:
-					"https://api-dev.invityu.com/assets/global/images/themes/flora-orchid.png",
-			},
-		],
-	},
-];
+import { useGetThemeList } from "../../hooks";
 
 const ChooseTheme: React.FC = () => {
+	const { data, isLoading, isError } = useGetThemeList();
+	const themeList = data?.data?.data || [];
+
 	return (
 		<>
 			<PageHeader title={"Pilih Tema"} isFixedPosition />
@@ -101,15 +28,21 @@ const ChooseTheme: React.FC = () => {
 				<div className="space-y-3">
 					<h3 className="px-8 pt-8 text-lg font-medium">Daftar Tema</h3>
 					<div className="space-y-8">
-						{packages.map((item) => (
+						{themeList?.map((item: PackageProps) => (
 							<div className="space-y-4" key={item?.id}>
 								<div className="px-8 flex justify-between font-medium">
 									<h4>{item?.name}</h4>
-									<div className="flex items-center gap-1 text-sm text-primary-600 cursor-pointer hover:underline">
-										Lihat Semua
-									</div>
+									{item?.themes?.length > 3 && (
+										<div className="flex items-center gap-1 text-sm text-primary-600 cursor-pointer hover:underline">
+											Lihat Semua
+										</div>
+									)}
 								</div>
-								<ThemeCarousel className="px-8" themes={item?.themes} />
+								<ThemeCarousel
+									className="px-8"
+									themes={item?.themes}
+									package_id={item?.id}
+								/>
 							</div>
 						))}
 					</div>

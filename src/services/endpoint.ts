@@ -18,6 +18,10 @@ export const endpoint = {
   // USER
   registerComplete: apiUrl + 'user/register/complete',
 
+  // CREATE
+  themeList: apiUrl + 'event/themes',
+  themeSelect: apiUrl + 'event/create'
+
 }
 
 

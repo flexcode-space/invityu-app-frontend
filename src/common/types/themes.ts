@@ -5,6 +5,7 @@ export interface ThemeProps {
   initial_price: number | null;
   price: number;
   tag: string | null;
+  package_id: number
 }
 
 export interface PackageProps {
@@ -16,4 +17,10 @@ export interface PackageProps {
 export interface ThemeCarouselProps {
   className?: string;
   themes: ThemeProps[];
+  package_id: number
+}
+
+export interface ThemeSelectProps {
+  package_id: string,
+  theme_id: string,
 }

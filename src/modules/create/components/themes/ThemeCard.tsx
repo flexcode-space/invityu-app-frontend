@@ -17,12 +17,15 @@ const ThemeCard: React.FC<ThemeProps> = ({
 	initial_price,
 	price,
 	tag,
+	package_id,
 }) => {
 	const defaultTag = "Populer";
 
 	const CardComponent = () => {
-		const handleThemePreview = () =>
-			Router.push(`${url.INVITATION_PREVIEW}?id=${id}`);
+		const handleThemePreview = () => {
+			// TODO: another approach is store into state
+			Router.push(`${url.INVITATION_PREVIEW}?pid=${package_id}&id=${id}`);
+		};
 
 		return (
 			<div

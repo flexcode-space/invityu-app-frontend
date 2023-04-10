@@ -6,6 +6,7 @@ import DataInformation from "@/modules/create/components/information/DataInforma
 
 import { themeColor } from "@/common/constant/color";
 import { meta } from "@/common/constant/meta";
+import { protectedRoute } from "@/common/utils/auth";
 
 const CreateInformationPage: NextPage = () => {
 	return (
@@ -20,4 +21,4 @@ const CreateInformationPage: NextPage = () => {
 	);
 };
 
-export default CreateInformationPage;
+export default protectedRoute(CreateInformationPage);

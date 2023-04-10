@@ -1,28 +1,52 @@
-import React, { useState } from "react";
-import Router from "next/router";
+import React, { useEffect } from "react";
+import Router, { useRouter } from "next/router";
 
 import PageHeader from "@/common/components/layouts/partials/PageHeader";
 import FixedFloatingBottom from "@/common/components/elements/FixedFloatingBottom";
 import EmbeddedWebsite from "@/common/components/elements/EmbeddedWebsite";
 
 import Button from "@/common/components/elements/Button";
+import { toast } from "react-hot-toast";
 import { formatCurrency } from "@/common/helpers";
 import { url } from "@/common/constant/url";
+import { onErrorHandling } from "@/common/helpers/error";
+
+import { usePostThemeSelect } from "../../hooks";
 
 const PreviewTheme: React.FC = () => {
-	const [isLoading, setLoading] = useState<boolean>(false);
-
+	// TODO: fetch single theme api to get theme data here
 	const invitationPreviewUrl = "https://invityu-client.vercel.app";
-
 	const price = 199000;
 	const initial_price = 399000;
 
+	const router = useRouter();
+	const { id, pid } = router.query;
+
+	const { mutate, isLoading } = usePostThemeSelect();
+
 	const handleSelectTheme = () => {
-		setLoading(true);
-		setTimeout(() => {
-			Router.push("/create/information");
-		}, 1000);
+		const payload = {
+			package_id: pid as string,
+			theme_id: id as string,
+		};
+
+		try {
+			mutate(payload, {
+				onSuccess: (res) => {
+					if (res?.data?.status) {
+						Router.push("/create/information");
+					}
+				},
+				onError: (error) => onErrorHandling(error),
+			});
+		} catch (error) {
+			toast.error("Unexpected error occurred!");
+		}
 	};
+
+	useEffect(() => {
+		if (id == undefined || pid == undefined) Router.push("/create/themes");
+	}, [id, pid]);
 
 	return (
 		<>

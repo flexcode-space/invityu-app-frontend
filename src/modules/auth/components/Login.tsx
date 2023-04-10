@@ -106,7 +106,7 @@ const Login: React.FC = () => {
 				onSuccess: (res) => {
 					console.log("res:", res);
 					if (res?.data?.status) {
-						const token = res?.data?.data || {};
+						const token = res?.data?.data?.token || {};
 						login({ token });
 					}
 				},

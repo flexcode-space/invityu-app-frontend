@@ -1,24 +1,70 @@
-import { Alert, Tooltip } from "antd";
 import React, { useState } from "react";
+import { Alert, Tooltip } from "antd";
 import { FcInfo as InfoIcon } from "react-icons/fc";
 import { IoIosAddCircle as AddIcon } from "react-icons/io";
 
 import Button from "@/common/components/elements/Button";
 import Card from "@/common/components/elements/Card";
 import Container from "@/common/components/elements/Container";
-import FixedFloatingBottom from "@/common/components/elements/FixedFloatingBottom";
 import Menu from "@/common/components/elements/Menu";
 import PageHeader from "@/common/components/layouts/partials/PageHeader";
-import { createDataInformationMenu } from "@/common/constant/menu";
+
+import {
+	createDataInformationMenu,
+	createDataInformationMenuAdditional,
+} from "@/common/constant/menu";
 
 import CreateStepWizard from "../CreateStepWizard";
 import ModalSheet from "@/common/components/elements/ModalSheet";
 
+interface MenuItem {
+	id: number;
+	title: string;
+	description: string;
+	target: string;
+	icon: string;
+	isRequired: boolean;
+	tag: string | null;
+	isChecked?: boolean;
+}
+
 const DataInformation: React.FC = () => {
 	const [isOpenAddDataModal, setOpenAddDataModal] = useState<boolean>(false);
+	const [defaultMenu, setDefaultMenu] = useState(createDataInformationMenu);
 
 	const informationTooltipMessage =
 		"Kamu masih dapat merubah semua informasi data kapan saja, kecuali link undangan.";
+
+	let additionalMenu = createDataInformationMenuAdditional;
+
+	const handleAddMenu = (menu: any) => {
+		const updatedMenu = [...defaultMenu];
+		updatedMenu[0].push({ ...menu, isChecked: true });
+
+		const existingMenu = additionalMenu[0].find(
+			(item: any) => item?.id === menu?.id
+		);
+
+		if (existingMenu) existingMenu.isChecked = true;
+
+		setDefaultMenu(updatedMenu);
+	};
+
+	const handleRemoveMenu = (menu: MenuItem) => {
+		let updatedMenu = [...defaultMenu];
+		updatedMenu[0].splice(
+			updatedMenu.findIndex((m: any) => m.id === menu.id),
+			1
+		);
+
+		const existingMenu = additionalMenu[0].find(
+			(item: any) => item.id === menu.id
+		);
+
+		if (existingMenu) existingMenu.isChecked = false;
+
+		setDefaultMenu(updatedMenu);
+	};
 
 	return (
 		<>
@@ -46,7 +92,7 @@ const DataInformation: React.FC = () => {
 							</Tooltip>
 						</div>
 						<div>
-							<Menu menus={createDataInformationMenu} />
+							<Menu menus={defaultMenu} isChevron isClickable />
 
 							<Card
 								className="flex items-center gap-3 py-4 px-6 hover:bg-gray-50 cursor-pointer"
@@ -56,12 +102,17 @@ const DataInformation: React.FC = () => {
 								<AddIcon size={20} className="text-primary-600" />
 								<div>Data Informasi</div>
 								<ModalSheet
-									title="Buat Undangan Baru"
+									title="Pilihan Data Informasi"
 									isOpen={isOpenAddDataModal}
 									onClose={() => setOpenAddDataModal(false)}
 								>
 									<div className="px-6 pb-5 bg-white">
-										<Menu menus={createDataInformationMenu} />
+										<Menu
+											menus={additionalMenu}
+											checkedMenu={(menu: any) => handleAddMenu(menu)}
+											unCheckedMenu={(menu: any) => handleRemoveMenu(menu)}
+											isCheckbox
+										/>
 									</div>
 								</ModalSheet>
 							</Card>
@@ -69,12 +120,6 @@ const DataInformation: React.FC = () => {
 					</div>
 					<Button isBlock>Lihat Preview Undangan</Button>
 				</Container>
-				{/* <FixedFloatingBottom
-					isShadow
-					className="flex p-5 w-full items-center justify-between gap-5"
-				>
-					<Button isBlock>Lihat Preview Undangan</Button>
-				</FixedFloatingBottom> */}
 			</div>
 		</>
 	);
