@@ -14,10 +14,13 @@ const ThemeCard: React.FC<ThemeProps> = ({
 	id,
 	image,
 	name,
+	description,
 	initial_price,
 	price,
 	tag,
 	package_id,
+	viewOptions,
+	isAnimation,
 }) => {
 	const defaultTag = "Populer";
 
@@ -32,18 +35,49 @@ const ThemeCard: React.FC<ThemeProps> = ({
 				className="rounded-xl overflow-hidden shadow-sm border border-solid border-primary-50 cursor-pointer transition-all duration-300 hover:shadow-md"
 				onClick={handleThemePreview}
 			>
-				<Image src={image} width={300} height={300} alt={name} />
-				<div className="p-4 space-y-1">
-					<div className="font-medium">{name}</div>
-					<div className="flex items-center gap-2">
-						<p className="text-gray-600 font-medium">{formatCurrency(price)}</p>
-						{initial_price && (
-							<p className="text-gray-400 text-sm line-through">
-								{formatCurrency(initial_price)}
-							</p>
-						)}
+				{viewOptions === "list" ? (
+					<div className="flex">
+						<Image src={image} width={150} height={150} alt={name} />
+						<div className="flex flex-col justify-between p-4 space-y-1">
+							<div>
+								<div className="font-medium">{name}</div>
+								<p className="text-sm text-gray-500 mt-2">{description}</p>
+							</div>
+							<div className="flex items-center gap-2">
+								<p className="text-gray-600 font-medium">
+									{formatCurrency(price)}
+								</p>
+								{initial_price && (
+									<p className="text-gray-400 text-sm line-through">
+										{formatCurrency(initial_price)}
+									</p>
+								)}
+							</div>
+						</div>
 					</div>
-				</div>
+				) : (
+					<>
+						<Image
+							src={image}
+							width={viewOptions === "grid" ? 500 : 300}
+							height={viewOptions === "grid" ? 500 : 300}
+							alt={name}
+						/>
+						<div className="p-4 space-y-1">
+							<div className="font-medium">{name}</div>
+							<div className="flex items-center gap-2">
+								<p className="text-gray-600 font-medium">
+									{formatCurrency(price)}
+								</p>
+								{initial_price && (
+									<p className="text-gray-400 text-sm line-through">
+										{formatCurrency(initial_price)}
+									</p>
+								)}
+							</div>
+						</div>
+					</>
+				)}
 			</div>
 		);
 	};
@@ -56,21 +90,41 @@ const ThemeCard: React.FC<ThemeProps> = ({
 		);
 	};
 
-	const CardWidthWrapper = ({ children }: { children: ReactNode }) => {
+	const CardWidthWrapper = ({
+		children,
+		viewOptions,
+		isAnimation = false,
+	}: {
+		children: ReactNode;
+		viewOptions?: string;
+		isAnimation?: boolean;
+	}) => {
+		const cardWidthClasses =
+			viewOptions === "grid"
+				? "py-2 min-w-full max-w-full w-full"
+				: "py-2 min-w-[14rem] max-w-[14rem] w-14rem";
+
+		const cardListView = "py-2 min-w-full max-w-full w-full";
+
 		return (
-			<div className="py-2 min-w-[14rem] max-w-[14rem] w-14rem">{children}</div>
+			<div
+				className={viewOptions === "list" ? cardListView : cardWidthClasses}
+				data-aos={isAnimation && "fade-up"}
+			>
+				{children}
+			</div>
 		);
 	};
 
 	if (tag) {
 		return (
-			<CardWidthWrapper>
+			<CardWidthWrapper viewOptions={viewOptions} isAnimation={isAnimation}>
 				<CardWithRibbon />
 			</CardWidthWrapper>
 		);
 	} else {
 		return (
-			<CardWidthWrapper>
+			<CardWidthWrapper viewOptions={viewOptions} isAnimation={isAnimation}>
 				<CardComponent />
 			</CardWidthWrapper>
 		);

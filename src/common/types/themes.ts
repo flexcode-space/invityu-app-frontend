@@ -1,15 +1,20 @@
 export interface ThemeProps {
-  id: number;
+  id: string;
   image: string;
   name: string;
+  description: string;
   initial_price: number | null;
   price: number;
   tag: string | null;
-  package_id: number
+  package_id: string;
+  viewOptions: string;
+  isGridView?: boolean;
+  isListView?: boolean;
+  isAnimation?: boolean;
 }
 
 export interface PackageProps {
-  id: number;
+  id: string;
   name: string;
   themes: ThemeProps[];
 }
@@ -17,7 +22,7 @@ export interface PackageProps {
 export interface ThemeCarouselProps {
   className?: string;
   themes: ThemeProps[];
-  package_id: number
+  package_id: string
 }
 
 export interface ThemeSelectProps {

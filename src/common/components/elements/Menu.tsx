@@ -47,8 +47,6 @@ const Menu: React.FC<MenuProps> = ({
 	checkedMenu,
 	unCheckedMenu,
 }) => {
-	console.log("🚀 aulianza ~ file: Menu.tsx:50 ~ menus:", menus);
-
 	const lastMenu = menus.map((i) => i[i.length - 1]);
 
 	const handleCheckMenu = (item: any) => {

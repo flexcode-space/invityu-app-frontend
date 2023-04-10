@@ -1,4 +1,5 @@
 import React from "react";
+import Router from "next/router";
 import Container from "@/common/components/elements/Container";
 import PageHeader from "@/common/components/layouts/partials/PageHeader";
 
@@ -13,6 +14,10 @@ import { useGetThemeList } from "../../hooks";
 const ChooseTheme: React.FC = () => {
 	const { data, isLoading, isError } = useGetThemeList();
 	const themeList = data?.data?.data || [];
+
+	const handleViewAll = (id: string) => {
+		Router.push(`/create/themes/query?id=${id}`);
+	};
 
 	return (
 		<>
@@ -33,7 +38,10 @@ const ChooseTheme: React.FC = () => {
 								<div className="px-8 flex justify-between font-medium">
 									<h4>{item?.name}</h4>
 									{item?.themes?.length > 3 && (
-										<div className="flex items-center gap-1 text-sm text-primary-600 cursor-pointer hover:underline">
+										<div
+											className="flex items-center gap-1 text-sm text-primary-600 cursor-pointer hover:underline"
+											onClick={() => handleViewAll(item?.id)}
+										>
 											Lihat Semua
 										</div>
 									)}
