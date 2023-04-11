@@ -19,6 +19,7 @@ const QueryTheme: React.FC = () => {
 	const { id } = router.query;
 	console.log("🚀 aulianza ~ file: QueryTheme.tsx:20 ~ id:", id);
 
+	// TODO: need to passing params package_id into query params
 	const { data, isLoading, isError } = useGetThemeList();
 	const themeList = data?.data?.data[0]?.themes || [];
 

@@ -27,6 +27,12 @@ export const createDataInformationMenu = [
       isRequired: true,
       tag: null
     },
+
+  ]
+];
+
+export const createDataInformationMenuAdditional = [
+  [
     {
       id: 4,
       title: "Musik",
@@ -45,11 +51,6 @@ export const createDataInformationMenu = [
       isRequired: false,
       tag: "Premium"
     },
-  ]
-];
-
-export const createDataInformationMenuAdditional = [
-  [
     {
       id: 6,
       title: "Galeri",
