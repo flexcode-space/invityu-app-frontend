@@ -1,7 +1,8 @@
 export const createDataInformationMenu = [
   [
     {
-      id: 1,
+      order: 1,
+      id: 'bride',
       title: "Data calon mempelai",
       description: "Isi data calon mempelai",
       target: "/create/information/brides",
@@ -10,7 +11,8 @@ export const createDataInformationMenu = [
       tag: null
     },
     {
-      id: 2,
+      order: 2,
+      id: 'events',
       title: "Rangkaian Acara",
       description: "Acara, tanggal dan lainnya",
       target: "/create/information/events",
@@ -19,7 +21,8 @@ export const createDataInformationMenu = [
       tag: null
     },
     {
-      id: 3,
+      order: 3,
+      id: 'link',
       title: "Link Undangan",
       description: "Buat link undangan",
       target: "/create/information/link",
@@ -34,7 +37,8 @@ export const createDataInformationMenu = [
 export const createDataInformationMenuAdditional = [
   [
     {
-      id: 4,
+      order: 4,
+      id: 'music',
       title: "Musik",
       description: "Pilih musik undangan",
       target: "/create/information/music",
@@ -43,7 +47,8 @@ export const createDataInformationMenuAdditional = [
       tag: "Premium"
     },
     {
-      id: 5,
+      order: 5,
+      id: 'quotes',
       title: "Quotes",
       description: "Pilih atau buat quotes",
       target: "/create/information/quotes",
@@ -52,31 +57,56 @@ export const createDataInformationMenuAdditional = [
       tag: "Premium"
     },
     {
-      id: 6,
+      order: 6,
+      id: 'galleries',
       title: "Galeri",
       description: "Maksimal 1 vidio & 5 foto",
       target: "/create/information/gallery",
-      icon: "/images/icons/information/ic-data-brides.svg",
+      icon: "/images/icons/information/ic-data-gallery.svg",
       isRequired: false,
       tag: "Ekslusif",
       isChecked: false
     },
     {
-      id: 7,
+      order: 7,
+      id: 'stories',
       title: "Couple Story",
       description: "Maksimal 5 story",
       target: "/create/information/story",
-      icon: "/images/icons/information/ic-data-events.svg",
+      icon: "/images/icons/information/ic-data-story.svg",
       isRequired: false,
       tag: "Ekslusif",
       isChecked: false
     },
     {
-      id: 8,
+      order: 8,
+      id: 'bank_or_wallet_account',
       title: "Hadiah",
       description: "Informasi rekening / e-wallet",
       target: "/create/information/gift",
-      icon: "/images/icons/information/ic-data-link.svg",
+      icon: "/images/icons/information/ic-data-gift.svg",
+      isRequired: false,
+      tag: "Ekslusif",
+      isChecked: false
+    },
+    {
+      order: 9,
+      id: 'live_streaming',
+      title: "Siaran Langsung",
+      description: "Cantumkan link siaran langsung",
+      target: "/create/information/gift",
+      icon: "/images/icons/information/ic-data-live.svg",
+      isRequired: false,
+      tag: "Ekslusif",
+      isChecked: false
+    },
+    {
+      order: 10,
+      id: 'opening_sentence',
+      title: "Informasi Lainnya",
+      description: "Pilih kalimat pembuka",
+      target: "/create/information/gift",
+      icon: "/images/icons/information/ic-data-more.svg",
       isRequired: false,
       tag: "Ekslusif",
       isChecked: false

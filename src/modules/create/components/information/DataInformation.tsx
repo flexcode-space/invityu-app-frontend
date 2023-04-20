@@ -16,6 +16,7 @@ import {
 
 import CreateStepWizard from "../CreateStepWizard";
 import ModalSheet from "@/common/components/elements/ModalSheet";
+import { useSelectedThemeDataStore } from "@/common/store/useThemeStore";
 
 interface MenuItem {
 	id: number;
@@ -31,6 +32,8 @@ interface MenuItem {
 const DataInformation: React.FC = () => {
 	const [isOpenAddDataModal, setOpenAddDataModal] = useState<boolean>(false);
 	const [defaultMenu, setDefaultMenu] = useState(createDataInformationMenu);
+
+	const { selectedThemeData } = useSelectedThemeDataStore();
 
 	const informationTooltipMessage =
 		"Kamu masih dapat merubah semua informasi data kapan saja, kecuali link undangan.";
@@ -75,7 +78,7 @@ const DataInformation: React.FC = () => {
 						Isi data informasi yang akan kamu tampilkan di undanganmu!
 					</h2>
 					<Alert
-						message="Kamu memilih paket premium dengan tema Flora Modern."
+						message={`Kamu memilih tema ${selectedThemeData?.name}`}
 						type="info"
 						className="text-primary-600 text-sm"
 					/>

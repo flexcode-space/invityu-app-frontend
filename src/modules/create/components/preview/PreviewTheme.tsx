@@ -16,10 +16,13 @@ import {
 	useGetThemeList,
 	usePostThemeSelect,
 } from "../../hooks";
+import { useSelectedThemeDataStore } from "@/common/store/useThemeStore";
 
 const PreviewTheme: React.FC = () => {
 	// TODO: fetch single theme api to get theme data here
 	const invitationPreviewUrl = "https://invityu-client.vercel.app";
+
+	const { setSelectedThemeData } = useSelectedThemeDataStore();
 
 	const router = useRouter();
 	const { id, pid } = router.query;
@@ -40,6 +43,7 @@ const PreviewTheme: React.FC = () => {
 			mutate(payload, {
 				onSuccess: (res) => {
 					if (res?.data?.status) {
+						setSelectedThemeData(themeData);
 						Router.push("/create/information");
 					}
 				},

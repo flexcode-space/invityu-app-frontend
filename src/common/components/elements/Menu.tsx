@@ -8,10 +8,11 @@ import styled from "@emotion/styled";
 
 import Card from "./Card";
 import Image from "./Image";
-import { Checkbox } from "antd";
+import { Checkbox, Tag } from "antd";
 
 interface MenuItem {
-	id: number;
+	order: number;
+	id: string;
 	title: string;
 	description?: string | null;
 	target: string;
@@ -69,7 +70,7 @@ const Menu: React.FC<MenuProps> = ({
 					{child.map((item, key) => (
 						<StyledMenuItem
 							key={key}
-							className={`py-4 px-6 cursor-pointer hover:bg-gray-50 ${
+							className={`pt-4 pb-3 px-6 cursor-pointer hover:bg-gray-50 ${
 								isClickable ? "" : "cursor-default"
 							}`}
 							isLast={item?.id !== lastMenu[index].id}
@@ -103,7 +104,15 @@ const Menu: React.FC<MenuProps> = ({
 										<div className="flex">
 											<span>{item?.title}</span>
 											{item?.isRequired && (
-												<span className="ml-1 text-red-500">*</span>
+												<span className="text-red-500">*</span>
+											)}
+											{item?.tag && (
+												<Tag
+													color={item?.tag === "Premium" ? "purple" : "gold"}
+													className="ml-2 rounded-xl"
+												>
+													{item?.tag}
+												</Tag>
 											)}
 										</div>
 										{item?.description && (
