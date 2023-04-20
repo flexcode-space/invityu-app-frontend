@@ -26,6 +26,10 @@ export interface ThemeCarouselProps {
 }
 
 export interface ThemeSelectProps {
-  package_id: string,
-  theme_id: string,
+  package_id?: string,
+  theme_id?: string,
+}
+
+export interface ThemeListParamsProps extends ThemeSelectProps {
+  theme_category_id?: string
 }

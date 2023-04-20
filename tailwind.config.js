@@ -5,8 +5,10 @@ module.exports = {
 	theme: {
 		extend: {
 			fontFamily: {
-				sans: ["var(--poppins-font)"],
+				sans: ["var(--gilroy-font)"],
+				gilroy: ["var(--gilroy-font)"],
 				jakarta: ["var(--jakartaSans-font)"],
+				modernist: ["var(--modernist-font)"],
 				code: ["var(--font-fira-code)"],
 				emoji: ["Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"],
 			},
@@ -43,7 +45,7 @@ module.exports = {
 		require("tailwind-scrollbar-hide"),
 		plugin(function ({ addBase }) {
 			addBase({
-				html: { fontSize: "14px" },
+				html: { fontSize: "15px", fontWeight: 500 },
 			});
 		}),
 	],

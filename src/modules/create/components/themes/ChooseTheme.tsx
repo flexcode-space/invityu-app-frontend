@@ -12,11 +12,11 @@ import CreateStepWizard from "../CreateStepWizard";
 import { useGetThemeList } from "../../hooks";
 
 const ChooseTheme: React.FC = () => {
-	const { data, isLoading, isError } = useGetThemeList();
+	const { data, isLoading, isError } = useGetThemeList({});
 	const themeList = data?.data?.data || [];
 
-	const handleViewAll = (id: string) => {
-		Router.push(`/create/themes/query?id=${id}`);
+	const handleViewAll = (pid: string) => {
+		Router.push(`/create/themes/query?pid=${pid}`);
 	};
 
 	return (

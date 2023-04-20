@@ -16,16 +16,24 @@ const QueryTheme: React.FC = () => {
 	const [viewOptions, setViewOptions] = useState("list");
 
 	const router = useRouter();
-	const { id } = router.query;
-	console.log("🚀 aulianza ~ file: QueryTheme.tsx:20 ~ id:", id);
+	const { pid } = router.query;
 
-	// TODO: need to passing params package_id into query params
-	const { data, isLoading, isError } = useGetThemeList();
-	const themeList = data?.data?.data[0]?.themes || [];
+	const params = { package_id: pid as string };
+	const { data, isLoading, isError } = useGetThemeList(params);
+	const themeRes = data?.data?.data[0]?.themes || [];
+
+	const themeList = themeRes.map((theme: any) => {
+		return {
+			...theme,
+			package_id: pid,
+		};
+	});
 
 	const handleViewOptions = () => {
 		setViewOptions(viewOptions === "list" ? "grid" : "list");
 	};
+
+	// TODO: NEED TO ADD SKELETON
 
 	return (
 		<>

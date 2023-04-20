@@ -77,7 +77,7 @@ const StyledButton = styled.button<ButtonIconProps>`
 	border: 2px solid ${({ borderColor }) => borderColor};
 	border-radius: 15px;
 	cursor: pointer;
-	font-weight: 500;
+	font-weight: 600;
 
 	transition: all 250ms ease;
 	will-change: transition;

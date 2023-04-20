@@ -9,7 +9,7 @@ import Layout from "@/common/components/layouts/Layout";
 import ReactHotToast from "@/common/components/elements/ReactHotToast";
 import type { AppProps } from "next/app";
 
-import { jakartaSans, poppins } from "@/common/styles/fonts";
+import { gilroy, modernist, jakartaSans, poppins } from "@/common/styles/fonts";
 
 import "aos/dist/aos.css";
 import "@/common/styles/globals.css";
@@ -38,6 +38,8 @@ export default function App({ Component, pageProps }: AppProps) {
 			<style jsx global>
 				{`
 					html {
+						--gilroy-font: ${gilroy.style.fontFamily};
+						--modernist-font: ${modernist.style.fontFamily};
 						--poppins-font: ${poppins.style.fontFamily};
 						--jakartaSans-font: ${jakartaSans.style.fontFamily};
 					}
@@ -58,7 +60,7 @@ export default function App({ Component, pageProps }: AppProps) {
 					<ConfigProvider
 						theme={{
 							token: {
-								fontFamily: poppins.style.fontFamily,
+								fontFamily: gilroy.style.fontFamily,
 							},
 						}}
 					>

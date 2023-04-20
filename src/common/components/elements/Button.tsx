@@ -74,7 +74,7 @@ const StyledButton = styled.button<ButtonProps>`
 	padding: 11px;
 	border-radius: 15px;
 	cursor: pointer;
-	font-weight: 500;
+	font-weight: 600;
 
 	transition: all 250ms ease;
 	will-change: transition;

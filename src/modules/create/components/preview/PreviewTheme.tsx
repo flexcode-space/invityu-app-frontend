@@ -11,16 +11,22 @@ import { formatCurrency } from "@/common/helpers";
 import { url } from "@/common/constant/url";
 import { onErrorHandling } from "@/common/helpers/error";
 
-import { usePostThemeSelect } from "../../hooks";
+import {
+	useGetThemeById,
+	useGetThemeList,
+	usePostThemeSelect,
+} from "../../hooks";
 
 const PreviewTheme: React.FC = () => {
 	// TODO: fetch single theme api to get theme data here
 	const invitationPreviewUrl = "https://invityu-client.vercel.app";
-	const price = 199000;
-	const initial_price = 399000;
 
 	const router = useRouter();
 	const { id, pid } = router.query;
+
+	const themeId = id as string;
+	const { data, isLoading: themeLoading, isError } = useGetThemeById(themeId);
+	const themeData = data?.data?.data || [];
 
 	const { mutate, isLoading } = usePostThemeSelect();
 
@@ -51,7 +57,7 @@ const PreviewTheme: React.FC = () => {
 	return (
 		<>
 			<PageHeader
-				title={`Preview Tema`}
+				title={`Preview Tema ${themeData?.name}`}
 				backUrl={url?.THEMES_LIST_URL}
 				isFixedPosition
 				isBackButton
@@ -64,12 +70,14 @@ const PreviewTheme: React.FC = () => {
 				className="flex p-5 w-full items-center justify-between gap-5"
 			>
 				<div className="w-3/5 flex flex-col gap-1">
-					<div className="text-primary font-semibold">Glitterbloom</div>
+					<div className="text-primary font-semibold">{themeData?.name}</div>
 					<div className="flex items-center gap-2">
-						<p className="text-gray-600 font-medium">{formatCurrency(price)}</p>
-						{initial_price && (
+						<p className="text-gray-600 font-medium">
+							{formatCurrency(themeData?.price)}
+						</p>
+						{themeData?.initial_price && (
 							<p className="text-gray-400 text-sm line-through">
-								{formatCurrency(initial_price)}
+								{formatCurrency(themeData?.initial_price)}
 							</p>
 						)}
 					</div>

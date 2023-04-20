@@ -31,7 +31,9 @@ const Welcome: React.FC = () => {
 			<StyledBottomContainer>
 				<StyledCentered className="px-8">
 					<div className="px-8 my-5 space-y-3">
-						<h1 className="text-primary-600 font-medium text-2xl">Invityu</h1>
+						<h1 className="text-primary-600 font-medium font-modernist text-2xl">
+							invityu
+						</h1>
 						<p className="font-normal text-gray-500">
 							Buat undangan digital untuk beragam kebutuhan acaramu
 						</p>

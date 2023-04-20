@@ -20,6 +20,7 @@ export const endpoint = {
 
   // CREATE
   themeList: apiUrl + 'event/themes',
+  themeById: apiUrl + 'event/theme',
   themeSelect: apiUrl + 'event/create'
 
 }

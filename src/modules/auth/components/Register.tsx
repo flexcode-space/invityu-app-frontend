@@ -203,12 +203,11 @@ const Register: React.FC = () => {
 									</div>
 
 									<div className="flex justify-center gap-2 mt-10">
-										Sudah punya akun?{" "}
+										Sudah punya akun?
 										<div
 											className=" text-primary font-medium cursor-pointer"
 											onClick={() => handleRoute("/auth/login")}
 										>
-											{" "}
 											Masuk
 										</div>
 									</div>

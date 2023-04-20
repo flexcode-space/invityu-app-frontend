@@ -22,7 +22,7 @@ const ThemeCard: React.FC<ThemeProps> = ({
 	viewOptions,
 	isAnimation,
 }) => {
-	const defaultTag = "Populer";
+	const defaultTag = "Baru";
 
 	const CardComponent = () => {
 		const handleThemePreview = () => {

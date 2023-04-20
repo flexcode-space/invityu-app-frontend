@@ -13,7 +13,8 @@ const baseInputStyles = css`
   box-shadow: none !important;
 
   .ant-input {
-    font-family: var(--poppins-font) !important;
+    font-family: var(--gilroy-font) !important;
+    font-size: 15px !important;
   }
 
   .ant-input[readonly] {
