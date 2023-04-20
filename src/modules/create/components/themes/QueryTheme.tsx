@@ -7,9 +7,11 @@ import {
 
 import Container from "@/common/components/elements/Container";
 import PageHeader from "@/common/components/layouts/partials/PageHeader";
-import ThemeCard from "./ThemeCard";
-import { ThemeProps } from "@/common/types/themes";
+import ThemeCardSkeleton from "@/common/components/skeleton/ThemeCardSkeleton";
 
+import ThemeCard from "./ThemeCard";
+
+import { ThemeProps } from "@/common/types/themes";
 import { useGetThemeList } from "../../hooks";
 
 const QueryTheme: React.FC = () => {
@@ -20,6 +22,7 @@ const QueryTheme: React.FC = () => {
 
 	const params = { package_id: pid as string };
 	const { data, isLoading, isError } = useGetThemeList(params);
+	const packageRes = data?.data?.data[0] || [];
 	const themeRes = data?.data?.data[0]?.themes || [];
 
 	const themeList = themeRes.map((theme: any) => {
@@ -37,28 +40,40 @@ const QueryTheme: React.FC = () => {
 
 	return (
 		<>
-			<PageHeader title="Pilihan Tema Basic" isFixedPosition isBackButton />
+			<PageHeader
+				title={`Pilihan Tema ${packageRes?.name || ""}`}
+				isFixedPosition
+				isBackButton
+			/>
 			<div className="pt-6 pb-14" />
 			<Container className="pt-3 pb-10 space-y-3">
 				<div className="flex items-center justify-between">
-					<div>Filter: semua tema Basic</div>
-					<div className="cursor-pointer" onClick={handleViewOptions}>
-						{viewOptions === "list" ? (
-							<IconList size={22} />
-						) : (
-							<IconGrid size={22} />
-						)}
-					</div>
+					<div>Filter: {packageRes?.name}</div>
+					{!isLoading && (
+						<div className="cursor-pointer" onClick={handleViewOptions}>
+							{viewOptions === "list" ? (
+								<IconList size={22} />
+							) : (
+								<IconGrid size={22} />
+							)}
+						</div>
+					)}
 				</div>
 				<div className="grid grid-cols-1 justify-items-center">
-					{themeList.map((theme: ThemeProps, index: number) => (
-						<ThemeCard
-							key={index}
-							{...theme}
-							viewOptions={viewOptions}
-							isAnimation
-						/>
-					))}
+					{!isLoading ? (
+						<>
+							{themeList.map((theme: ThemeProps, index: number) => (
+								<ThemeCard
+									key={index}
+									{...theme}
+									viewOptions={viewOptions}
+									isAnimation
+								/>
+							))}
+						</>
+					) : (
+						<ThemeCardSkeleton size={4} />
+					)}
 				</div>
 			</Container>
 		</>

@@ -13,6 +13,7 @@ import { gilroy, modernist, jakartaSans, poppins } from "@/common/styles/fonts";
 
 import "aos/dist/aos.css";
 import "@/common/styles/globals.css";
+import "react-loading-skeleton/dist/skeleton.css";
 import { ConfigProvider } from "antd";
 
 export default function App({ Component, pageProps }: AppProps) {

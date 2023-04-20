@@ -61,7 +61,7 @@ const PreviewTheme: React.FC = () => {
 	return (
 		<>
 			<PageHeader
-				title={`Preview Tema ${themeData?.name}`}
+				title={`Preview Tema`}
 				backUrl={url?.THEMES_LIST_URL}
 				isFixedPosition
 				isBackButton

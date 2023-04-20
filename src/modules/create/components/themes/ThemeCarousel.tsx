@@ -32,7 +32,7 @@ const ThemeCarousel: React.FC<ThemeCarouselProps> = ({
 			{themeList.map((theme, index) => (
 				<ThemeCard key={index} {...theme} />
 			))}
-			{themes.length > 3 && <ViewMoreTheme />}
+			{themes.length > 3 && <ViewMoreTheme pid={package_id} />}
 		</div>
 	);
 };

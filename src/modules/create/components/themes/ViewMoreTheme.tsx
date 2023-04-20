@@ -1,17 +1,21 @@
-import React from "react";
+import React, { FC } from "react";
 import { Avatar } from "antd";
 import { BiRightArrowAlt as MoreIcon } from "react-icons/bi";
 import styled from "@emotion/styled";
+import Router from "next/router";
 
-const ViewMoreTheme = () => {
+const ViewMoreTheme: FC<{ pid: string }> = ({ pid }) => {
+	const handleViewAll = () => {
+		Router.push(`/create/themes/query?pid=${pid}`);
+	};
+
 	return (
 		<div className="py-2 min-w-[14rem] max-w-[14rem] w-14rem">
-			<StyledViewMore className="flex text-center gap-5 flex-col justify-center items-center h-full rounded-xl overflow-hidden shadow-sm border border-solid border-primary-50 cursor-pointer transition-all duration-300 ">
-				<Avatar
-					size={26}
-					onClick={() => console.log("handle view more theme")}
-					className="mr-3 text-white bg-primary-600 shadow-sm"
-				>
+			<StyledViewMore
+				className="flex text-center gap-5 flex-col justify-center items-center h-full rounded-xl overflow-hidden shadow-sm border border-solid border-primary-50 cursor-pointer transition-all duration-300"
+				onClick={() => handleViewAll()}
+			>
+				<Avatar size={26} className="mr-3 text-white bg-primary-600 shadow-sm">
 					<MoreIcon size="24" />
 				</Avatar>
 				<div className="px-12 text-sm text-primary-600 font-semibold">
