@@ -44,7 +44,7 @@ export const gilroy = localFont({
       weight: '500',
     },
     {
-      path: '../../../public/fonts/gilroy/Gilroy-SemiBold.woff2',
+      path: '../../../public/fonts/gilroy/Gilroy-Semibold.woff2',
       weight: '600',
     },
     {
