@@ -1,6 +1,6 @@
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 const apiVersion = '/v1/';
-const apiUrl = baseUrl + apiVersion
+const apiUrl = baseUrl + apiVersion;
 
 export const endpoint = {
   // APP-STATUS
@@ -22,8 +22,8 @@ export const endpoint = {
   themeCategory: apiUrl + 'event/themes/category-master',
   themeList: apiUrl + 'event/themes',
   themeById: apiUrl + 'event/theme',
-  themeSelect: apiUrl + 'event/create'
+  themeSelect: apiUrl + 'event/create',
 
-}
-
-
+  // DATA-INFORMATION
+  menuConfig: apiUrl + 'event/data/menu-configuration',
+};
