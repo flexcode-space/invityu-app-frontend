@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import {
 	TbListDetails as IconList,
@@ -8,48 +8,49 @@ import {
 import Container from "@/common/components/elements/Container";
 import PageHeader from "@/common/components/layouts/partials/PageHeader";
 import ThemeCardSkeleton from "@/common/components/skeleton/ThemeCardSkeleton";
+import EmptyState from "@/common/components/elements/EmptyState";
 
 import ThemeCard from "./ThemeCard";
-
 import { ThemeProps } from "@/common/types/themes";
+
 import { useGetThemeList } from "../../hooks";
 
 const QueryTheme: React.FC = () => {
-	const [viewOptions, setViewOptions] = useState("list");
+	const [viewOptions, setViewOptions] = useState<"list" | "grid">("list");
 
-	const router = useRouter();
-	const { pid, cid } = router.query;
+	const { query } = useRouter();
+	const packageId = query?.pid as string;
+	const themeCategoryId = query?.cid as string;
 
-	const params = {
-		package_id: pid as string,
-		theme_category_id: cid as string,
-	};
-	const { data, isLoading, isError } = useGetThemeList(params);
-	const packageRes = data?.data?.data[0] || [];
+	const { data, isLoading, isError } = useGetThemeList({
+		package_id: packageId,
+		theme_category_id: themeCategoryId,
+	});
+	const packageRes = data?.data?.data[0] || {};
 	const themeRes = data?.data?.data[0]?.themes || [];
 
-	const themeList = themeRes.map((theme: any) => {
-		return {
-			...theme,
-			package_id: pid,
-		};
-	});
+	const themeList: ThemeProps[] = themeRes.map((theme: ThemeProps) => ({
+		...theme,
+		package_id: packageId,
+	}));
 
 	const handleViewOptions = () => {
-		setViewOptions(viewOptions === "list" ? "grid" : "list");
+		setViewOptions((prevViewOption) =>
+			prevViewOption === "list" ? "grid" : "list"
+		);
 	};
 
 	return (
 		<>
 			<PageHeader
-				title={`Pilihan Tema ${packageRes?.name || ""}`}
+				title={`Pilihan Tema ${packageRes.name || ""}`}
 				isFixedPosition
 				isBackButton
 			/>
 			<div className="pt-6 pb-14" />
 			<Container className="pt-3 pb-10 space-y-3">
 				<div className="flex items-center justify-between">
-					<div>Filter: {packageRes?.name}</div>
+					<div>Filter: {packageRes.name}</div>
 					{!isLoading && (
 						<div className="cursor-pointer" onClick={handleViewOptions}>
 							{viewOptions === "list" ? (
@@ -63,14 +64,20 @@ const QueryTheme: React.FC = () => {
 				<div className="grid grid-cols-1 justify-items-center">
 					{!isLoading ? (
 						<>
-							{themeList.map((theme: ThemeProps, index: number) => (
-								<ThemeCard
-									key={index}
-									{...theme}
-									viewOptions={viewOptions}
-									isAnimation
-								/>
-							))}
+							{themeList.length ? (
+								<>
+									{themeList.map((theme: ThemeProps, index: number) => (
+										<ThemeCard
+											key={index}
+											{...theme}
+											viewOptions={viewOptions}
+											isAnimation
+										/>
+									))}
+								</>
+							) : (
+								<EmptyState className="px-8 mt-3" title="Tidak ada tema" />
+							)}
 						</>
 					) : (
 						<ThemeCardSkeleton size={4} />
