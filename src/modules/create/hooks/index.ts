@@ -1,6 +1,10 @@
 import { useMutation, useQuery } from 'react-query';
-import { getThemeById, getThemeList, postThemeSelect } from '@/services/create';
+import { getThemeById, getThemeCategory, getThemeList, postThemeSelect } from '@/services/create';
 import { ThemeListParamsProps, ThemeSelectProps } from '@/common/types/themes';
+
+export const useGetThemeCategory = () => {
+  return useQuery(["theme-category"], () => getThemeCategory());
+};
 
 export const useGetThemeList = (params: ThemeListParamsProps) => {
   return useQuery(["theme-list", params], () => getThemeList(params));

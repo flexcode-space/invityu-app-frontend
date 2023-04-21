@@ -18,9 +18,12 @@ const QueryTheme: React.FC = () => {
 	const [viewOptions, setViewOptions] = useState("list");
 
 	const router = useRouter();
-	const { pid } = router.query;
+	const { pid, cid } = router.query;
 
-	const params = { package_id: pid as string };
+	const params = {
+		package_id: pid as string,
+		theme_category_id: cid as string,
+	};
 	const { data, isLoading, isError } = useGetThemeList(params);
 	const packageRes = data?.data?.data[0] || [];
 	const themeRes = data?.data?.data[0]?.themes || [];
@@ -35,8 +38,6 @@ const QueryTheme: React.FC = () => {
 	const handleViewOptions = () => {
 		setViewOptions(viewOptions === "list" ? "grid" : "list");
 	};
-
-	// TODO: NEED TO ADD SKELETON
 
 	return (
 		<>

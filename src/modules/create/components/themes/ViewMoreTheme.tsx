@@ -4,9 +4,18 @@ import { BiRightArrowAlt as MoreIcon } from "react-icons/bi";
 import styled from "@emotion/styled";
 import Router from "next/router";
 
-const ViewMoreTheme: FC<{ pid: string }> = ({ pid }) => {
+type ViewMoreThemeProps = {
+	pid: string;
+	theme_category_id?: string;
+};
+
+const ViewMoreTheme: FC<ViewMoreThemeProps> = ({ pid, theme_category_id }) => {
 	const handleViewAll = () => {
-		Router.push(`/create/themes/query?pid=${pid}`);
+		let url = `/create/themes/query?pid=${pid}`;
+		if (theme_category_id !== "") {
+			url += `&cid=${theme_category_id}`;
+		}
+		Router.push(url);
 	};
 
 	return (

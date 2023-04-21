@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import Router from "next/router";
 import Container from "@/common/components/elements/Container";
 import PageHeader from "@/common/components/layouts/partials/PageHeader";
 import ThemeCarouselSkeleton from "@/common/components/skeleton/ThemeCarouselSkeleton";
+import EmptyState from "@/common/components/elements/EmptyState";
 
 import ThemeCategory from "./ThemeCategory";
 import ThemeCarousel from "./ThemeCarousel";
@@ -13,13 +14,25 @@ import CreateStepWizard from "../CreateStepWizard";
 import { useGetThemeList } from "../../hooks";
 
 const ChooseTheme: React.FC = () => {
-	const { data, isLoading, isError } = useGetThemeList({});
-	console.log("🚀 aulianza ~ file: ChooseTheme.tsx:16 ~ isLoading:", isLoading);
+	const [activeCategory, setActiveCategory] = useState<string>("");
+
+	let params = {};
+	if (activeCategory !== "") {
+		params = { theme_category_id: activeCategory };
+	}
+
+	const { data, isLoading, isError } = useGetThemeList(params);
 	const themeList = data?.data?.data || [];
 
 	const handleViewAll = (pid: string) => {
-		Router.push(`/create/themes/query?pid=${pid}`);
+		let url = `/create/themes/query?pid=${pid}`;
+		if (activeCategory !== "") {
+			url += `&cid=${activeCategory}`;
+		}
+		Router.push(url);
 	};
+
+	const handleCategoryChange = (id: string) => setActiveCategory(id);
 
 	return (
 		<>
@@ -31,7 +44,7 @@ const ChooseTheme: React.FC = () => {
 						Tentukan tema design undangan favoritmu!
 					</h2>
 				</Container>
-				<ThemeCategory />
+				<ThemeCategory setActiveCategory={handleCategoryChange} />
 				<div className="space-y-3">
 					<h3 className="px-8 pt-8 text-lg font-medium">Daftar Tema</h3>
 					<div className="space-y-8">
@@ -55,11 +68,16 @@ const ChooseTheme: React.FC = () => {
 											)}
 										</div>
 
-										<ThemeCarousel
-											className="px-8"
-											themes={item?.themes}
-											package_id={item?.id}
-										/>
+										{item?.themes?.length ? (
+											<ThemeCarousel
+												className="px-8"
+												themes={item?.themes}
+												package_id={item?.id}
+												theme_category_id={activeCategory}
+											/>
+										) : (
+											<EmptyState className="px-8" title="Tidak ada tema" />
+										)}
 									</div>
 								))}
 							</>

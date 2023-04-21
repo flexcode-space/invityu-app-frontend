@@ -9,14 +9,16 @@ import { ThemeCarouselProps } from "@/common/types/themes";
 const ThemeCarousel: React.FC<ThemeCarouselProps> = ({
 	themes,
 	package_id,
+	theme_category_id,
 	className,
 }) => {
-	const themeList = themes.map((theme) => {
-		return {
-			...theme,
-			package_id,
-		};
-	});
+	const themeList =
+		themes?.map((theme) => {
+			return {
+				...theme,
+				package_id,
+			};
+		}) || [];
 
 	const ref =
 		useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
@@ -29,10 +31,11 @@ const ThemeCarousel: React.FC<ThemeCarouselProps> = ({
 			ref={ref}
 			data-aos="fade-left"
 		>
-			{themeList.map((theme, index) => (
-				<ThemeCard key={index} {...theme} />
-			))}
-			{themes.length > 3 && <ViewMoreTheme pid={package_id} />}
+			{themeList &&
+				themeList?.map((theme, index) => <ThemeCard key={index} {...theme} />)}
+			{themes?.length > 3 && (
+				<ViewMoreTheme pid={package_id} theme_category_id={theme_category_id} />
+			)}
 		</div>
 	);
 };

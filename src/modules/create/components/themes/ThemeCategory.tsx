@@ -1,31 +1,38 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import PillsCarousel from "@/common/components/elements/PillsCarousel";
+import PillSkeleton from "@/common/components/skeleton/PillSkeleton";
 
-const ThemeCategory = () => {
-	const items = [
-		"Semua",
-		"Modern",
-		"Classic",
-		"Nature",
-		"Religi",
-		"Anime",
-		"Redbull",
-		"Megachan",
-	];
+import { useGetThemeCategory } from "../../hooks";
 
-	const [activeIndex, setActiveIndex] = useState<number>(0);
+interface ThemeCategoryProps {
+	setActiveCategory: (index: string) => void;
+}
 
-	const handleIndexChange = (index: number) => {
-		console.log("handleIndexChange : ", index);
-		setActiveIndex(index);
+const ThemeCategory: FC<ThemeCategoryProps> = ({ setActiveCategory }) => {
+	const { data, isLoading, isError } = useGetThemeCategory();
+	const themeCategories = data?.data?.data || [];
+
+	const themeCategoriesNew = [{ id: "", name: "Semua" }, ...themeCategories];
+
+	const [activeId, setActiveId] = useState<string>("");
+
+	const handleIndexChange = (id: string) => {
+		setActiveId(id);
+		setActiveCategory(id);
 	};
 
 	return (
-		<PillsCarousel
-			items={items}
-			activeIndex={activeIndex}
-			onChange={handleIndexChange}
-		/>
+		<>
+			{!isLoading ? (
+				<PillsCarousel
+					items={themeCategoriesNew}
+					activeId={activeId}
+					onChange={handleIndexChange}
+				/>
+			) : (
+				<PillSkeleton size={3} />
+			)}
+		</>
 	);
 };
 

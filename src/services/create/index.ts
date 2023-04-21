@@ -12,6 +12,10 @@ const axiosOptions: AxiosOptionsProps = {
   },
 };
 
+export const getThemeCategory = () => {
+  return axios.get(endpoint.themeCategory, axiosOptions);
+}
+
 export const getThemeList = (params: ThemeListParamsProps) => {
   const options = {
     axiosOptions,

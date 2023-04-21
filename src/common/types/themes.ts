@@ -22,14 +22,15 @@ export interface PackageProps {
 export interface ThemeCarouselProps {
   className?: string;
   themes: ThemeProps[];
-  package_id: string
+  package_id: string;
+  theme_category_id?: string;
 }
 
 export interface ThemeSelectProps {
-  package_id?: string,
-  theme_id?: string,
+  package_id?: string;
+  theme_id?: string;
 }
 
 export interface ThemeListParamsProps extends ThemeSelectProps {
-  theme_category_id?: string
+  theme_category_id?: string;
 }
