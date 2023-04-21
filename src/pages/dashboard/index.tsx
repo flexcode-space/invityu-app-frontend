@@ -1,16 +1,16 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
-import { protectedRoute } from "@/common/utils/auth";
+import { protectedRoute } from '@/common/utils/auth';
 
 const DashboardPage = () => {
-	const router = useRouter();
+  const router = useRouter();
 
-	useEffect(() => {
-		router.push("/create");
-	}, []);
+  useEffect(() => {
+    router.push('/create');
+  }, []);
 
-	return;
+  return;
 };
 
 export default protectedRoute(DashboardPage);
