@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, Tooltip } from 'antd';
 import { FcInfo as InfoIcon } from 'react-icons/fc';
 import { IoIosAddCircle as AddIcon } from 'react-icons/io';
@@ -30,7 +30,11 @@ interface MenuItem {
   render: () => void;
 }
 
-const DataInformation: React.FC = () => {
+interface DataInformationProps {
+  setActiveEffect: (active: boolean) => void;
+}
+
+const DataInformation: React.FC<DataInformationProps> = ({ setActiveEffect }) => {
   const [isOpenAddDataModal, setOpenAddDataModal] = useState<boolean>(false);
   const [defaultMenu, setDefaultMenu] = useState(createDataInformationMenu);
 
@@ -64,6 +68,25 @@ const DataInformation: React.FC = () => {
 
     setDefaultMenu(updatedMenu);
   };
+
+  useEffect(() => {
+    if (isOpenAddDataModal) {
+      setActiveEffect(true);
+    } else {
+      setActiveEffect(false);
+    }
+  }, [isOpenAddDataModal, setActiveEffect]);
+
+  useEffect(() => {
+    const body = document.querySelector('body');
+    if (body) {
+      if (isOpenAddDataModal) {
+        body.style.overflow = 'hidden';
+      } else {
+        body.style.removeProperty('overflow');
+      }
+    }
+  }, [isOpenAddDataModal]);
 
   return (
     <>
