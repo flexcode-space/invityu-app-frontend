@@ -13,7 +13,7 @@ const CreateInformationPage: NextPage = () => {
 
   const handleEffectChange = (active: boolean) => {
     if (active) {
-      setMetaThemeColor('#222222');
+      setMetaThemeColor('#1a1a1a');
     } else {
       setMetaThemeColor(themeColor?.PRIMARY);
     }
