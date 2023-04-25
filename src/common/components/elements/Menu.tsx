@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Router from 'next/router';
 import { BiChevronRight as RightArrowIcon } from 'react-icons/bi';
 
@@ -76,6 +76,17 @@ const Menu: React.FC<MenuProps> = ({
       }
     }
   };
+
+  useEffect(() => {
+    const body = document.querySelector('body');
+    if (body) {
+      if (isOpenModalSheet) {
+        body.style.overflow = 'hidden';
+      } else {
+        body.style.removeProperty('overflow');
+      }
+    }
+  }, [isOpenModalSheet]);
 
   return (
     <div className="mb-8 space-y-6">
