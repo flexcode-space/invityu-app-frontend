@@ -88,6 +88,20 @@ const Menu: React.FC<MenuProps> = ({
     }
   }, [isOpenModalSheet]);
 
+  useEffect(() => {
+    if (isOpenModalSheet) {
+      const handleEsc = (event: KeyboardEvent) => {
+        if (event.keyCode === 27) {
+          setOpenModalSheet(false);
+        }
+      };
+      document.addEventListener('keydown', handleEsc);
+      return () => {
+        document.removeEventListener('keydown', handleEsc);
+      };
+    }
+  }, [isOpenModalSheet]);
+
   return (
     <div className="mb-8 space-y-6">
       {menus.map((child, index) => (

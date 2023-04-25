@@ -45,12 +45,17 @@ const DataInformation: React.FC<DataInformationProps> = ({ setActiveEffect }) =>
 
   const additionalMenu = createDataInformationMenuAdditional;
 
+  const toggleAddDataModal = () => {
+    setOpenAddDataModal((prevState) => !prevState);
+  };
+
   const handleAddMenu = (menu: any) => {
     const updatedMenu = [...defaultMenu];
-    updatedMenu[0].push({ ...menu, isChecked: true });
+    const [firstMenu] = updatedMenu;
+    const updatedItem = { ...menu, isChecked: true };
+    firstMenu.push(updatedItem);
 
     const existingMenu = additionalMenu[0].find((item: any) => item?.id === menu?.id);
-
     if (existingMenu) existingMenu.isChecked = true;
 
     setDefaultMenu(updatedMenu);
@@ -58,12 +63,14 @@ const DataInformation: React.FC<DataInformationProps> = ({ setActiveEffect }) =>
 
   const handleRemoveMenu = (menu: MenuItem) => {
     const updatedMenu = [...defaultMenu];
+    const [firstMenu] = updatedMenu;
 
-    const findMenu = updatedMenu[0].findIndex((m: any) => m.id === menu.id);
-    if (findMenu !== -1) updatedMenu[0].splice(findMenu, 1);
+    const findMenuIndex = firstMenu.findIndex((m: any) => m.id === menu.id);
+    if (findMenuIndex !== -1) {
+      firstMenu.splice(findMenuIndex, 1);
+    }
 
     const existingMenu = additionalMenu[0].find((item: any) => item.id === menu.id);
-
     if (existingMenu) existingMenu.isChecked = false;
 
     setDefaultMenu(updatedMenu);
@@ -87,6 +94,23 @@ const DataInformation: React.FC<DataInformationProps> = ({ setActiveEffect }) =>
       }
     }
   }, [isOpenAddDataModal]);
+
+  useEffect(() => {
+    if (isOpenAddDataModal) {
+      setActiveEffect(true);
+      const handleEsc = (event: KeyboardEvent) => {
+        if (event.keyCode === 27) {
+          toggleAddDataModal();
+        }
+      };
+      document.addEventListener('keydown', handleEsc);
+      return () => {
+        document.removeEventListener('keydown', handleEsc);
+      };
+    } else {
+      setActiveEffect(false);
+    }
+  }, [isOpenAddDataModal, setActiveEffect]);
 
   return (
     <>
@@ -115,16 +139,16 @@ const DataInformation: React.FC<DataInformationProps> = ({ setActiveEffect }) =>
               <Menu menus={defaultMenu} isChevron isClickable />
 
               <Card
-                className="flex items-center gap-3 py-4 px-6 hover:bg-gray-50 cursor-pointer"
+                className="flex items-center gap-3 py-4 px-6 hover:md:bg-gray-50 cursor-pointer"
                 borderColor="#EBF2FC"
-                onClick={() => setOpenAddDataModal(true)}
+                onClick={toggleAddDataModal}
               >
                 <AddIcon size={20} className="text-primary-600" />
                 <div>Data Informasi</div>
                 <ModalSheet
                   title="Pilihan Data Informasi"
                   isOpen={isOpenAddDataModal}
-                  onClose={() => setOpenAddDataModal(false)}
+                  onClose={toggleAddDataModal}
                   isEffect
                 >
                   <div className="px-6 pb-5">
