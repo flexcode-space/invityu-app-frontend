@@ -140,6 +140,7 @@ const Menu: React.FC<MenuProps> = ({
         title={menuActive?.title}
         isOpen={isOpenModalSheet}
         onClose={() => setOpenModalSheet(false)}
+        isDraggable
       >
         <>{menuActive.render()}</>
       </ModalSheet>
