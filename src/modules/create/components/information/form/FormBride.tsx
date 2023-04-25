@@ -18,8 +18,6 @@ interface FormBrideProps {
 }
 
 const FormBride: FC<FormBrideProps> = ({ type, data, isPrimary, onPrimaryOrderChange }) => {
-  // console.log('🚀 aulianza ~ file: FormBride.tsx:6 ~ data:', data);
-
   const initialValues: BrideDataProps = {
     full_name: null,
     short_name: null,
