@@ -141,7 +141,7 @@ const DataInformation: React.FC<DataInformationProps> = ({ setActiveEffect }) =>
               <Card
                 className="flex items-center gap-3 py-4 px-6 hover:md:bg-gray-50 cursor-pointer"
                 borderColor="#EBF2FC"
-                onClick={toggleAddDataModal}
+                onClick={() => setOpenAddDataModal(true)}
               >
                 <AddIcon size={20} className="text-primary-600" />
                 <div>Data Informasi</div>

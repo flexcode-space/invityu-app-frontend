@@ -49,6 +49,7 @@ const ModalSheet = ({
         <Sheet.Content>{children}</Sheet.Content>
       </Sheet.Container>
       <Sheet.Backdrop />
+      {/* <Sheet.Backdrop onTap={onClose} /> */}
     </StyledModalSheet>
   );
 };
