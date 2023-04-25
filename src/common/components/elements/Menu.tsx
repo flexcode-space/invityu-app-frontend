@@ -84,7 +84,7 @@ const Menu: React.FC<MenuProps> = ({
           {child.map((item, key) => (
             <StyledMenuItem
               key={key}
-              className={`pt-4 pb-3 px-6 cursor-pointer hover:bg-gray-50 ${
+              className={`pt-4 pb-3 px-6 cursor-pointer hover:md:bg-gray-50 ${
                 isClickable ? '' : 'cursor-default'
               }`}
               isLast={item?.id !== lastMenu[index].id}
