@@ -3,55 +3,60 @@
 @tailwind utilities;
 
 :root {
-	--max-width: 480px;
-	--border-radius: 15px;
-	--font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
-		"Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
-		"Fira Mono", "Droid Sans Mono", "Courier New", monospace;
+  --max-width: 480px;
+  --border-radius: 15px;
+  --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono', 'Roboto Mono',
+    'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro', 'Fira Mono', 'Droid Sans Mono',
+    'Courier New', monospace;
 
-	--bg-primary: #003582;
-	--bg-primary-800: #224797;
-	--bg-primary-700: #3d5aac;
-	--bg-primary-600: #556dc2;
-	--bg-primary-500: #6c81d9;
-	--bg-primary-400: #8296f0;
-	--bg-primary-300: #99abff;
-	--bg-primary-200: #b0c1ff;
-	--bg-primary-100: #c7d7ff;
-	--bg-primary-50: #dfedff;
+  --bg-primary: #003582;
+  --bg-primary-800: #224797;
+  --bg-primary-700: #3d5aac;
+  --bg-primary-600: #556dc2;
+  --bg-primary-500: #6c81d9;
+  --bg-primary-400: #8296f0;
+  --bg-primary-300: #99abff;
+  --bg-primary-200: #b0c1ff;
+  --bg-primary-100: #c7d7ff;
+  --bg-primary-50: #dfedff;
 
-	--bg-secondary: #701332;
-	--bg-secondary-900: #701332;
-	--bg-secondary-800: #862a43;
-	--bg-secondary-700: #9c3e56;
-	--bg-secondary-600: #b35369;
-	--bg-secondary-500: #ca687d;
-	--bg-secondary-400: #e27d92;
-	--bg-secondary-300: #fa92a7;
-	--bg-secondary-200: #ffa8bd;
-	--bg-secondary-100: #ffbed3;
-	--bg-secondary-50: #ffd5ea;
+  --bg-secondary: #701332;
+  --bg-secondary-900: #701332;
+  --bg-secondary-800: #862a43;
+  --bg-secondary-700: #9c3e56;
+  --bg-secondary-600: #b35369;
+  --bg-secondary-500: #ca687d;
+  --bg-secondary-400: #e27d92;
+  --bg-secondary-300: #fa92a7;
+  --bg-secondary-200: #ffa8bd;
+  --bg-secondary-100: #ffbed3;
+  --bg-secondary-50: #ffd5ea;
 }
 
 * {
-	box-sizing: border-box;
-	padding: 0;
-	margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 html,
 body {
-	max-width: 100vw;
-	overflow-x: hidden;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 a {
-	color: inherit;
-	text-decoration: none;
+  color: inherit;
+  text-decoration: none;
+}
+
+#__next {
+  border-top-right-radius: 1.2rem !important;
+  border-top-left-radius: 1.2rem !important;
 }
 
 @supports (-webkit-touch-callout: none) {
-	.h-screen {
-		height: -webkit-fill-available;
-	}
+  .h-screen {
+    height: -webkit-fill-available;
+  }
 }

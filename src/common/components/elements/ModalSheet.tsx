@@ -61,8 +61,8 @@ const StyledModalSheet = styled(Sheet)`
   margin: 0px auto;
 
   .react-modal-sheet-container {
-    border-top-right-radius: 1rem !important;
-    border-top-left-radius: 1rem !important;
+    border-top-right-radius: 1.2rem !important;
+    border-top-left-radius: 1.2rem !important;
   }
 
   .react-modal-sheet-header {
@@ -79,8 +79,8 @@ const StyledModalSheet = styled(Sheet)`
 `;
 
 const StyledModalSheetHeader = styled.div`
-  border-top-right-radius: 1rem !important;
-  border-top-left-radius: 1rem !important;
+  border-top-right-radius: 1.2rem !important;
+  border-top-left-radius: 1.2rem !important;
   background: #fff;
   height: 50px;
   display: flex;
