@@ -11,6 +11,7 @@
     "require-jsdoc": 0,
     "unused-imports/no-unused-imports": "error",
     "react/no-unknown-property": ["error", { "ignore": ["css"] }],
+    "typescript-eslint/no-var-requires": "off",
     "unused-imports/no-unused-vars": [
       "warn",
       {

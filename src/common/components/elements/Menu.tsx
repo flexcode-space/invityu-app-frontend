@@ -23,7 +23,7 @@ interface MenuItem {
   isRequired: boolean;
   tag: string | null;
   isChecked?: boolean;
-  render: () => void;
+  render: () => React.ReactNode;
 }
 
 interface MenuProps {
@@ -31,8 +31,8 @@ interface MenuProps {
   isCheckbox?: boolean;
   isClickable?: boolean;
   isChevron?: boolean;
-  checkedMenu?: (item: unknown) => void;
-  unCheckedMenu?: (item: unknown) => void;
+  checkedMenu?: (item: MenuItem) => void;
+  unCheckedMenu?: (item: MenuItem) => void;
 }
 
 const Menu: React.FC<MenuProps> = ({
@@ -43,7 +43,7 @@ const Menu: React.FC<MenuProps> = ({
   checkedMenu,
   unCheckedMenu,
 }) => {
-  const lastMenu = menus.map((i) => i[i.length - 1]);
+  const lastMenu = menus?.map((i) => i[i.length - 1]);
 
   const [isOpenModalSheet, setOpenModalSheet] = useState<boolean>(false);
   const [menuActive, setMenuActive] = useState<MenuItem>(menus[0][0]);
@@ -61,18 +61,18 @@ const Menu: React.FC<MenuProps> = ({
     .filter((item: any) => item.isChecked === true)
     .map((item: any) => item.id);
 
-  const handleClick = (type: string, target?: string, menu?: MenuItem) => {
-    if (type === 'url') {
+  const handleClick = (type: string, target?: string, menu?: MenuItem | null) => {
+    if (type === 'modal') {
+      if (menu) {
+        setMenuActive(menu);
+        setOpenModalSheet(true);
+      }
+    } else if (type === 'url') {
       const checkTarget = target?.substring(0, 1).includes('/');
       if (target && checkTarget) {
         Router.push(target);
       } else if (logout) {
         logout();
-      }
-    } else if (type === 'modal') {
-      if (menu) {
-        setMenuActive(menu);
-        setOpenModalSheet(true);
       }
     }
   };
@@ -88,18 +88,17 @@ const Menu: React.FC<MenuProps> = ({
                 isClickable ? '' : 'cursor-default'
               }`}
               isLast={item?.id !== lastMenu[index].id}
-              onClick={() => (isClickable ? handleClick('modal', '', item) : '')}
+              onClick={() => {
+                if (isClickable) {
+                  handleClick('modal', '', item);
+                }
+                handleCheckMenu(item);
+              }}
               disabled={!isClickable}
             >
               <Checkbox.Group className="w-full" name="menu" value={checkedValues}>
                 <div className="flex items-center w-full gap-5">
-                  {isCheckbox && (
-                    <Checkbox
-                      value={item?.id}
-                      checked={item?.isChecked}
-                      onChange={() => handleCheckMenu(item)}
-                    />
-                  )}
+                  {isCheckbox && <Checkbox value={item?.id} checked={item?.isChecked} />}
                   {item?.icon && (
                     <div className="w-fit">
                       <Image src={item?.icon} width={55} height={55} alt={item?.title} />
@@ -119,7 +118,10 @@ const Menu: React.FC<MenuProps> = ({
                       )}
                     </div>
                     {item?.description && (
-                      <span className="text-gray-500 text-sm">{item?.description}</span>
+                      <div
+                        className="text-gray-500 text-sm"
+                        dangerouslySetInnerHTML={{ __html: item?.description || '' }}
+                      ></div>
                     )}
                   </div>
                   {isChevron && (

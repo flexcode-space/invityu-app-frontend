@@ -27,7 +27,7 @@ interface MenuItem {
   isRequired: boolean;
   tag: string | null;
   isChecked?: boolean;
-  render: () => void;
+  render: () => React.ReactNode;
 }
 
 interface DataInformationProps {
@@ -94,9 +94,7 @@ const DataInformation: React.FC<DataInformationProps> = ({ setActiveEffect }) =>
       <div className="pt-20 pb-16">
         <CreateStepWizard activeStep={1} />
         <Container className="pt-5 pb-6 space-y-8">
-          <h2 className="text-xl font-medium">
-            Isi data informasi yang akan kamu tampilkan di undanganmu!
-          </h2>
+          <h2 className="text-xl font-medium">Isi informasi yang akan tampil di undanganmu!</h2>
           <Alert
             message={`Kamu memilih tema ${selectedThemeData?.name}`}
             type="info"
@@ -129,7 +127,7 @@ const DataInformation: React.FC<DataInformationProps> = ({ setActiveEffect }) =>
                   onClose={() => setOpenAddDataModal(false)}
                   isEffect
                 >
-                  <div className="px-6 pb-5 bg-white">
+                  <div className="px-6 pb-5">
                     <Menu
                       menus={additionalMenu}
                       checkedMenu={(menu: any) => handleAddMenu(menu)}

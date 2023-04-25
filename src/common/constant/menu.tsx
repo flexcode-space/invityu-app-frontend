@@ -102,7 +102,7 @@ export const createDataInformationMenuAdditional = [
       order: 9,
       id: 'live_streaming',
       title: 'Siaran Langsung',
-      description: 'Cantumkan link siaran langsung',
+      description: 'Cantumkan link streaming',
       target: '/create/information/gift',
       icon: '/images/icons/information/ic-data-live.svg',
       isRequired: false,

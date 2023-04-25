@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import Sheet, { SheetRef } from 'react-modal-sheet';
-import { AiOutlineCloseCircle as IconClose } from 'react-icons/ai';
+import { IoMdClose as IconClose } from 'react-icons/io';
 import styled from '@emotion/styled';
 
 interface ModalSheetProps {
@@ -28,7 +28,7 @@ const ModalSheet = ({ isOpen, isEffect, onClose, children, title }: ModalSheetPr
           <StyledModalSheetHeader>
             <div className="font-semibold">{title}</div>
             <IconClose
-              size={20}
+              size={22}
               onClick={(event) => {
                 event.stopPropagation();
                 onClose();
