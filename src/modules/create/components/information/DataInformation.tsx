@@ -104,6 +104,7 @@ const DataInformation: React.FC = () => {
                   title="Pilihan Data Informasi"
                   isOpen={isOpenAddDataModal}
                   onClose={() => setOpenAddDataModal(false)}
+                  isEffect
                 >
                   <div className="px-6 pb-5 bg-white">
                     <Menu

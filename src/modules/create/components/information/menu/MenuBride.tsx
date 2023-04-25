@@ -6,7 +6,7 @@ const MenuBride: FC = () => {
   const { Panel } = Collapse;
 
   return (
-    <Container className="pt-4 space-y-4">
+    <Container className="pt-6 space-y-4">
       <Collapse>
         <Panel header="Calon Mempelai Wanita" key="1">
           <p>bohkreh</p>
