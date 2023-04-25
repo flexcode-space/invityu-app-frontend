@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 interface ModalSheetProps {
   isEffect?: boolean;
   isOpen: boolean;
-  isDraggable?: boolean;
+  isDisableDrag?: boolean;
   onClose: () => void;
   title?: string;
   children: React.ReactNode;
@@ -15,7 +15,7 @@ interface ModalSheetProps {
 const ModalSheet = ({
   isOpen,
   isEffect,
-  isDraggable = false,
+  isDisableDrag = false,
   onClose,
   children,
   title,
@@ -30,7 +30,7 @@ const ModalSheet = ({
       rootId={isEffect ? '__next' : ''}
       springConfig={{ stiffness: 150, damping: 20, mass: 1 }}
       detent="content-height"
-      disableDrag={isDraggable}
+      disableDrag={isDisableDrag}
     >
       <Sheet.Container>
         <Sheet.Header>
