@@ -27,6 +27,7 @@ interface MenuItem {
   isRequired: boolean;
   tag: string | null;
   isChecked?: boolean;
+  render: () => void;
 }
 
 const DataInformation: React.FC = () => {

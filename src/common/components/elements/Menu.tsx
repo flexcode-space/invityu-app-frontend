@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Router from 'next/router';
 import { BiChevronRight as RightArrowIcon } from 'react-icons/bi';
 
-import { logout } from '@/common/utils/auth';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import Card from './Card';
 import Image from './Image';
 import { Checkbox, Tag } from 'antd';
+
+import ModalSheet from './ModalSheet';
+
+import { logout } from '@/common/utils/auth';
 
 interface MenuItem {
   order: number;
@@ -20,6 +23,7 @@ interface MenuItem {
   isRequired: boolean;
   tag: string | null;
   isChecked?: boolean;
+  render: () => void;
 }
 
 interface MenuProps {
@@ -31,15 +35,6 @@ interface MenuProps {
   unCheckedMenu?: (item: unknown) => void;
 }
 
-const handleClick = (target: string) => {
-  const checkTarget = target.substring(0, 1).includes('/');
-  if (checkTarget) {
-    Router.push(target);
-  } else if (logout) {
-    logout();
-  }
-};
-
 const Menu: React.FC<MenuProps> = ({
   menus,
   isCheckbox,
@@ -49,6 +44,9 @@ const Menu: React.FC<MenuProps> = ({
   unCheckedMenu,
 }) => {
   const lastMenu = menus.map((i) => i[i.length - 1]);
+
+  const [isOpenModalSheet, setOpenModalSheet] = useState<boolean>(false);
+  const [menuActive, setMenuActive] = useState<MenuItem>(menus[0][0]);
 
   const handleCheckMenu = (item: any) => {
     const updatedItem = { ...item, isChecked: !item.isChecked };
@@ -63,6 +61,22 @@ const Menu: React.FC<MenuProps> = ({
     .filter((item: any) => item.isChecked === true)
     .map((item: any) => item.id);
 
+  const handleClick = (type: string, target?: string, menu?: MenuItem) => {
+    if (type === 'url') {
+      const checkTarget = target?.substring(0, 1).includes('/');
+      if (target && checkTarget) {
+        Router.push(target);
+      } else if (logout) {
+        logout();
+      }
+    } else if (type === 'modal') {
+      if (menu) {
+        setMenuActive(menu);
+        setOpenModalSheet(true);
+      }
+    }
+  };
+
   return (
     <div className="mb-8 space-y-6">
       {menus.map((child, index) => (
@@ -74,7 +88,7 @@ const Menu: React.FC<MenuProps> = ({
                 isClickable ? '' : 'cursor-default'
               }`}
               isLast={item?.id !== lastMenu[index].id}
-              onClick={() => (isClickable ? handleClick(item?.target) : '')}
+              onClick={() => (isClickable ? handleClick('modal', '', item) : '')}
               disabled={!isClickable}
             >
               <Checkbox.Group className="w-full" name="menu" value={checkedValues}>
@@ -119,6 +133,15 @@ const Menu: React.FC<MenuProps> = ({
           ))}
         </Card>
       ))}
+
+      <ModalSheet
+        title={menuActive?.title}
+        isOpen={isOpenModalSheet}
+        onClose={() => setOpenModalSheet(false)}
+        isEffect
+      >
+        <>{menuActive.render()}</>
+      </ModalSheet>
     </div>
   );
 };
