@@ -50,7 +50,7 @@ const DataInformation: React.FC<DataInformationProps> = ({ setActiveEffect }) =>
   const { data: menuConfig, isLoading: getMenuConfigLoading } = useGetMenuConfig();
   const savedMenus = menuConfig?.data?.data || [];
 
-  const { mutate: postMenuConfig, isLoading: postMenuConfigLoading } = usePostMenuConfig();
+  const { mutate: postMenuConfig } = usePostMenuConfig();
 
   const handlePostMenuConfig = (menuId: string, isChecked: boolean) => {
     const payload = {
@@ -220,14 +220,12 @@ const DataInformation: React.FC<DataInformationProps> = ({ setActiveEffect }) =>
                   isEffect
                 >
                   <div className="px-6 pb-5">
-                    <Spin size="large" spinning={postMenuConfigLoading}>
-                      <Menu
-                        menus={[updatedAdditionalMenu]}
-                        checkedMenu={(menu: any) => handleAddMenu(menu)}
-                        unCheckedMenu={(menu: any) => handleRemoveMenu(menu)}
-                        isCheckbox
-                      />
-                    </Spin>
+                    <Menu
+                      menus={[updatedAdditionalMenu]}
+                      checkedMenu={(menu: any) => handleAddMenu(menu)}
+                      unCheckedMenu={(menu: any) => handleRemoveMenu(menu)}
+                      isCheckbox
+                    />
                   </div>
                 </ModalSheet>
               </Card>
