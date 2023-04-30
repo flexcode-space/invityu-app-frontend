@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Formik, Field, Form, FormikValues } from 'formik';
 import { BsInstagram as InstgramIcon } from 'react-icons/bs';
 import { Spin, Switch } from 'antd';
@@ -13,6 +13,7 @@ import Button from '@/common/components/elements/Button';
 
 import { usePostBridesData } from '@/modules/create/hooks/dataHooks';
 import { onErrorHandling } from '@/common/helpers/error';
+import ImageUpload from '@/common/components/form/ImageUpload';
 
 interface FormBrideProps {
   type: 'bride' | 'groom';
@@ -22,6 +23,7 @@ interface FormBrideProps {
 }
 
 const FormBride: FC<FormBrideProps> = ({ type, data, isPrimary, onPrimaryOrderChange }) => {
+  const [photo, setPhoto] = useState<string | null>(null);
   console.log('🚀 aulianza ~ file: FormBride.tsx:25 ~ data:', data);
 
   const { mutate, isLoading } = usePostBridesData(type);
@@ -93,11 +95,13 @@ const FormBride: FC<FormBrideProps> = ({ type, data, isPrimary, onPrimaryOrderCh
     onPrimaryOrderChange(type, checked);
   };
 
+  const handleImageChange = (imageUrl: string) => setPhoto(imageUrl);
+
   const onSubmit = (values: FormikValues) => {
     const payload = {
       full_name: values?.full_name,
       short_name: values?.short_name,
-      photo: values?.photo,
+      photo: photo,
       father_name: values?.father_name,
       mother_name: values?.mother_name,
       family_tree: values?.family_tree,
@@ -127,6 +131,10 @@ const FormBride: FC<FormBrideProps> = ({ type, data, isPrimary, onPrimaryOrderCh
         {(formik) => {
           return (
             <Spin size="large" spinning={isLoading}>
+              <div className="mb-5">
+                <label className="block text-gray-500 text-[14px]">Foto</label>
+                <ImageUpload onChange={handleImageChange} />
+              </div>
               <Form className="m-1">
                 {inputForm.map((item, key) => (
                   <div key={key}>
