@@ -46,7 +46,7 @@ module.exports = {
     require('tailwind-scrollbar-hide'),
     plugin(function ({ addBase }) {
       addBase({
-        html: { fontSize: '15px', fontWeight: 500 },
+        html: { fontSize: '14px', fontWeight: 500 },
       });
     }),
   ],

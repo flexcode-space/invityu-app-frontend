@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Router from 'next/router';
+import { Checkbox, Tag } from 'antd';
 import { BiChevronRight as RightArrowIcon } from 'react-icons/bi';
 
 import { css } from '@emotion/react';
@@ -7,7 +8,6 @@ import styled from '@emotion/styled';
 
 import Card from './Card';
 import Image from './Image';
-import { Checkbox, Tag } from 'antd';
 
 import ModalSheet from './ModalSheet';
 
@@ -45,10 +45,22 @@ const Menu: React.FC<MenuProps> = ({
 }) => {
   const lastMenu = menus?.map((i) => i[i.length - 1]);
 
+  const filterMenus = (menus: MenuItem[][]): MenuItem[][] =>
+    menus.map((menu) =>
+      menu.reduce((filteredMenu, item) => {
+        const existingItem = filteredMenu.find((filteredItem) => filteredItem.id === item.id);
+        if (!existingItem) {
+          filteredMenu.push(item);
+        }
+        return filteredMenu;
+      }, [] as MenuItem[]),
+    );
+  const filteredMenus = useMemo(() => filterMenus(menus), [menus]);
+
   const [isOpenModalSheet, setOpenModalSheet] = useState<boolean>(false);
   const [menuActive, setMenuActive] = useState<MenuItem>(menus[0][0]);
 
-  const handleCheckMenu = (item: any) => {
+  const handleCheckMenu = (item: MenuItem) => {
     const updatedItem = { ...item, isChecked: !item.isChecked };
     if (updatedItem.isChecked && checkedMenu) {
       checkedMenu(updatedItem);
@@ -57,9 +69,9 @@ const Menu: React.FC<MenuProps> = ({
     }
   };
 
-  const checkedValues = menus[0]
-    .filter((item: any) => item.isChecked === true)
-    .map((item: any) => item.id);
+  const checkedValues = filteredMenus[0]
+    .filter((item: MenuItem) => item.isChecked === true)
+    .map((item: MenuItem) => item.id);
 
   const handleClick = (type: string, target?: string, menu?: MenuItem | null) => {
     if (type === 'modal') {
@@ -104,7 +116,7 @@ const Menu: React.FC<MenuProps> = ({
 
   return (
     <div className="mb-8 space-y-6">
-      {menus.map((child, index) => (
+      {filteredMenus.map((child, index) => (
         <Card key={index} className="p-0" borderColor="#EBF2FC">
           {child.map((item, key) => (
             <StyledMenuItem

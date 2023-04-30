@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import { Formik, Field, Form, FormikValues } from 'formik';
 import { BsInstagram as InstgramIcon } from 'react-icons/bs';
-import { Switch } from 'antd';
+import { Spin, Switch } from 'antd';
+import { toast } from 'react-hot-toast';
 import * as yup from 'yup';
 
 import { BrideDataProps } from '@/common/types/information';
@@ -9,6 +10,9 @@ import { InputProps } from '@/common/components/form/type';
 
 import Input from '@/common/components/form/Input';
 import Button from '@/common/components/elements/Button';
+
+import { usePostBridesData } from '@/modules/create/hooks/dataHooks';
+import { onErrorHandling } from '@/common/helpers/error';
 
 interface FormBrideProps {
   type: 'bride' | 'groom';
@@ -18,6 +22,10 @@ interface FormBrideProps {
 }
 
 const FormBride: FC<FormBrideProps> = ({ type, data, isPrimary, onPrimaryOrderChange }) => {
+  console.log('🚀 aulianza ~ file: FormBride.tsx:25 ~ data:', data);
+
+  const { mutate, isLoading } = usePostBridesData(type);
+
   const initialValues: BrideDataProps = {
     full_name: null,
     short_name: null,
@@ -33,33 +41,39 @@ const FormBride: FC<FormBrideProps> = ({ type, data, isPrimary, onPrimaryOrderCh
     {
       label: 'Nama Lengkap',
       name: 'full_name',
+      placeholder: 'Masukkan nama lengkap',
       type: 'text',
       note: '*',
     },
     {
       label: 'Nama Panggilan',
       name: 'short_name',
+      placeholder: 'Masukkan nama panggilan',
       type: 'text',
       note: '*',
     },
     {
       label: 'Nama Ayah',
       name: 'father_name',
+      placeholder: 'Masukkan nama ayah',
       type: 'text',
     },
     {
       label: 'Nama Ibu',
       name: 'mother_name',
+      placeholder: 'Masukkan nama ibu',
       type: 'text',
     },
     {
       label: 'Anak Ke',
       name: 'family_tree',
+      placeholder: 'Masukkan anak ke',
       type: 'number',
     },
     {
       label: 'Instagram',
       name: 'instagram',
+      placeholder: 'Masukkan username instagram',
       type: 'text',
       prefix: <InstgramIcon size="18" />,
     },
@@ -92,6 +106,19 @@ const FormBride: FC<FormBrideProps> = ({ type, data, isPrimary, onPrimaryOrderCh
     };
 
     console.log('aulianza payload => ', payload);
+
+    try {
+      mutate(payload, {
+        onSuccess: (res) => {
+          if (res?.data?.status) {
+            toast.success('Data berhasil disimpan');
+          }
+        },
+        onError: (error) => onErrorHandling(error),
+      });
+    } catch (error) {
+      toast.error('Unexpected error occurred!');
+    }
   };
 
   return (
@@ -99,41 +126,44 @@ const FormBride: FC<FormBrideProps> = ({ type, data, isPrimary, onPrimaryOrderCh
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
         {(formik) => {
           return (
-            <Form className="m-1">
-              {inputForm.map((item, key) => (
-                <div key={key}>
-                  <Field name={item?.name}>
-                    {({ field, form }: { field: any; form: any }) => (
-                      <Input
-                        label={item?.label}
-                        name={item?.name}
-                        type={item?.type}
-                        note={item?.note}
-                        prefix={item?.prefix}
-                        suffix={item?.suffix}
-                      />
-                    )}
-                  </Field>
+            <Spin size="large" spinning={isLoading}>
+              <Form className="m-1">
+                {inputForm.map((item, key) => (
+                  <div key={key}>
+                    <Field name={item?.name}>
+                      {({ field, form }: { field: any; form: any }) => (
+                        <Input
+                          label={item?.label}
+                          name={item?.name}
+                          placeholder={item?.placeholder}
+                          type={item?.type}
+                          note={item?.note}
+                          prefix={item?.prefix}
+                          suffix={item?.suffix}
+                        />
+                      )}
+                    </Field>
+                  </div>
+                ))}
+                <div className="flex gap-2 justify-between my-4 text-gray-500 font-[14px]">
+                  Jadikan yang utama?
+                  <Switch
+                    checkedChildren="Ya"
+                    unCheckedChildren="Tidak"
+                    onChange={handleSwitchChange}
+                    checked={isPrimary}
+                  />
                 </div>
-              ))}
-              <div className="flex gap-2 justify-between my-4 text-gray-500 font-[14px]">
-                Jadikan yang utama?
-                <Switch
-                  checkedChildren="Ya"
-                  unCheckedChildren="Tidak"
-                  onChange={handleSwitchChange}
-                  checked={isPrimary}
-                />
-              </div>
-              <Button
-                type="submit"
-                className="my-3"
-                disabled={!formik.dirty || !formik.isValid}
-                isBlock
-              >
-                Simpan Data Mempelai {type === 'bride' ? 'Wanita' : 'Pria'}
-              </Button>
-            </Form>
+                <Button
+                  type="submit"
+                  className="my-3"
+                  disabled={!formik.dirty || !formik.isValid}
+                  isBlock
+                >
+                  Simpan Data Mempelai {type === 'bride' ? 'Wanita' : 'Pria'}
+                </Button>
+              </Form>
+            </Spin>
           );
         }}
       </Formik>

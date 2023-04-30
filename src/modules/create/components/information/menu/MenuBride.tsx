@@ -10,6 +10,8 @@ interface BridesSectionProps {
 }
 
 const MenuBride: FC = () => {
+  // TODO: fetch API here, single API for bride data only, concern updated data
+
   const BRIDES_SECTION: BridesSectionProps[] = [
     {
       id: 1,

@@ -4,6 +4,7 @@ import {
   getThemeById,
   getThemeCategory,
   getThemeList,
+  postMenuConfig,
   postThemeSelect,
 } from '@/services/create';
 import { ThemeListParamsProps, ThemeSelectProps } from '@/common/types/themes';
@@ -26,4 +27,8 @@ export const usePostThemeSelect = () => {
 
 export const useGetMenuConfig = () => {
   return useQuery(['menu-config'], () => getMenuConfig());
+};
+
+export const usePostMenuConfig = () => {
+  return useMutation((payload: any) => postMenuConfig(payload));
 };

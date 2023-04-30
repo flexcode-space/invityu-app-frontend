@@ -34,3 +34,7 @@ export const postThemeSelect = (payload: ThemeSelectProps) => {
 export const getMenuConfig = () => {
   return axios.get(endpoint.menuConfig, axiosOptions);
 };
+
+export const postMenuConfig = (payload: any) => {
+  return axios.post(endpoint.menuConfig, payload, axiosOptions);
+};

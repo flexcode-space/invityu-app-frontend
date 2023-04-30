@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Alert, Tooltip } from 'antd';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Alert, Spin, Tooltip } from 'antd';
 import { FcInfo as InfoIcon } from 'react-icons/fc';
 import { IoIosAddCircle as AddIcon } from 'react-icons/io';
+import { toast } from 'react-hot-toast';
 
 import Button from '@/common/components/elements/Button';
 import Card from '@/common/components/elements/Card';
@@ -17,6 +18,10 @@ import {
 import CreateStepWizard from '../CreateStepWizard';
 import ModalSheet from '@/common/components/elements/ModalSheet';
 import { useSelectedThemeDataStore } from '@/common/store/useThemeStore';
+
+import { onErrorHandling } from '@/common/helpers/error';
+import { useGetMenuConfig, usePostMenuConfig } from '../../hooks';
+import { useQueryClient } from 'react-query';
 
 interface MenuItem {
   id: number;
@@ -40,10 +45,68 @@ const DataInformation: React.FC<DataInformationProps> = ({ setActiveEffect }) =>
 
   const { selectedThemeData } = useSelectedThemeDataStore();
 
+  const queryClient = useQueryClient();
+
+  const { data: menuConfig, isLoading: getMenuConfigLoading } = useGetMenuConfig();
+  const savedMenus = menuConfig?.data?.data || [];
+
+  const { mutate: postMenuConfig, isLoading: postMenuConfigLoading } = usePostMenuConfig();
+
+  const handlePostMenuConfig = (menuId: string, isChecked: boolean) => {
+    const payload = {
+      [menuId]: isChecked,
+    };
+
+    try {
+      postMenuConfig(payload, {
+        onSuccess: (res) => {
+          if (res?.data?.status) {
+            queryClient.invalidateQueries(['menu-config']);
+          }
+        },
+        onError: (error) => onErrorHandling(error),
+      });
+    } catch (error) {
+      toast.error('Unexpected error occurred!');
+    }
+  };
+
   const informationTooltipMessage =
     'Kamu masih dapat merubah semua informasi data kapan saja, kecuali link undangan.';
 
   const additionalMenu = createDataInformationMenuAdditional;
+  const updatedAdditionalMenu = additionalMenu.map((menu) => {
+    const foundItem = defaultMenu.find((item) => item.id === menu.id);
+    if (foundItem) {
+      return {
+        ...menu,
+        isChecked: foundItem?.isChecked,
+      };
+    }
+    return menu;
+  });
+
+  const updateMenu = useMemo(() => {
+    const updatedMenu = defaultMenu.slice();
+
+    Object.keys(savedMenus).forEach((key) => {
+      if (savedMenus[key]) {
+        const additionalMenuObject = additionalMenu
+          .flat()
+          .find((menuObject) => menuObject.id === key);
+        if (additionalMenuObject) {
+          const updatedItem = { ...additionalMenuObject, isChecked: true };
+          updatedMenu.push(updatedItem);
+        }
+      }
+    });
+
+    return updatedMenu;
+  }, [savedMenus]);
+
+  useEffect(() => {
+    setDefaultMenu(updateMenu);
+  }, [updateMenu]);
 
   const toggleAddDataModal = () => {
     setOpenAddDataModal((prevState) => !prevState);
@@ -51,27 +114,30 @@ const DataInformation: React.FC<DataInformationProps> = ({ setActiveEffect }) =>
 
   const handleAddMenu = (menu: any) => {
     const updatedMenu = [...defaultMenu];
-    const [firstMenu] = updatedMenu;
     const updatedItem = { ...menu, isChecked: true };
-    firstMenu.push(updatedItem);
+    updatedMenu.push(updatedItem);
 
-    const existingMenu = additionalMenu[0].find((item: any) => item?.id === menu?.id);
+    handlePostMenuConfig(updatedItem?.id, updatedItem?.isChecked);
+
+    const existingMenu = additionalMenu.find((item: any) => item?.id === menu?.id);
     if (existingMenu) existingMenu.isChecked = true;
 
-    setDefaultMenu(updatedMenu);
+    // setDefaultMenu(updatedMenu);
   };
 
   const handleRemoveMenu = (menu: MenuItem) => {
     const updatedMenu = [...defaultMenu];
-    const [firstMenu] = updatedMenu;
 
-    const findMenuIndex = firstMenu.findIndex((m: any) => m.id === menu.id);
+    const findMenuIndex = updatedMenu.findIndex((m: any) => m.id === menu.id);
     if (findMenuIndex !== -1) {
-      firstMenu.splice(findMenuIndex, 1);
+      updatedMenu.splice(findMenuIndex, 1);
     }
 
-    const existingMenu = additionalMenu[0].find((item: any) => item.id === menu.id);
-    if (existingMenu) existingMenu.isChecked = false;
+    const existingMenu = additionalMenu.find((item: any) => item.id === menu.id);
+    if (existingMenu) {
+      handlePostMenuConfig(existingMenu?.id, false);
+      existingMenu.isChecked = false;
+    }
 
     setDefaultMenu(updatedMenu);
   };
@@ -99,8 +165,8 @@ const DataInformation: React.FC<DataInformationProps> = ({ setActiveEffect }) =>
     if (isOpenAddDataModal) {
       setActiveEffect(true);
       const handleEsc = (event: KeyboardEvent) => {
-        if (event.keyCode === 27) {
-          toggleAddDataModal();
+        if (event.key === 'Escape') {
+          setOpenAddDataModal(false);
         }
       };
       document.addEventListener('keydown', handleEsc);
@@ -136,7 +202,9 @@ const DataInformation: React.FC<DataInformationProps> = ({ setActiveEffect }) =>
               </Tooltip>
             </div>
             <div>
-              <Menu menus={defaultMenu} isChevron isClickable />
+              <Spin size="large" spinning={getMenuConfigLoading}>
+                <Menu menus={[defaultMenu]} isChevron isClickable />
+              </Spin>
 
               <Card
                 className="flex items-center gap-3 py-4 px-6 hover:md:bg-gray-50 cursor-pointer"
@@ -152,12 +220,14 @@ const DataInformation: React.FC<DataInformationProps> = ({ setActiveEffect }) =>
                   isEffect
                 >
                   <div className="px-6 pb-5">
-                    <Menu
-                      menus={additionalMenu}
-                      checkedMenu={(menu: any) => handleAddMenu(menu)}
-                      unCheckedMenu={(menu: any) => handleRemoveMenu(menu)}
-                      isCheckbox
-                    />
+                    <Spin size="large" spinning={postMenuConfigLoading}>
+                      <Menu
+                        menus={[updatedAdditionalMenu]}
+                        checkedMenu={(menu: any) => handleAddMenu(menu)}
+                        unCheckedMenu={(menu: any) => handleRemoveMenu(menu)}
+                        isCheckbox
+                      />
+                    </Spin>
                   </div>
                 </ModalSheet>
               </Card>
