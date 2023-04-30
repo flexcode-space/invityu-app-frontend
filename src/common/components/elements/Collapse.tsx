@@ -1,28 +1,32 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { FiChevronRight, FiChevronDown } from 'react-icons/fi';
 import { AnimatePresence, motion } from 'framer-motion';
 
 type Props = {
   title: string;
   children: React.ReactNode;
+  initialState?: boolean;
 };
 
-const Collapse: React.FC<Props> = ({ title, children }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const Collapse: FC<Props> = ({ title, children, initialState = false }) => {
+  const [isOpen, setIsOpen] = useState(initialState);
 
   const toggle = () => setIsOpen(!isOpen);
 
   return (
     <div className="border border-gray-200 bg-white rounded-xl">
-      <div
+      <motion.div
         className={`flex items-center px-5 py-4 cursor-pointer border-b text-primary-600 font-semibold ${
           isOpen ? 'border-gray-200' : 'border-transparent'
         }`}
         onClick={toggle}
+        initial={{ backgroundColor: 'transparent' }}
+        animate={{ backgroundColor: isOpen ? 'rgba(229, 229, 229, 0.05)' : 'transparent' }}
+        whileHover={{ backgroundColor: 'rgba(229, 229, 229, 0.05)' }}
       >
         <div className="flex-1 mr-2 mt-1">{title}</div>
         {isOpen ? <FiChevronDown className="w-5 h-5" /> : <FiChevronRight className="w-5 h-5" />}
-      </div>
+      </motion.div>
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -32,7 +36,7 @@ const Collapse: React.FC<Props> = ({ title, children }) => {
             exit={{ height: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
-            <div className="p-4 ">{children}</div>
+            <div className="p-4">{children}</div>
           </motion.div>
         )}
       </AnimatePresence>

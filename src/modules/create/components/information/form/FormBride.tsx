@@ -126,7 +126,7 @@ const FormBride: FC<FormBrideProps> = ({ type, data, isPrimary, onPrimaryOrderCh
   };
 
   return (
-    <div>
+    <>
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
         {(formik) => {
           return (
@@ -175,7 +175,7 @@ const FormBride: FC<FormBrideProps> = ({ type, data, isPrimary, onPrimaryOrderCh
           );
         }}
       </Formik>
-    </div>
+    </>
   );
 };
 

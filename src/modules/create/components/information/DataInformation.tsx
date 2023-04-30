@@ -102,6 +102,7 @@ const DataInformation: React.FC<DataInformationProps> = ({ setActiveEffect }) =>
     });
 
     return updatedMenu;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [savedMenus]);
 
   useEffect(() => {

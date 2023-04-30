@@ -1,4 +1,5 @@
 import MenuBride from '@/modules/create/components/information/menu/MenuBride';
+import MenuEvent from '@/modules/create/components/information/menu/MenuEvent';
 
 export const createDataInformationMenu = [
   {
@@ -23,7 +24,7 @@ export const createDataInformationMenu = [
     isRequired: false,
     isChecked: true,
     tag: '',
-    render: () => <>events</>,
+    render: () => <MenuEvent />,
   },
   {
     order: 3,
