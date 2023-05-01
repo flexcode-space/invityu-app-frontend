@@ -34,7 +34,7 @@ const Collapse: FC<Props> = ({ title, children, initialState = false }) => {
             initial={{ height: 0 }}
             animate={{ height: 'auto' }}
             exit={{ height: 0 }}
-            transition={{ duration: 0.5, ease: 'easeInOut' }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
             <div className="p-4">{children}</div>
           </motion.div>

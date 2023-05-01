@@ -50,7 +50,7 @@ const DataInformation: React.FC<DataInformationProps> = ({ setActiveEffect }) =>
   const { data: menuConfig, isLoading: getMenuConfigLoading } = useGetMenuConfig();
   const savedMenus = menuConfig?.data?.data || [];
 
-  const { mutate: postMenuConfig } = usePostMenuConfig();
+  const { mutate: postMenuConfig, isLoading: postMenuConfigLoading } = usePostMenuConfig();
 
   const handlePostMenuConfig = (menuId: string, isChecked: boolean) => {
     const payload = {
@@ -203,7 +203,7 @@ const DataInformation: React.FC<DataInformationProps> = ({ setActiveEffect }) =>
               </Tooltip>
             </div>
             <div>
-              <Spin size="large" spinning={getMenuConfigLoading}>
+              <Spin size="large" spinning={getMenuConfigLoading || postMenuConfigLoading}>
                 <Menu menus={[defaultMenu]} isChevron isClickable />
               </Spin>
 
