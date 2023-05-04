@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Formik, Field, Form, FormikValues } from 'formik';
 import { Spin, Switch } from 'antd';
 import * as yup from 'yup';
@@ -12,9 +12,10 @@ import ButtonIcon from '@/common/components/elements/ButtonIcon';
 
 interface FormEventProps {
   onDelete?: () => void;
+  onNameChange: (value?: string) => void;
 }
 
-const FormEvent: FC<FormEventProps> = ({ onDelete }) => {
+const FormEvent: FC<FormEventProps> = ({ onDelete, onNameChange }) => {
   const initialValues: EventDataProps = {
     name: '',
     date: '',
@@ -34,17 +35,26 @@ const FormEvent: FC<FormEventProps> = ({ onDelete }) => {
       name: 'name',
       placeholder: 'Masukkan nama acara',
       type: 'text',
-      note: '*',
+      required: true,
+    },
+    {
+      label: 'Tanggal',
+      name: 'date',
+      placeholder: 'Pilih tanggal acara',
+      type: 'date',
+      required: true,
     },
   ];
 
   const validationSchema = yup.object().shape({
     name: yup.string().required('Nama Acara wajib diisi'),
+    date: yup.string().required('Tanggal Acara wajib dipilih'),
   });
 
   const onSubmit = (values: FormikValues) => {
     const payload = {
       name: values?.name,
+      date: values?.date,
     };
 
     console.log('aulianza payload => ', payload);
@@ -76,12 +86,17 @@ const FormEvent: FC<FormEventProps> = ({ onDelete }) => {
                       {({ field, form }: { field: any; form: any }) => (
                         <Input
                           label={item?.label}
+                          required={item?.required}
                           name={item?.name}
                           placeholder={item?.placeholder}
                           type={item?.type}
                           note={item?.note}
                           prefix={item?.prefix}
                           suffix={item?.suffix}
+                          onChange={(e: any) => {
+                            form.setFieldValue(field.name, e.target.value);
+                            if (field.name === 'name') onNameChange(e.target.value);
+                          }}
                         />
                       )}
                     </Field>

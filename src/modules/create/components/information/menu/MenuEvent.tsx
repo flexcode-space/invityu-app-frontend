@@ -12,6 +12,8 @@ import { EventDataProps } from '@/common/types/information';
 
 const MenuEvent: FC = () => {
   const [events, setEvents] = useState<EventDataProps[]>([]);
+  const [eventName, setEventName] = useState<string | undefined>('');
+
   console.log('🚀 aulianza ~ file: MenuEvent.tsx:21 ~ MenuEvent ~ events:', events);
 
   const isFirstEvent = events?.length === 0 ? true : false;
@@ -39,8 +41,14 @@ const MenuEvent: FC = () => {
     setEvents(addEvent);
   };
 
-  const handleDeleteEvent = () => {
-    console.log('🚀 aulianza ~ file: MenuEvent.tsx:43 ~ handleDeleteEvent');
+  const handleDeleteEvent = (index: number) => {
+    console.log('aulianza delete event', index);
+  };
+
+  const handleEventNameChange = (index: number, name?: string) => {
+    const newEvents = [...events];
+    newEvents[index].name = name || '';
+    setEvents(newEvents);
   };
 
   const variants = {
@@ -60,8 +68,11 @@ const MenuEvent: FC = () => {
               animate="open"
               exit="closed"
             >
-              <Collapse title={event?.name || '-'} initialState={event?.is_primary}>
-                <FormEvent onDelete={handleDeleteEvent} />
+              <Collapse title={event?.name || eventName || '-'} initialState={event?.is_primary}>
+                <FormEvent
+                  onDelete={() => handleDeleteEvent(index)}
+                  onNameChange={(name) => handleEventNameChange(index, name)}
+                />
               </Collapse>
             </motion.div>
           ))}

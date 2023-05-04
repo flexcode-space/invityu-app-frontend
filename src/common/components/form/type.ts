@@ -8,5 +8,7 @@ export interface InputProps {
   suffix?: React.ReactNode;
   value?: string;
   isReadOnly?: true | false | undefined;
+  useDatePicker?: boolean;
+  required?: boolean;
   [key: string]: any;
 }

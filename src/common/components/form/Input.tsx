@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 import FormikErrorMessage from './FormikErrorMessage';
 import { FieldProps, Field } from 'formik';
 
 import { InputProps } from './type';
-import { StyledInput, StyledInputPassword } from './style';
+import { StyledInput, StyledInputPassword, baseInputStyles } from './style';
 
-const Input: React.FC<InputProps> = ({
+const Input: FC<InputProps> = ({
   name,
   type,
   label,
@@ -14,6 +14,7 @@ const Input: React.FC<InputProps> = ({
   prefix,
   suffix,
   value,
+  required,
   isReadOnly,
   ...others
 }) => {
@@ -25,6 +26,7 @@ const Input: React.FC<InputProps> = ({
         <div className="mb-3" {...others}>
           <label htmlFor={name} className="block text-gray-500 text-[14px]">
             {label}
+            {required && <span className="text-red-500 text-xs"> *</span>}
             {note && <span className="ml-1 text-red-500 text-xs">{note}</span>}
           </label>
           <Component

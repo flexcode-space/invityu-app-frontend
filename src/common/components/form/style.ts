@@ -1,14 +1,14 @@
-import styled from "@emotion/styled";
-import { css } from "@emotion/react";
-import { Input as InputField } from "antd";
+import styled from '@emotion/styled';
+import { css } from '@emotion/react';
+import { Input as InputField } from 'antd';
 
-import { InputProps } from "./type";
+import { InputProps } from './type';
 
-const baseInputStyles = css`
+export const baseInputStyles = css`
   width: 100%;
   margin: 0.5rem 0;
   padding: 0.7rem;
-  border: 2px solid #EBF2FC;
+  border: 2px solid #ebf2fc;
   border-radius: 15px;
   box-shadow: none !important;
 
@@ -38,8 +38,7 @@ export const StyledInput = styled(InputField)`
     `}
 
   .ant-input-prefix {
-    margin-right: ${(props: InputProps) =>
-    props.name === "phone" ? "5px" : "10px"};
+    margin-right: ${(props: InputProps) => (props.name === 'phone' ? '5px' : '10px')};
   }
 `;
 
