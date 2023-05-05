@@ -2,7 +2,11 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { endpoint } from '../endpoint';
 import { AxiosOptionsProps } from '@/common/types/axios';
-import { BrideDataProps, FilterDataBySectionProps } from '@/common/types/information';
+import {
+  BrideDataProps,
+  EventDataProps,
+  FilterDataBySectionProps,
+} from '@/common/types/information';
 
 const axiosOptions: AxiosOptionsProps = {
   headers: {
@@ -25,4 +29,12 @@ export const getInvitationDataBySection = (params: FilterDataBySectionProps) => 
 
 export const postBridesData = (type: string, payload: BrideDataProps) => {
   return axios.post(`${endpoint.bridesData}/${type}`, payload, axiosOptions);
+};
+
+export const getEventsData = () => {
+  return axios.get(endpoint.eventsData, axiosOptions);
+};
+
+export const postEventsData = (payload: EventDataProps) => {
+  return axios.post(endpoint.eventsData, payload, axiosOptions);
 };

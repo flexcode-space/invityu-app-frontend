@@ -1,6 +1,7 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Formik, Form, FormikValues } from 'formik';
-import { Spin, Switch } from 'antd';
+import { Checkbox, Spin, Switch } from 'antd';
+import { toast } from 'react-hot-toast';
 import * as yup from 'yup';
 
 import Input from '@/common/components/form/Input';
@@ -9,8 +10,13 @@ import ButtonIcon from '@/common/components/elements/ButtonIcon';
 import Datepicker from '@/common/components/form/Datepicker';
 import Select from '@/common/components/form/Select';
 import Textarea from '@/common/components/form/Textarea';
+import GoogleMapSelector from '@/common/components/elements/GoogleMapSelector';
 
 import { EventDataProps } from '@/common/types/information';
+import { CheckboxChangeEvent } from 'antd/es/checkbox';
+
+import { usePostEventsData } from '@/modules/create/hooks/dataHooks';
+import { onErrorHandling } from '@/common/helpers/error';
 
 interface FormEventProps {
   onDelete?: () => void;
@@ -31,6 +37,14 @@ const FormEvent: FC<FormEventProps> = ({
   isFirstEvent,
   onPrimaryOrderChange,
 }) => {
+  const [isUntilFinish, setUntilFinish] = useState<boolean>(false);
+  const [selectedLocation, setSelectedLocation] = useState<{
+    lat: number;
+    lng: number;
+  }>();
+
+  const { mutate, isLoading: postDataLoading } = usePostEventsData();
+
   const initialValues: EventDataProps = {
     name: '',
     date: null,
@@ -40,7 +54,8 @@ const FormEvent: FC<FormEventProps> = ({
     timezone: '',
     location: '',
     address: '',
-    gmaps: '',
+    latitude: '',
+    longitude: '',
     is_primary: false,
   };
 
@@ -57,31 +72,42 @@ const FormEvent: FC<FormEventProps> = ({
       name: values?.name,
       date: values?.date,
       start_time: values?.start_time,
-      end_time: values?.end_time,
+      end_time: !isUntilFinish ? values?.end_time : '',
+      is_until_finish: isUntilFinish,
       timezone: values?.timezone,
       location: values?.location,
       address: values?.address,
-      gmaps: values?.gmaps,
+      latitude: selectedLocation?.lat || '',
+      longitude: selectedLocation?.lng || '',
+      is_primary: false,
     };
 
     console.log('aulianza payload => ', payload);
 
-    // try {
-    //   mutate(payload, {
-    //     onSuccess: (res) => {
-    //       if (res?.data?.status) {
-    //         toast.success('Data berhasil disimpan');
-    //       }
-    //     },
-    //     onError: (error) => onErrorHandling(error),
-    //   });
-    // } catch (error) {
-    //   toast.error('Unexpected error occurred!');
-    // }
+    try {
+      mutate(payload, {
+        onSuccess: (res) => {
+          if (res?.data?.status) {
+            toast.success('Data acara berhasil disimpan');
+          }
+        },
+        onError: (error) => onErrorHandling(error),
+      });
+    } catch (error) {
+      toast.error('Unexpected error occurred!');
+    }
   };
 
   const handleSwitchChange = (checked: boolean) => {
     onPrimaryOrderChange(checked);
+  };
+
+  const handleEndTimeCheckbox = (e: CheckboxChangeEvent) => {
+    setUntilFinish(e.target.checked);
+  };
+
+  const handleSelectLocation = (lat: number, lng: number) => {
+    setSelectedLocation({ lat, lng });
   };
 
   return (
@@ -117,14 +143,20 @@ const FormEvent: FC<FormEventProps> = ({
                     type="time"
                     className="w-1/2"
                   />
-                  <Input
-                    label="Waktu Selesai"
-                    required={false}
-                    name="end_time"
-                    placeholder="00:00"
-                    type="time"
-                    className="w-1/2"
-                  />
+                  <div className="flex flex-col gap-1 w-1/2">
+                    <Input
+                      label="Waktu Selesai"
+                      required={false}
+                      name="end_time"
+                      placeholder="00:00"
+                      type="time"
+                      className="w-full"
+                      isReadOnly={isUntilFinish}
+                    />
+                    <Checkbox onChange={handleEndTimeCheckbox} checked={isUntilFinish}>
+                      Sampai selesai
+                    </Checkbox>
+                  </div>
                 </div>
                 <Select
                   name="timezone"
@@ -150,7 +182,7 @@ const FormEvent: FC<FormEventProps> = ({
                   rows={2}
                   autoSize
                 />
-                <Textarea
+                {/* <Textarea
                   label="Link Google Maps"
                   required={true}
                   name="gmaps"
@@ -158,7 +190,20 @@ const FormEvent: FC<FormEventProps> = ({
                   type="textarea"
                   rows={2}
                   autoSize
-                />
+                /> */}
+                <GoogleMapSelector onSelectLocation={handleSelectLocation} />
+                {selectedLocation && (
+                  <div className="flex bg-blue-50 text-gray-500 mb-8 py-3 px-5 rounded-xl">
+                    <ul>
+                      <li>
+                        Latitude : <span className="font-semibold">{selectedLocation?.lat}</span>
+                      </li>
+                      <li>
+                        Longitude : <span className="font-semibold">{selectedLocation?.lng}</span>
+                      </li>
+                    </ul>
+                  </div>
+                )}
 
                 <div className="flex gap-2 justify-between my-4 text-gray-500 font-[14px]">
                   Jadikan acara utama?

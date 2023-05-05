@@ -22,6 +22,7 @@ export interface EventDataProps {
   timezone?: string;
   location?: string;
   address: string | null;
-  gmaps?: string;
+  latitude?: string | number | undefined;
+  longitude?: string | number | undefined;
   is_primary: boolean;
 }

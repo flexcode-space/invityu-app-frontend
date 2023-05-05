@@ -10,11 +10,16 @@ import FormEvent from '../form/FormEvent';
 
 import { EventDataProps } from '@/common/types/information';
 
+import { useGetEventsData } from '@/modules/create/hooks/dataHooks';
+
 const MenuEvent: FC = () => {
   const [events, setEvents] = useState<EventDataProps[]>([]);
   const [eventName, setEventName] = useState<string | undefined>('');
 
   console.log('🚀 aulianza ~ file: MenuEvent.tsx:21 ~ MenuEvent ~ events:', events);
+
+  const { data, isLoading, isError } = useGetEventsData();
+  console.log('🚀 aulianza ~ file: MenuEvent.tsx:22 ~ data:', data);
 
   const isFirstEvent = events?.length === 1 ? true : false;
 

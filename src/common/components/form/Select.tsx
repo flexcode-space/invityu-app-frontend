@@ -23,7 +23,6 @@ const Select: FC<SelectProps> = ({
   className,
   onChange,
 }) => {
-  console.log('🚀 aulianza ~ file: Select.tsx:26 ~ options:', options);
   const [field, meta] = useField(name);
   const selectClassNames = classNames('ant-select', className);
 

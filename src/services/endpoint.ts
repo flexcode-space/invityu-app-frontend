@@ -30,4 +30,5 @@ export const endpoint = {
   dataBySection: apiUrl + 'event/event-detail',
   menuConfig: apiUrl + 'event/data/menu-configuration',
   bridesData: apiUrl + 'event/data/biodata',
+  eventsData: apiUrl + 'event/data/events',
 };
