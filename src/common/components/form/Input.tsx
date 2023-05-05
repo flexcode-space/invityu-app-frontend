@@ -3,7 +3,7 @@ import FormikErrorMessage from './FormikErrorMessage';
 import { FieldProps, Field } from 'formik';
 
 import { InputProps } from './type';
-import { StyledInput, StyledInputPassword, baseInputStyles } from './style';
+import { StyledInput, StyledInputPassword } from './style';
 
 const Input: FC<InputProps> = ({
   name,
@@ -38,6 +38,7 @@ const Input: FC<InputProps> = ({
             suffix={suffix}
             defaultValue={value}
             readOnly={isReadOnly}
+            min={type === 'number' ? 0 : undefined}
             {...field}
           />
           <FormikErrorMessage name={name} />

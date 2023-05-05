@@ -31,6 +31,10 @@ export const postThemeSelect = (payload: ThemeSelectProps) => {
   return axios.post(endpoint.themeSelect, payload, axiosOptions);
 };
 
+export const getCurrentEvent = () => {
+  return axios.get(endpoint.currentEvent, axiosOptions);
+};
+
 export const getMenuConfig = () => {
   return axios.get(endpoint.menuConfig, axiosOptions);
 };

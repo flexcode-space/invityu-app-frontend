@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from 'react-query';
 import {
+  getCurrentEvent,
   getMenuConfig,
   getThemeById,
   getThemeCategory,
@@ -23,6 +24,10 @@ export const useGetThemeById = (theme_id: string) => {
 
 export const usePostThemeSelect = () => {
   return useMutation((payload: ThemeSelectProps) => postThemeSelect(payload));
+};
+
+export const useGetCurrentEvent = () => {
+  return useQuery(['current-event'], () => getCurrentEvent());
 };
 
 export const useGetMenuConfig = () => {

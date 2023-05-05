@@ -23,8 +23,6 @@ const FormEvent: FC<FormEventProps> = ({
   isFirstEvent,
   onPrimaryOrderChange,
 }) => {
-  console.log('🚀 aulianza ~ file: FormEvent.tsx:20 ~ isFirstEvent:', isFirstEvent);
-
   const initialValues: EventDataProps = {
     name: '',
     date: null,

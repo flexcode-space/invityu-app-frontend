@@ -20,7 +20,7 @@ import ModalSheet from '@/common/components/elements/ModalSheet';
 import { useSelectedThemeDataStore } from '@/common/store/useThemeStore';
 
 import { onErrorHandling } from '@/common/helpers/error';
-import { useGetMenuConfig, usePostMenuConfig } from '../../hooks';
+import { useGetCurrentEvent, useGetMenuConfig, usePostMenuConfig } from '../../hooks';
 import { useQueryClient } from 'react-query';
 
 interface MenuItem {
@@ -46,6 +46,9 @@ const DataInformation: React.FC<DataInformationProps> = ({ setActiveEffect }) =>
   const { selectedThemeData } = useSelectedThemeDataStore();
 
   const queryClient = useQueryClient();
+
+  const { data: currentEventRes, isLoading: getCurrentEventLoading } = useGetCurrentEvent();
+  const currentEvent = currentEventRes?.data?.data || {};
 
   const { data: menuConfig, isLoading: getMenuConfigLoading } = useGetMenuConfig();
   const savedMenus = menuConfig?.data?.data || [];
@@ -187,7 +190,7 @@ const DataInformation: React.FC<DataInformationProps> = ({ setActiveEffect }) =>
         <Container className="pt-5 pb-6 space-y-8">
           <h2 className="text-xl font-medium">Isi informasi yang akan tampil di undanganmu!</h2>
           <Alert
-            message={`Kamu memilih tema ${selectedThemeData?.name}`}
+            message={`Kamu memilih paket ${currentEvent?.package} dengan tema ${currentEvent?.theme}`}
             type="info"
             className="text-primary-600 text-sm"
           />
