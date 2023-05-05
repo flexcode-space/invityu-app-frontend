@@ -1,13 +1,22 @@
 import React, { FC } from 'react';
-import { Field } from 'formik';
-import { DatePicker } from 'antd';
+import { Field, FieldProps, useFormikContext } from 'formik';
+import { ConfigProvider, DatePicker, DatePickerProps } from 'antd';
 import styled from '@emotion/styled';
+
+import dayjs from 'dayjs';
+import 'dayjs/locale/id';
+import locale from 'antd/locale/id_ID';
+
+import FormikErrorMessage from './FormikErrorMessage';
 
 import { InputProps } from './type';
 import { baseInputStyles } from './style';
-import FormikErrorMessage from './FormikErrorMessage';
 
-const Datepicker: FC<InputProps> = ({
+interface DatePickerNewProps extends InputProps {
+  onSelectedDate: (date: string | null) => void;
+}
+
+const Datepicker: FC<DatePickerNewProps> = ({
   name,
   type,
   label,
@@ -18,26 +27,42 @@ const Datepicker: FC<InputProps> = ({
   value,
   isReadOnly,
   required = false,
+  onSelectedDate,
   ...others
 }) => {
+  const dateFormat = 'dddd, DD MMMM YYYY';
+
+  const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+    const formattedDate = date ? dayjs(date).format('YYYY-MM-DD') : null;
+    onSelectedDate(formattedDate);
+  };
+
+  const getPopupContainer = (triggerNode: HTMLElement) => {
+    return triggerNode.parentNode as HTMLElement;
+  };
+
   return (
-    <div className="mb-3" {...others}>
-      <label htmlFor={name} className="block text-gray-500 text-[14px]">
-        {label}
-        {note && <span className="ml-1 text-red-500 text-xs">{note}</span>}
-      </label>
-      <Field name={name}>
-        {({ field, form }: { field: any; form: any }) => (
-          <DatePicker
-            {...field}
-            {...others}
-            placeholder={placeholder}
-            onChange={(value, dateString) => form.setFieldValue(field.name, dateString)}
-          />
-        )}
-        <FormikErrorMessage name={name} />
-      </Field>
-    </div>
+    <Field name={name}>
+      {({ field }: FieldProps) => (
+        <div className="mb-3" {...others}>
+          <label htmlFor={name} className="block text-gray-500 text-[14px]">
+            {label}
+            {required && <span className="text-red-500 text-xs"> *</span>}
+            {note && <span className="ml-1 text-red-500 text-xs">{note}</span>}
+          </label>
+          <ConfigProvider locale={locale}>
+            <StyledDatePicker
+              placeholder={placeholder}
+              onChange={onChange}
+              getPopupContainer={getPopupContainer}
+              format={dateFormat}
+              value={value ? dayjs(value) : undefined}
+            />
+          </ConfigProvider>
+          <FormikErrorMessage name={name} />
+        </div>
+      )}
+    </Field>
   );
 };
 

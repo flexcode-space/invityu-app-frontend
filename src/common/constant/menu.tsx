@@ -89,7 +89,7 @@ export const createDataInformationMenuAdditional = [
   },
   {
     order: 8,
-    id: 'bank_or_wallet_account',
+    id: 'gift',
     title: 'Hadiah',
     description: 'Informasi rekening / e-wallet',
     target: '/create/information/gift',

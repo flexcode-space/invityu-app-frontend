@@ -16,7 +16,7 @@ const MenuEvent: FC = () => {
 
   console.log('🚀 aulianza ~ file: MenuEvent.tsx:21 ~ MenuEvent ~ events:', events);
 
-  const isFirstEvent = events?.length === 0 ? true : false;
+  const isFirstEvent = events?.length === 1 ? true : false;
 
   const handleAddEvent = () => {
     if (events?.length >= 2) {
@@ -35,7 +35,7 @@ const MenuEvent: FC = () => {
         location: '',
         address: '',
         gmaps: '',
-        is_primary: isFirstEvent,
+        is_primary: events?.length === 0 ? true : false,
       },
     ];
     setEvents(addEvent);
@@ -72,6 +72,8 @@ const MenuEvent: FC = () => {
                 <FormEvent
                   onDelete={() => handleDeleteEvent(index)}
                   onNameChange={(name) => handleEventNameChange(index, name)}
+                  isFirstEvent={isFirstEvent}
+                  onPrimaryOrderChange={(e) => console.log('aulianza e => ', e)}
                 />
               </Collapse>
             </motion.div>

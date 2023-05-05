@@ -25,6 +25,7 @@ export const endpoint = {
   themeSelect: apiUrl + 'event/create',
 
   // DATA-INFORMATION
+  userEvent: apiUrl + 'event/user',
   allData: apiUrl + 'event/data',
   menuConfig: apiUrl + 'event/data/menu-configuration',
   bridesData: apiUrl + 'event/data/biodata',

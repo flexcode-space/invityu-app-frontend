@@ -1,5 +1,5 @@
-import React, { FC, useState } from 'react';
-import { Formik, Field, Form, FormikValues } from 'formik';
+import React, { FC } from 'react';
+import { Formik, Form, FormikValues } from 'formik';
 import { Spin, Switch } from 'antd';
 import * as yup from 'yup';
 
@@ -7,18 +7,27 @@ import Input from '@/common/components/form/Input';
 import Button from '@/common/components/elements/Button';
 
 import { EventDataProps } from '@/common/types/information';
-import { InputProps } from '@/common/components/form/type';
 import ButtonIcon from '@/common/components/elements/ButtonIcon';
+import Datepicker from '@/common/components/form/Datepicker';
 
 interface FormEventProps {
   onDelete?: () => void;
   onNameChange: (value?: string) => void;
+  isFirstEvent: boolean;
+  onPrimaryOrderChange: (checked: boolean) => void;
 }
 
-const FormEvent: FC<FormEventProps> = ({ onDelete, onNameChange }) => {
+const FormEvent: FC<FormEventProps> = ({
+  onDelete,
+  onNameChange,
+  isFirstEvent,
+  onPrimaryOrderChange,
+}) => {
+  console.log('🚀 aulianza ~ file: FormEvent.tsx:20 ~ isFirstEvent:', isFirstEvent);
+
   const initialValues: EventDataProps = {
     name: '',
-    date: '',
+    date: null,
     start_time: '',
     end_time: '',
     is_until_finish: false,
@@ -28,23 +37,6 @@ const FormEvent: FC<FormEventProps> = ({ onDelete, onNameChange }) => {
     gmaps: '',
     is_primary: false,
   };
-
-  const inputForm: InputProps[] = [
-    {
-      label: 'Nama Acara',
-      name: 'name',
-      placeholder: 'Masukkan nama acara',
-      type: 'text',
-      required: true,
-    },
-    {
-      label: 'Tanggal',
-      name: 'date',
-      placeholder: 'Pilih tanggal acara',
-      type: 'date',
-      required: true,
-    },
-  ];
 
   const validationSchema = yup.object().shape({
     name: yup.string().required('Nama Acara wajib diisi'),
@@ -73,6 +65,10 @@ const FormEvent: FC<FormEventProps> = ({ onDelete, onNameChange }) => {
     // }
   };
 
+  const handleSwitchChange = (checked: boolean) => {
+    onPrimaryOrderChange(checked);
+  };
+
   return (
     <>
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
@@ -80,35 +76,28 @@ const FormEvent: FC<FormEventProps> = ({ onDelete, onNameChange }) => {
           return (
             <Spin size="large" spinning={false}>
               <Form className="m-1">
-                {inputForm.map((item, key) => (
-                  <div key={key}>
-                    <Field name={item?.name}>
-                      {({ field, form }: { field: any; form: any }) => (
-                        <Input
-                          label={item?.label}
-                          required={item?.required}
-                          name={item?.name}
-                          placeholder={item?.placeholder}
-                          type={item?.type}
-                          note={item?.note}
-                          prefix={item?.prefix}
-                          suffix={item?.suffix}
-                          onChange={(e: any) => {
-                            form.setFieldValue(field.name, e.target.value);
-                            if (field.name === 'name') onNameChange(e.target.value);
-                          }}
-                        />
-                      )}
-                    </Field>
-                  </div>
-                ))}
+                <Input
+                  label="Nama Acara"
+                  required={true}
+                  name="name"
+                  placeholder="Masukkan nama acara"
+                  type="text"
+                />
+                <Datepicker
+                  label="Tanggal"
+                  required={true}
+                  name="date"
+                  placeholder="Pilih tanggal acara"
+                  onSelectedDate={(date: string | null) => formik.setFieldValue('date', date)}
+                />
+
                 <div className="flex gap-2 justify-between my-4 text-gray-500 font-[14px]">
                   Jadikan acara utama?
                   <Switch
                     checkedChildren="Ya"
                     unCheckedChildren="Tidak"
-                    // onChange={handleSwitchChange}
-                    // checked={isPrimary}
+                    onChange={handleSwitchChange}
+                    checked={isFirstEvent}
                   />
                 </div>
                 <Button
