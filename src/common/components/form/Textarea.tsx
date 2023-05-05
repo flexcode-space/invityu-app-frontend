@@ -3,41 +3,45 @@ import FormikErrorMessage from './FormikErrorMessage';
 import { FieldProps, Field } from 'formik';
 
 import { InputProps } from './type';
-import { StyledInput, StyledInputPassword } from './style';
+import { Input } from 'antd';
+import { baseInputStyles } from './style';
+import styled from '@emotion/styled';
 
-const Input: FC<InputProps> = ({
+const { TextArea } = Input;
+
+interface TextAreaProps extends InputProps {
+  rows?: number;
+  autoSize?: boolean;
+}
+
+const Textarea: FC<TextAreaProps> = ({
   name,
   type,
   label,
   note,
   placeholder,
-  prefix,
-  suffix,
   value,
   required,
   isReadOnly,
-  ...others
+  autoSize = false,
+  rows = 3,
 }) => {
-  const Component = type === 'password' ? StyledInputPassword : StyledInput;
-
   return (
     <Field name={name}>
       {({ field }: FieldProps) => (
-        <div className="mb-3" {...others}>
+        <div className="mb-3">
           <label htmlFor={name} className="block text-gray-500 text-[14px]">
             {label}
             {required && <span className="text-red-500 text-xs"> *</span>}
             {note && <span className="ml-1 text-red-500 text-xs">{note}</span>}
           </label>
-          <Component
+          <StyledTextarea
             title={name}
-            type={type}
             placeholder={placeholder}
-            prefix={prefix}
-            suffix={suffix}
             defaultValue={value}
             readOnly={isReadOnly}
-            min={type === 'number' ? 0 : undefined}
+            rows={rows}
+            autoSize={autoSize}
             {...field}
           />
           <FormikErrorMessage name={name} />
@@ -47,4 +51,8 @@ const Input: FC<InputProps> = ({
   );
 };
 
-export default Input;
+export default Textarea;
+
+const StyledTextarea = styled(TextArea)`
+  ${baseInputStyles}
+`;

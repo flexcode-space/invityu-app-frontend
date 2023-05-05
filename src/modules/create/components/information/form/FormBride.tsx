@@ -8,25 +8,29 @@ import * as yup from 'yup';
 import { BrideDataProps } from '@/common/types/information';
 import { InputProps } from '@/common/components/form/type';
 
-import Input from '@/common/components/form/Input';
 import Button from '@/common/components/elements/Button';
-
-import { usePostBridesData } from '@/modules/create/hooks/dataHooks';
-import { onErrorHandling } from '@/common/helpers/error';
+import Input from '@/common/components/form/Input';
 import ImageUpload from '@/common/components/form/ImageUpload';
+
+import { onErrorHandling } from '@/common/helpers/error';
+import { useGetInvitationDataBySection, usePostBridesData } from '@/modules/create/hooks/dataHooks';
 
 interface FormBrideProps {
   type: 'bride' | 'groom';
-  data: BrideDataProps;
   isPrimary: boolean;
   onPrimaryOrderChange: (type: 'bride' | 'groom', checked: boolean) => void;
 }
 
-const FormBride: FC<FormBrideProps> = ({ type, data, isPrimary, onPrimaryOrderChange }) => {
+const FormBride: FC<FormBrideProps> = ({ type, isPrimary, onPrimaryOrderChange }) => {
   const [photo, setPhoto] = useState<string | null>(null);
-  console.log('🚀 aulianza ~ file: FormBride.tsx:25 ~ data:', data);
 
-  const { mutate, isLoading } = usePostBridesData(type);
+  const { data: formDataRes, isLoading: getDataLoading } = useGetInvitationDataBySection({
+    filter: type,
+  });
+  const formData = formDataRes?.data?.data || {};
+  console.log('🚀 aulianza ~ file: FormBride.tsx:31 ~ formDataRes:', formDataRes);
+
+  const { mutate, isLoading: postDataLoading } = usePostBridesData(type);
 
   const initialValues: BrideDataProps = {
     full_name: null,
@@ -130,7 +134,7 @@ const FormBride: FC<FormBrideProps> = ({ type, data, isPrimary, onPrimaryOrderCh
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
         {(formik) => {
           return (
-            <Spin size="large" spinning={isLoading}>
+            <Spin size="large" spinning={postDataLoading || getDataLoading}>
               <div className="mb-5">
                 <label className="block text-gray-500 text-[14px]">Foto</label>
                 <ImageUpload onChange={handleImageChange} />

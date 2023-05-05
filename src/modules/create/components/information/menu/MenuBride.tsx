@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import Collapse from '@/common/components/elements/Collapse';
 import FormBride from '../form/FormBride';
 import { BrideDataProps } from '@/common/types/information';
@@ -10,15 +10,12 @@ interface BridesSectionProps {
 }
 
 const MenuBride: FC = () => {
-  // TODO: fetch API here, single API for bride data only, concern updated data
-
   const BRIDES_SECTION: BridesSectionProps[] = [
     {
       id: 1,
       title: 'Calon Mempelai Wanita',
-      render: (data: BrideDataProps) => (
+      render: () => (
         <FormBride
-          data={data}
           type="bride"
           isPrimary={primaryOrder === 'bride'}
           onPrimaryOrderChange={(type: 'bride' | 'groom', checked: boolean) =>
@@ -30,9 +27,8 @@ const MenuBride: FC = () => {
     {
       id: 2,
       title: 'Calon Mempelai Pria',
-      render: (data: BrideDataProps) => (
+      render: () => (
         <FormBride
-          data={data}
           type="groom"
           isPrimary={primaryOrder === 'groom'}
           onPrimaryOrderChange={(type: 'bride' | 'groom', checked: boolean) =>
@@ -44,17 +40,6 @@ const MenuBride: FC = () => {
   ];
 
   const [primaryOrder, setPrimaryOrder] = useState<string>('bride');
-
-  const brideData: BrideDataProps = {
-    full_name: '',
-    short_name: '',
-    photo: '',
-    father_name: '',
-    mother_name: '',
-    family_tree: 0,
-    instagram: '',
-    is_primary: false,
-  };
 
   const handlePrimaryOrderChange = (type: 'bride' | 'groom', checked: boolean) => {
     if (checked) {
@@ -69,8 +54,9 @@ const MenuBride: FC = () => {
       {BRIDES_SECTION.map((bride, index) => (
         <Collapse key={bride?.id} title={bride?.title}>
           {bride?.render({
-            ...brideData,
             is_primary: bride?.id === 1 ? primaryOrder === 'bride' : primaryOrder === 'groom',
+            full_name: null,
+            short_name: null,
           })}
         </Collapse>
       ))}

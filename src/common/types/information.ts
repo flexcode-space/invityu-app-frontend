@@ -1,3 +1,7 @@
+export interface FilterDataBySectionProps {
+  filter: string;
+}
+
 export interface BrideDataProps {
   full_name: string | null;
   short_name: string | null;

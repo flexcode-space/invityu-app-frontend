@@ -27,6 +27,7 @@ export const endpoint = {
   // DATA-INFORMATION
   currentEvent: apiUrl + 'event/user',
   allData: apiUrl + 'event/data',
+  dataBySection: apiUrl + 'event/event-detail',
   menuConfig: apiUrl + 'event/data/menu-configuration',
   bridesData: apiUrl + 'event/data/biodata',
 };

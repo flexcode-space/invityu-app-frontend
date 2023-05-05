@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { Input as InputField } from 'antd';
+import { Input as InputField, Select as AntSelect } from 'antd';
 
 import { InputProps } from './type';
 
@@ -44,4 +44,34 @@ export const StyledInput = styled(InputField)`
 
 export const StyledInputPassword = styled(InputField.Password)`
   ${baseInputStyles}
+`;
+
+export const StyledSelect = styled(AntSelect)`
+  width: 100%;
+  margin: 0.5rem 0;
+
+  .ant-select-selector {
+    border: 2px solid #ebf2fc !important;
+    border-radius: 15px;
+    height: 47px !important;
+  }
+
+  .ant-select-selector:focus {
+    box-shadow: unset !important;
+    border: 2px solid var(--bg-primary-200) !important;
+  }
+
+  .ant-select-selector:hover {
+    box-shadow: unset !important;
+    border: 2px solid var(--bg-primary-200) !important;
+  }
+
+  .ant-select-selection-item {
+    line-height: 45px !important;
+    font-weight: 500;
+  }
+
+  .ant-select-selection-placeholder {
+    line-height: 45px !important;
+  }
 `;
