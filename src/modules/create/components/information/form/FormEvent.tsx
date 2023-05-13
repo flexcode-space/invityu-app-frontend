@@ -10,6 +10,7 @@ import ButtonIcon from '@/common/components/elements/ButtonIcon';
 import Datepicker from '@/common/components/form/Datepicker';
 import Select from '@/common/components/form/Select';
 import Textarea from '@/common/components/form/Textarea';
+import TimePicker from '@/common/components/form/Timepicker';
 import GoogleMapSelector from '@/common/components/elements/GoogleMapSelector';
 
 import { EventDataProps } from '@/common/types/information';
@@ -143,6 +144,13 @@ const FormEvent: FC<FormEventProps> = ({
                     type="time"
                     className="w-1/2"
                   />
+                  {/* <TimePicker
+                    label="Waktu Mulai"
+                    name="start_time"
+                    className="w-1/2"
+                    placeholder="00:00"
+                    onSelectedTime={(time: string | null) => formik.setFieldValue('start_time', time)}
+                  /> */}
                   <div className="flex flex-col gap-1 w-1/2">
                     <Input
                       label="Waktu Selesai"

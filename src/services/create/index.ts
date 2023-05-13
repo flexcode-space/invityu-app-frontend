@@ -1,44 +1,37 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import { endpoint } from '../endpoint';
 import { ThemeListParamsProps, ThemeSelectProps } from '@/common/types/themes';
-import { AxiosOptionsProps } from '@/common/types/axios';
-
-const axiosOptions: AxiosOptionsProps = {
-  headers: {
-    Authorization: Cookies.get('token'),
-    'Content-Type': 'application/json',
-  },
-};
+import { axiosOptions } from '../config';
 
 export const getThemeCategory = () => {
-  return axios.get(endpoint.themeCategory, axiosOptions);
+  return axios.get(endpoint.themeCategory, axiosOptions());
 };
 
 export const getThemeList = (params: ThemeListParamsProps) => {
+  const headers = axiosOptions().headers;
   const options = {
-    axiosOptions,
+    headers,
     params,
   };
   return axios.get(endpoint.themeList, options);
 };
 
 export const getThemeById = (theme_id: string) => {
-  return axios.get(`${endpoint.themeById}/${theme_id}`, axiosOptions);
+  return axios.get(`${endpoint.themeById}/${theme_id}`, axiosOptions());
 };
 
 export const postThemeSelect = (payload: ThemeSelectProps) => {
-  return axios.post(endpoint.themeSelect, payload, axiosOptions);
+  return axios.post(endpoint.themeSelect, payload, axiosOptions());
 };
 
 export const getCurrentEvent = () => {
-  return axios.get(endpoint.currentEvent, axiosOptions);
+  return axios.get(endpoint.currentEvent, axiosOptions());
 };
 
 export const getMenuConfig = () => {
-  return axios.get(endpoint.menuConfig, axiosOptions);
+  return axios.get(endpoint.menuConfig, axiosOptions());
 };
 
 export const postMenuConfig = (payload: any) => {
-  return axios.post(endpoint.menuConfig, payload, axiosOptions);
+  return axios.post(endpoint.menuConfig, payload, axiosOptions());
 };

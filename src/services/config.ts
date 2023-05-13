@@ -1,5 +1,3 @@
-// RY: UNUSED FILE BUT UNDELETED
-
 import { AxiosRequestConfig } from 'axios';
 import Cookies from 'js-cookie';
 
@@ -10,16 +8,23 @@ interface AxiosOptions extends AxiosRequestConfig {
   };
 }
 
-export const axiosOptions: AxiosOptions = {
-  headers: {
-    Authorization: Cookies.get('token'),
-    'Content-Type': 'application/json',
-  },
+const defaultContentType = 'application/json';
+
+const createAxiosOptions = (token: string | undefined): AxiosOptions => {
+  const headers = {
+    Authorization: token,
+    'Content-Type': defaultContentType,
+  };
+
+  return { headers };
 };
 
-export const axiosOptionsTempToken: AxiosOptions = {
-  headers: {
-    Authorization: Cookies.get('tokenTemp'),
-    'Content-Type': 'application/json',
-  },
+export const axiosOptions = (): AxiosOptions => {
+  const token = Cookies.get('token');
+  return createAxiosOptions(token);
+};
+
+export const axiosOptionsTempToken = (): AxiosOptions => {
+  const tokenTemp = Cookies.get('tokenTemp');
+  return createAxiosOptions(tokenTemp);
 };

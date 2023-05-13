@@ -1,8 +1,9 @@
-import React, { FC, useState } from 'react';
-import { Formik, Field, Form, FormikValues } from 'formik';
+import React, { FC, useEffect, useRef, useState } from 'react';
+import { Formik, Field, Form, FormikValues, useFormik } from 'formik';
 import { BsInstagram as InstgramIcon } from 'react-icons/bs';
 import { Spin, Switch } from 'antd';
 import { toast } from 'react-hot-toast';
+import { useQueryClient } from 'react-query';
 import * as yup from 'yup';
 
 import { BrideDataProps } from '@/common/types/information';
@@ -23,12 +24,13 @@ interface FormBrideProps {
 
 const FormBride: FC<FormBrideProps> = ({ type, isPrimary, onPrimaryOrderChange }) => {
   const [photo, setPhoto] = useState<string | null>(null);
+  const formikRef = useRef<any>(null);
+
+  const queryClient = useQueryClient();
 
   const { data: formDataRes, isLoading: getDataLoading } = useGetInvitationDataBySection({
     filter: type,
   });
-  const formData = formDataRes?.data?.data || {};
-  console.log('🚀 aulianza ~ file: FormBride.tsx:31 ~ formDataRes:', formDataRes);
 
   const { mutate, isLoading: postDataLoading } = usePostBridesData(type);
 
@@ -113,12 +115,11 @@ const FormBride: FC<FormBrideProps> = ({ type, isPrimary, onPrimaryOrderChange }
       is_primary: isPrimary,
     };
 
-    console.log('aulianza payload => ', payload);
-
     try {
       mutate(payload, {
         onSuccess: (res) => {
           if (res?.data?.status) {
+            queryClient.invalidateQueries(['invitation-data']);
             toast.success('Data berhasil disimpan');
           }
         },
@@ -129,9 +130,36 @@ const FormBride: FC<FormBrideProps> = ({ type, isPrimary, onPrimaryOrderChange }
     }
   };
 
+  useEffect(() => {
+    if (formDataRes && formDataRes.data) {
+      const newFormData = formDataRes.data.data || {};
+
+      formikRef.current.setValues({
+        full_name: newFormData.full_name || null,
+        short_name: newFormData.short_name || null,
+        photo: newFormData.photo || null,
+        father_name: newFormData.father_name || null,
+        mother_name: newFormData.mother_name || null,
+        family_tree: newFormData.family_tree || null,
+        instagram: newFormData.instagram || null,
+        is_primary: newFormData.is_primary || false,
+      });
+    }
+  }, [formDataRes]);
+
+  useEffect(() => {
+    formikRef.current.setFieldValue('is_primary', isPrimary);
+  }, [isPrimary]);
+
   return (
     <>
-      <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+      <Formik
+        innerRef={formikRef}
+        initialValues={initialValues}
+        enableReinitialize={true}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
         {(formik) => {
           return (
             <Spin size="large" spinning={postDataLoading || getDataLoading}>
