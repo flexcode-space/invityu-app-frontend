@@ -17,7 +17,7 @@ import {
 
 import CreateStepWizard from '../CreateStepWizard';
 import ModalSheet from '@/common/components/elements/ModalSheet';
-import { useSelectedThemeDataStore } from '@/common/store/useThemeStore';
+// import { useSelectedThemeDataStore } from '@/common/store/useThemeStore';
 
 import { onErrorHandling } from '@/common/helpers/error';
 import { useGetCurrentEvent, useGetMenuConfig, usePostMenuConfig } from '../../hooks';
@@ -43,11 +43,11 @@ const DataInformation: React.FC<DataInformationProps> = ({ setActiveEffect }) =>
   const [isOpenAddDataModal, setOpenAddDataModal] = useState<boolean>(false);
   const [defaultMenu, setDefaultMenu] = useState(createDataInformationMenu);
 
-  const { selectedThemeData } = useSelectedThemeDataStore();
+  // const { selectedThemeData } = useSelectedThemeDataStore();
 
   const queryClient = useQueryClient();
 
-  const { data: currentEventRes, isLoading: getCurrentEventLoading } = useGetCurrentEvent();
+  const { data: currentEventRes } = useGetCurrentEvent();
   const currentEvent = currentEventRes?.data?.data || {};
 
   const { data: menuConfig, isLoading: getMenuConfigLoading } = useGetMenuConfig();

@@ -5,11 +5,13 @@ import {
   FilterDataBySectionProps,
 } from '@/common/types/information';
 import {
+  deleteEventData,
   getEventsData,
   getInvitationData,
   getInvitationDataBySection,
   postBridesData,
   postEventsData,
+  putEventData,
 } from '@/services/data';
 
 export const useGetInvitationData = () => {
@@ -30,4 +32,12 @@ export const useGetEventsData = () => {
 
 export const usePostEventsData = () => {
   return useMutation((payload: EventDataProps) => postEventsData(payload));
+};
+
+export const usePutEventData = () => {
+  return useMutation((payload: EventDataProps) => putEventData(payload));
+};
+
+export const useDeleteEventData = () => {
+  return useMutation((payload: { id: string | null | undefined }) => deleteEventData(payload));
 };

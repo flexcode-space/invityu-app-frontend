@@ -57,7 +57,7 @@ const Datepicker: FC<DatePickerNewProps> = ({
               getPopupContainer={getPopupContainer}
               format={dateFormat}
               value={value ? dayjs(value) : undefined}
-              inputReadOnly={true}
+              // inputReadOnly={true}
             />
           </ConfigProvider>
           <FormikErrorMessage name={name} />

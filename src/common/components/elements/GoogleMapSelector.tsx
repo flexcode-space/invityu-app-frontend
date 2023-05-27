@@ -5,13 +5,19 @@ import Input from '../form/Input';
 
 interface GoogleMapSelectorProps {
   onSelectLocation: (lat: number, lng: number) => void;
+  latitude?: string | number;
+  longitude?: string | number;
 }
 
 const GOOGLE_MAPS_API = 'AIzaSyD_d303Hju4uSgTBnouAiBC8Up_kCrKO5o';
 
-const GoogleMapSelector: FC<GoogleMapSelectorProps> = ({ onSelectLocation }) => {
+const GoogleMapSelector: FC<GoogleMapSelectorProps> = ({
+  onSelectLocation,
+  latitude,
+  longitude,
+}) => {
   const [map, setMap] = useState<google.maps.Map>();
-  const [marker, setMarker] = useState<google.maps.Marker>();
+  const [marker, setMarker] = useState<google.maps.Marker | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedValue = useDebounce<string>(searchTerm, 500);
 
@@ -70,9 +76,18 @@ const GoogleMapSelector: FC<GoogleMapSelectorProps> = ({ onSelectLocation }) => 
   };
 
   useEffect(() => {
-    console.log('aulianza fetch now');
     handleSearch();
   }, [debouncedValue]);
+
+  useEffect(() => {
+    if (map && latitude && longitude) {
+      if (marker) {
+        marker.setMap(null);
+      }
+      const newMarker = createMarker(map, Number(latitude), Number(longitude));
+      setMarker(newMarker);
+    }
+  }, [map, latitude, longitude]);
 
   return (
     <div className="w-full h-[300px] mb-32">
@@ -87,7 +102,10 @@ const GoogleMapSelector: FC<GoogleMapSelectorProps> = ({ onSelectLocation }) => 
       />
       <GoogleMapReact
         bootstrapURLKeys={{ key: GOOGLE_MAPS_API }}
-        defaultCenter={{ lat: -6.175344774311696, lng: 106.82645069848633 }}
+        defaultCenter={{
+          lat: latitude ? Number(latitude) : -6.175344774311696,
+          lng: longitude ? Number(longitude) : 106.82645069848633,
+        }}
         defaultZoom={13}
         onGoogleApiLoaded={({ map }) => handleApiLoaded(map)}
         onClick={handleMapClick}

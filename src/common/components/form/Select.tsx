@@ -52,6 +52,7 @@ const Select: FC<SelectProps> = ({
             onBlur={() => field.onBlur(name)}
             getPopupContainer={getPopupContainer}
             onChange={(value, event) => handleSelectChange(value as string | number, event)}
+            value={field?.value}
           >
             {options.map((option) => (
               <Option key={option.value} value={option.value}>

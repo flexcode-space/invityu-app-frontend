@@ -14,6 +14,7 @@ export interface BrideDataProps {
 }
 
 export interface EventDataProps {
+  id?: string | null;
   name: string | null;
   date: string | null;
   start_time?: string;

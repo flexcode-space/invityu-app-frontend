@@ -31,3 +31,11 @@ export const getEventsData = () => {
 export const postEventsData = (payload: EventDataProps) => {
   return axios.post(endpoint.eventsData, payload, axiosOptions());
 };
+
+export const putEventData = (payload: EventDataProps) => {
+  return axios.put(endpoint.eventsData, payload, axiosOptions());
+};
+
+export const deleteEventData = (payload: { id: string | null | undefined }) => {
+  return axios.delete(`${endpoint.eventsData}/${payload?.id}`, axiosOptions());
+};

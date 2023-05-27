@@ -16,10 +16,16 @@ import GoogleMapSelector from '@/common/components/elements/GoogleMapSelector';
 import { EventDataProps } from '@/common/types/information';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 
-import { usePostEventsData } from '@/modules/create/hooks/dataHooks';
+import {
+  useDeleteEventData,
+  usePostEventsData,
+  usePutEventData,
+} from '@/modules/create/hooks/dataHooks';
 import { onErrorHandling } from '@/common/helpers/error';
+import { useQueryClient } from 'react-query';
 
 interface FormEventProps {
+  data: EventDataProps;
   onDelete?: () => void;
   onNameChange: (value?: string) => void;
   isFirstEvent: boolean;
@@ -33,31 +39,39 @@ const timezoneSelectOptions = [
 ];
 
 const FormEvent: FC<FormEventProps> = ({
+  data,
   onDelete,
   onNameChange,
   isFirstEvent,
   onPrimaryOrderChange,
 }) => {
-  const [isUntilFinish, setUntilFinish] = useState<boolean>(false);
+  const [isUntilFinish, setUntilFinish] = useState<boolean>(data?.is_until_finish || false);
   const [selectedLocation, setSelectedLocation] = useState<{
-    lat: number;
-    lng: number;
-  }>();
+    lat: number | null;
+    lng: number | null;
+  }>({
+    lat: Number(data?.latitude) || null,
+    lng: Number(data?.longitude) || null,
+  });
 
-  const { mutate, isLoading: postDataLoading } = usePostEventsData();
+  const queryClient = useQueryClient();
+
+  const { mutate: createEvent, isLoading: postDataLoading } = usePostEventsData();
+  const { mutate: updateEvent, isLoading: putDataLoading } = usePutEventData();
+  const { mutate: deleteEvent, isLoading: deleteDataLoading } = useDeleteEventData();
 
   const initialValues: EventDataProps = {
-    name: '',
-    date: null,
-    start_time: '',
-    end_time: '',
-    is_until_finish: false,
-    timezone: '',
-    location: '',
-    address: '',
-    latitude: '',
-    longitude: '',
-    is_primary: false,
+    name: data?.name || null,
+    date: data?.date || null,
+    start_time: data?.start_time || '',
+    end_time: data?.end_time || '',
+    is_until_finish: data?.is_until_finish || false,
+    timezone: data?.timezone || '',
+    location: data?.location || '',
+    address: data?.address || null,
+    latitude: data?.latitude || '',
+    longitude: data?.longitude || '',
+    is_primary: data?.is_primary || false,
   };
 
   const validationSchema = yup.object().shape({
@@ -78,24 +92,67 @@ const FormEvent: FC<FormEventProps> = ({
       timezone: values?.timezone,
       location: values?.location,
       address: values?.address,
-      latitude: selectedLocation?.lat || '',
-      longitude: selectedLocation?.lng || '',
-      is_primary: false,
+      latitude: selectedLocation?.lat?.toString() || '',
+      longitude: selectedLocation?.lng?.toString() || '',
+      is_primary: data?.is_primary || false,
+      ...(data?.id && { id: data.id }),
     };
 
     console.log('aulianza payload => ', payload);
 
-    try {
-      mutate(payload, {
-        onSuccess: (res) => {
-          if (res?.data?.status) {
-            toast.success('Data acara berhasil disimpan');
-          }
-        },
-        onError: (error) => onErrorHandling(error),
-      });
-    } catch (error) {
-      toast.error('Unexpected error occurred!');
+    if (data?.id) {
+      try {
+        updateEvent(payload, {
+          onSuccess: (res) => {
+            if (res?.data?.status) {
+              queryClient.invalidateQueries(['invitation-data']);
+              toast.success('Data acara berhasil diubah');
+            }
+          },
+          onError: (error) => onErrorHandling(error),
+        });
+      } catch (error) {
+        toast.error('Unexpected error occurred!');
+      }
+    } else {
+      try {
+        createEvent(payload, {
+          onSuccess: (res) => {
+            if (res?.data?.status) {
+              queryClient.invalidateQueries(['invitation-data']);
+              toast.success('Data acara berhasil disimpan');
+            }
+          },
+          onError: (error) => onErrorHandling(error),
+        });
+      } catch (error) {
+        toast.error('Unexpected error occurred!');
+      }
+    }
+  };
+
+  const handleDeleteEvent = () => {
+    const eventId = data?.id;
+
+    if (eventId) {
+      const payload = { id: eventId };
+
+      try {
+        deleteEvent(payload, {
+          onSuccess: (res) => {
+            if (res?.data?.status) {
+              queryClient.invalidateQueries(['invitation-data']);
+              toast.success('Acara berhasil dihapus');
+            }
+          },
+          onError: (error) => onErrorHandling(error),
+        });
+      } catch (error) {
+        toast.error('Unexpected error occurred!');
+      }
+    } else {
+      console.log('aulianza event blm di create');
+      onDelete?.();
     }
   };
 
@@ -111,12 +168,14 @@ const FormEvent: FC<FormEventProps> = ({
     setSelectedLocation({ lat, lng });
   };
 
+  // RY: todo follow form bride to set initial value on useEffect
+
   return (
     <>
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
         {(formik) => {
           return (
-            <Spin size="large" spinning={false}>
+            <Spin size="large" spinning={postDataLoading || putDataLoading || deleteDataLoading}>
               <Form className="m-1">
                 <Input
                   label="Nama Acara"
@@ -132,6 +191,7 @@ const FormEvent: FC<FormEventProps> = ({
                   label="Tanggal"
                   required={true}
                   name="date"
+                  value={formik.values.date || undefined}
                   placeholder="Pilih tanggal acara"
                   onSelectedDate={(date: string | null) => formik.setFieldValue('date', date)}
                 />
@@ -144,13 +204,6 @@ const FormEvent: FC<FormEventProps> = ({
                     type="time"
                     className="w-1/2"
                   />
-                  {/* <TimePicker
-                    label="Waktu Mulai"
-                    name="start_time"
-                    className="w-1/2"
-                    placeholder="00:00"
-                    onSelectedTime={(time: string | null) => formik.setFieldValue('start_time', time)}
-                  /> */}
                   <div className="flex flex-col gap-1 w-1/2">
                     <Input
                       label="Waktu Selesai"
@@ -173,6 +226,7 @@ const FormEvent: FC<FormEventProps> = ({
                   onChange={(value: string | number) => formik.setFieldValue('timezone', value)}
                   options={timezoneSelectOptions}
                   required={true}
+                  value={data?.timezone ?? undefined}
                 />
                 <Input
                   label="Lokasi"
@@ -190,17 +244,12 @@ const FormEvent: FC<FormEventProps> = ({
                   rows={2}
                   autoSize
                 />
-                {/* <Textarea
-                  label="Link Google Maps"
-                  required={true}
-                  name="gmaps"
-                  placeholder="Masukkan link Google Maps"
-                  type="textarea"
-                  rows={2}
-                  autoSize
-                /> */}
-                <GoogleMapSelector onSelectLocation={handleSelectLocation} />
-                {selectedLocation && (
+                <GoogleMapSelector
+                  onSelectLocation={handleSelectLocation}
+                  latitude={data?.latitude}
+                  longitude={data?.longitude}
+                />
+                {selectedLocation?.lat && (
                   <div className="flex bg-blue-50 text-gray-500 mb-8 py-3 px-5 rounded-xl">
                     <ul>
                       <li>
@@ -219,7 +268,7 @@ const FormEvent: FC<FormEventProps> = ({
                     checkedChildren="Ya"
                     unCheckedChildren="Tidak"
                     onChange={handleSwitchChange}
-                    checked={isFirstEvent}
+                    checked={data?.is_primary}
                   />
                 </div>
                 <Button
@@ -232,7 +281,7 @@ const FormEvent: FC<FormEventProps> = ({
                 </Button>
                 <ButtonIcon
                   type="button"
-                  onClick={onDelete}
+                  onClick={handleDeleteEvent}
                   className="border-none"
                   bgColor="#ffffff"
                   textColor="#ee4a4a"
